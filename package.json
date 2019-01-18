@@ -12,7 +12,8 @@
     "lint": "tslint -t stylish -p .",
     "lint:fix": "tslint -p tsconfig.json -t stylish --fix 'src/**/*.ts' 'test/**/*.ts'",
     "start": "npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gatsby build && cp ./src/CNAME public/  && gh-pages -d public"
   },
   "dependencies": {
     "@emotion/core": "^10.0.6",
@@ -64,6 +65,7 @@
     "@types/react-dom": "16.0.11",
     "@types/react-helmet": "5.0.8",
     "babel-plugin-styled-components": "1.10.0",
+    "gh-pages": "^2.0.1",
     "prettier": "^1.15.3",
     "rimraf": "2.6.3",
     "tslint": "5.12.1",
