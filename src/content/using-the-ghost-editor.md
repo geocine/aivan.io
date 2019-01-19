@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Using The Ghost Editor"
-author: Ghost
+author: Aivan Monceller
 tags: ["Getting Started"]
 image: img/writing.jpg
 date: "2015-02-02T23:46:37.121Z"

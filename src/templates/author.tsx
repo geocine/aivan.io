@@ -24,7 +24,7 @@ import { PageContext } from './post';
 import Facebook from '../components/icons/facebook';
 import Helmet from 'react-helmet';
 import config from '../website-config';
-import Website from '../components/icons/website';
+import Github from '../components/icons/github';
 import Twitter from '../components/icons/twitter';
 
 const HiddenMobile = css`
@@ -92,7 +92,7 @@ interface AuthorTemplateProps {
     };
     authorYaml: {
       id: string;
-      website?: string;
+      github?: string;
       twitter?: string;
       facebook?: string;
       location?: string;
@@ -169,16 +169,16 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
                   {totalCount === 1 && `1 post`}
                   {totalCount === 0 && `No posts`} <Bull>•</Bull>
                 </div>
-                {author.website && (
+                {author.github && (
                   <div>
                     <a
-                      className={`${SocialLink} social-link-wb`}
-                      href={author.website}
-                      title="Website"
+                      className={`${SocialLink} social-link-gh`}
+                      href={`https://github.com/${author.github}`}
+                      title="Github"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Website />
+                      <Github />
                     </a>
                   </div>
                 )}
@@ -248,7 +248,7 @@ export const pageQuery = graphql`
   query($author: String) {
     authorYaml(id: { eq: $author }) {
       id
-      website
+      github
       twitter
       bio
       facebook
