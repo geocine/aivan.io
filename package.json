@@ -13,7 +13,7 @@
     "lint:fix": "tslint -p tsconfig.json -t stylish --fix 'src/**/*.ts' 'test/**/*.ts'",
     "start": "npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gatsby build && cp ./src/CNAME public/ && cp ./src/favicon.ico public/  && gh-pages -d public"
+    "deploy": "gatsby build && cp ./src/CNAME public/ && gh-pages -d public"
   },
   "dependencies": {
     "@emotion/core": "^10.0.6",
