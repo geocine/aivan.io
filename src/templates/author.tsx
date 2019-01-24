@@ -1,7 +1,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
-import styled from '@emotion/styled'
-import { css } from 'emotion'
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 import Footer from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -21,7 +21,7 @@ import {
   SocialLink,
 } from '../styles/shared';
 import { PageContext } from './post';
-import Facebook from '../components/icons/facebook';
+import Dev from '../components/icons/dev';
 import Helmet from 'react-helmet';
 import config from '../website-config';
 import Github from '../components/icons/github';
@@ -66,6 +66,7 @@ const AuthorProfileBioImage = css`
   z-index: 10;
   flex-shrink: 0;
   margin: 0 0 20px 0;
+  padding: 10px;
   width: 100px;
   height: 100px;
   box-shadow: rgba(255, 255, 255, 0.1) 0 0 0 6px;
@@ -94,7 +95,7 @@ interface AuthorTemplateProps {
       id: string;
       github?: string;
       twitter?: string;
-      facebook?: string;
+      dev?: string;
       location?: string;
       profile_image?: {
         childImageSharp: {
@@ -113,7 +114,12 @@ interface AuthorTemplateProps {
 
 const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
   const author = props.data.authorYaml;
-  const { edges, totalCount } = props.data.allMarkdownRemark;
+
+  const edges = props.data.allMarkdownRemark.edges.filter(edge => {
+    const isDraft = edge.node.frontmatter.draft !== true || process.env.NODE_ENV === 'development';
+    return isDraft && edge.node.frontmatter.author && edge.node.frontmatter.author.id === author.id;
+  });
+  const totalCount = edges.length;
 
   return (
     <IndexLayout>
@@ -132,27 +138,34 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={`${author.id} - ${config.title}`} />
         <meta name="twitter:url" content={config.siteUrl + props.pathContext.slug} />
-        {config.twitter && <meta name="twitter:site" content={`@${config.twitter.split('https://twitter.com/')[1]}`} />}
-        {config.twitter &&
-        <meta
-          name="twitter:creator"
-          content={`@${config.twitter.split('https://twitter.com/')[1]}`}
-        />}
+        {config.twitter && (
+          <meta
+            name="twitter:site"
+            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+          />
+        )}
+        {config.twitter && (
+          <meta
+            name="twitter:creator"
+            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+          />
+        )}
       </Helmet>
       <Wrapper>
         <header
-          className={`${SiteHeader} ${outer} no-cover`}
+          className="no-cover"
+          css={[outer, SiteHeader]}
           style={{
             backgroundImage: author.profile_image
               ? `url(${author.profile_image.childImageSharp.fluid.src})`
               : '',
           }}
         >
-          <div className={`${inner}`}>
+          <div css={inner}>
             <SiteNav isHome={false} />
             <SiteHeaderContent>
               <img
-                className={`${AuthorProfileBioImage} ${AuthorProfileImage}`}
+                css={[AuthorProfileImage, AuthorProfileBioImage]}
                 src={props.data.authorYaml.avatar.childImageSharp.fluid.src}
                 alt={author.id}
               />
@@ -160,11 +173,11 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
               {author.bio && <AuthorBio>{author.bio}</AuthorBio>}
               <AuthorMeta>
                 {author.location && (
-                  <div className={`${HiddenMobile}`}>
+                  <div css={HiddenMobile}>
                     {author.location} <Bull>&bull;</Bull>
                   </div>
                 )}
-                <div className={`${HiddenMobile}`}>
+                <div css={HiddenMobile}>
                   {totalCount > 1 && `${totalCount} posts`}
                   {totalCount === 1 && `1 post`}
                   {totalCount === 0 && `No posts`} <Bull>•</Bull>
@@ -172,7 +185,8 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
                 {author.github && (
                   <div>
                     <a
-                      className={`${SocialLink} social-link-gh`}
+                      className="social-link-gh"
+                      css={SocialLink}
                       href={`https://github.com/${author.github}`}
                       title="Github"
                       target="_blank"
@@ -184,7 +198,8 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
                 )}
                 {author.twitter && (
                   <a
-                    className={`${SocialLink} social-link-tw`}
+                    className="social-link-tw"
+                    css={SocialLink}
                     href={`https://twitter.com/${author.twitter}`}
                     title="Twitter"
                     target="_blank"
@@ -193,20 +208,21 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
                     <Twitter />
                   </a>
                 )}
-                {author.facebook && (
+                {author.dev && (
                   <a
-                    className={`${SocialLink} social-link-fb`}
-                    href={`https://www.facebook.com/${author.facebook}`}
+                    className="social-link-dev"
+                    css={SocialLink}
+                    href={`https://dev.to/${author.dev}`}
                     title="Facebook"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Facebook />
+                    <Dev />
                   </a>
                 )}
                 {/* TODO: RSS for author */}
                 {/* <a
-                  className={`${SocialLink} social-link-rss`}
+                  css={SocialLink} className="social-link-rss"
                   href="https://feedly.com/i/subscription/feed/https://demo.ghost.io/author/ghost/rss/"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -224,14 +240,11 @@ const Author: React.FunctionComponent<AuthorTemplateProps> = props => {
             </SiteHeaderContent>
           </div>
         </header>
-        <main id="site-main" className={`${SiteMain} ${outer}`}>
-          <div className={`${inner}`}>
-            <div className={`${PostFeed} ${PostFeedRaise}`}>
+        <main id="site-main" css={[SiteMain, outer]}>
+          <div css={inner}>
+            <div css={[PostFeed, PostFeedRaise]}>
               {edges.map(({ node }) => {
-                if (node.frontmatter.author && node.frontmatter.author.id === author.id) {
                   return <PostCard key={node.fields.slug} post={node} />;
-                }
-                return null;
               })}
             </div>
           </div>
@@ -251,7 +264,7 @@ export const pageQuery = graphql`
       github
       twitter
       bio
-      facebook
+      dev
       location
       profile_image {
         childImageSharp {
@@ -269,7 +282,6 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(limit: 2000, sort: { fields: [frontmatter___date], order: DESC }) {
-      totalCount
       edges {
         node {
           excerpt
@@ -278,6 +290,7 @@ export const pageQuery = graphql`
             title
             tags
             date
+            draft
             image {
               childImageSharp {
                 fluid(maxWidth: 3720) {

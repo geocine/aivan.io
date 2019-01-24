@@ -1,19 +1,16 @@
 import { lighten } from 'polished';
 import * as React from 'react';
-import styled from '@emotion/styled'
-import { css } from 'emotion'
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 import { colors } from '../../styles/colors';
 import SubscribeForm from './SubscribeForm';
 
-
 const SubscribeFormSection = styled.section`
   margin: 1.5em 0;
   padding: 6.5vw 7vw 7vw;
-  /* border: color(var(--whitegrey) l(+2%)) 1px solid; */
   border: ${lighten('0.02', colors.whitegrey)} 1px solid;
   text-align: center;
-  /* background: color(var(--whitegrey) l(+4%)); */
   background: ${lighten('0.04', colors.whitegrey)};
   border-radius: 7px;
 
@@ -62,7 +59,7 @@ export interface SubscribeProps {
 const Subscribe: React.FunctionComponent<SubscribeProps> = props => {
   return (
     <SubscribeFormSection>
-      <h3 className={`${SubscribeFormTitle}`}>Subscribe to {props.title}</h3>
+      <h3 css={SubscribeFormTitle}>Subscribe to {props.title}</h3>
       <p>Get the latest posts delivered right to your inbox</p>
       <SubscribeForm />
     </SubscribeFormSection>

@@ -1,6 +1,6 @@
 import { Link, StaticQuery, graphql } from 'gatsby';
 import * as React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import * as _ from 'lodash';
 
 import { colors } from '../styles/colors';
@@ -11,8 +11,7 @@ export interface ReadNextCardStylesProps {
   coverImage: string;
 }
 
-const ReadNextCardStyles = styled.article<ReadNextCardStylesProps>(
-  props => `
+const ReadNextCardStyles = styled.article`
   position: relative;
   flex: 1 1 300px;
   display: flex;
@@ -25,22 +24,21 @@ const ReadNextCardStyles = styled.article<ReadNextCardStylesProps>(
   background-size: cover;
   border-radius: 5px;
   box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
-  background-image: url("${props.coverImage}");
+  background-image: url(${(props: ReadNextCardStylesProps) => props.coverImage});
 
   :before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     display: block;
-    background: linear-gradient(135deg, rgba(0,40,60,0.8) 0%,rgba(0,20,40,0.7) 100%);
+    background: linear-gradient(135deg, rgba(0, 40, 60, 0.8) 0%, rgba(0, 20, 40, 0.7) 100%);
     border-radius: 5px;
     backdrop-filter: blur(2px);
   }
-`,
-);
+`;
 
 const ReadNextCardHeader = styled.header`
   position: relative;

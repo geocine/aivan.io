@@ -1,13 +1,14 @@
 // tslint:disable:no-http-string
 import { Link } from 'gatsby';
 import * as React from 'react';
-import styled from '@emotion/styled'
-import { css } from 'emotion'
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 import { SocialLink } from '../../styles/shared';
 import config from '../../website-config';
-import Facebook from '../icons/facebook';
+import Github from '../icons/github';
 import Twitter from '../icons/twitter';
+import Dev from '../icons/dev';
 import SubscribeModal from '../subsribe/SubscribeOverlay';
 import SiteNavLogo from './SiteNavLogo';
 
@@ -131,15 +132,15 @@ class SiteNav extends React.Component<SiteNavProps, SiteNaveState> {
     if (this.subscribe.current) {
       this.subscribe.current.open();
     }
-  }
+  };
 
   render() {
     const { isHome = false } = this.props;
     return (
-      <nav className={`${isHome ? HomeNavRaise : ''} ${SiteNavStyles}`}>
+      <nav css={[isHome && HomeNavRaise, SiteNavStyles]}>
         <SiteNavLeft>
           {!isHome && <SiteNavLogo />}
-          <ul className={`${NavStyles}`} role="menu">
+          <ul css={NavStyles} role="menu">
             {/* TODO: mark current nav item - add class nav-current */}
             <li role="menuitem">
               <Link to="/">Home</Link>
@@ -154,20 +155,20 @@ class SiteNav extends React.Component<SiteNavProps, SiteNaveState> {
         </SiteNavLeft>
         <SiteNavRight>
           <SocialLinks>
-             {config.facebook && (
+            {config.github && (
               <a
-                className={`${SocialLink}`}
-                href={config.facebook}
+                css={SocialLink}
+                href={config.github}
                 target="_blank"
-                title="Facebook"
+                title="Github"
                 rel="noopener noreferrer"
               >
-                <Facebook />
+                <Github />
               </a>
             )}
             {config.twitter && (
               <a
-                className={`${SocialLink}`}
+                css={SocialLink}
                 href={config.twitter}
                 title="Twitter"
                 target="_blank"
@@ -176,13 +177,22 @@ class SiteNav extends React.Component<SiteNavProps, SiteNaveState> {
                 <Twitter />
               </a>
             )}
+            {config.dev && (
+              <a
+                css={SocialLink}
+                href={config.dev}
+                title="Dev"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Dev />
+              </a>
+            )}
           </SocialLinks>
           {config.showSubscribe && (
             <SubscribeButton onClick={this.openModal}>Subscribe</SubscribeButton>
           )}
-          {config.showSubscribe && (
-            <SubscribeModal ref={this.subscribe} />
-          )}
+          {config.showSubscribe && <SubscribeModal ref={this.subscribe} />}
         </SiteNavRight>
       </nav>
     );

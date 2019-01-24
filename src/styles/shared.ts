@@ -1,7 +1,7 @@
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import styled from '@emotion/styled'
 import { colors } from './colors';
-import { darken, lighten } from 'polished';
+import { darken } from 'polished';
 
 export const outer = css`
   position: relative;
@@ -77,7 +77,6 @@ export const SiteHeader = css`
   padding-top: 12px;
   padding-bottom: 12px;
   color: #fff;
-  /* background: color(var(--darkgrey) l(-5%)) no-repeat center center; */
   background: ${darken('0.05', colors.darkgrey)} no-repeat center center;
   background-size: cover;
 `;
@@ -137,11 +136,10 @@ export const SiteHeaderStyles = css`
 
 export const AuthorProfileImage = css`
   display: block;
-  /* background: color(var(--lightgrey) l(+10%)); */
-  background: ${lighten('0.1', colors.lightgrey)};
+  background: #000;
   border-radius: 100%;
   object-fit: cover;
   margin-right: 15px;
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
 `;

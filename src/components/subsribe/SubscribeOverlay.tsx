@@ -1,11 +1,14 @@
 import * as React from 'react';
-import styled from '@emotion/styled'
-import { css } from 'emotion'
+import styled from '@emotion/styled';
 
 import { colors } from '../../styles/colors';
 import config from '../../website-config';
 import SubscribeForm from './SubscribeForm';
 import SubscribeLogo from './SubscribeLogo';
+
+interface SubscribeOverlayProps {
+  open?: boolean;
+}
 
 const SubscribeOverlay = styled.div`
   position: fixed;
@@ -18,9 +21,9 @@ const SubscribeOverlay = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 25, 40, 0.97);
-  opacity: 0;
+  opacity: ${(props: SubscribeOverlayProps) => (props.open ? 1 : 0)};
   transition: opacity 200ms ease-in;
-  pointer-events: none;
+  pointer-events: ${(props: SubscribeOverlayProps) => (props.open ? 'auto' : 'none')};
   backdrop-filter: blur(3px);
 
   form {
@@ -75,11 +78,6 @@ const SubscribeOverlay = styled.div`
 
     -webkit-font-smoothing: subpixel-antialiased;
   }
-`;
-
-const Open = css`
-  opacity: 1;
-  pointer-events: auto;
 `;
 
 const SubscribeOverlayClose = styled.a`
@@ -187,7 +185,7 @@ class SubscribeModal extends React.Component<any, SubscribeState> {
 
   render() {
     return (
-      <SubscribeOverlay className={`${this.state.isOpen ? Open : ''}`}>
+      <SubscribeOverlay open={this.state.isOpen}>
         <SubscribeOverlayClose onClick={this.close} />
         <SubscribeOverlayContent>
           <SubscribeLogo />

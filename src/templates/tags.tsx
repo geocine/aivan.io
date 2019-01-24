@@ -65,20 +65,28 @@ const Tags: React.FunctionComponent<TagTemplateProps> = props => {
         <title>
           {tag} - {config.title}
         </title>
-        <meta name="description" content={tagData && tagData.node ? tagData.node.description : ''} />
+        <meta
+          name="description"
+          content={tagData && tagData.node ? tagData.node.description : ''}
+        />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${tag} - ${config.title}`} />
         <meta property="og:url" content={config.siteUrl + props.pathContext.slug} />
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${tag} - ${config.title}`} />
         <meta name="twitter:url" content={config.siteUrl + props.pathContext.slug} />
-        {config.twitter && <meta name="twitter:site" content={`@${config.twitter.split('https://twitter.com/')[1]}`} />}
+        {config.twitter && (
+          <meta
+            name="twitter:site"
+            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+          />
+        )}
       </Helmet>
       <Wrapper>
         <header
-          className={`${SiteHeader} ${outer} ${tagData && tagData.node.image ? '' : 'no-cover'}`}
+          className={`${tagData && tagData.node.image ? '' : 'no-cover'}`}
+          css={[outer, SiteHeader]}
           style={{
             backgroundImage:
               tagData && tagData.node.image
@@ -86,7 +94,7 @@ const Tags: React.FunctionComponent<TagTemplateProps> = props => {
                 : '',
           }}
         >
-          <div className={`${inner}`}>
+          <div css={inner}>
             <SiteNav isHome={false} />
             <SiteHeaderContent>
               <SiteTitle>{tag}</SiteTitle>
@@ -104,9 +112,9 @@ const Tags: React.FunctionComponent<TagTemplateProps> = props => {
             </SiteHeaderContent>
           </div>
         </header>
-        <main id="site-main" className={`${SiteMain} ${outer}`}>
-          <div className={`${inner}`}>
-            <div className={`${PostFeed} ${PostFeedRaise}`}>
+        <main id="site-main" css={[SiteMain, outer]}>
+          <div css={inner}>
+            <div css={[PostFeed, PostFeedRaise]}>
               {edges.map(({ node }) => (
                 <PostCard key={node.fields.slug} post={node} />
               ))}
