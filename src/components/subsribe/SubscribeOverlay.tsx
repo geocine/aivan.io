@@ -173,10 +173,10 @@ class SubscribeModal extends React.Component<any, SubscribeState> {
     document.removeEventListener('keydown', this.escFunction, false);
   }
 
-  open() {
+  open = () => {
     this.setState({ isOpen: true });
     this.subscribeEsc();
-  }
+  };
 
   close = () => {
     this.setState({ isOpen: false });
