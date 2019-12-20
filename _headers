@@ -1,0 +1,103 @@
+## Created with gatsby-plugin-netlify
+
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: same-origin
+/styles.1370969e968e7152fc73.css
+  Cache-Control: public, max-age=31536000, immutable
+/styles-5c09a003251716973150.js
+  Cache-Control: public, max-age=31536000, immutable
+/1-bf680c00178b19760409.js
+  Cache-Control: public, max-age=31536000, immutable
+/7-a92ac6b34e95d4cf5003.js
+  Cache-Control: public, max-age=31536000, immutable
+/component---src-templates-post-js-ba69408c5ec2b78df3a7.js
+  Cache-Control: public, max-age=31536000, immutable
+/component---src-pages-404-js-951d64b21088e9a26cae.js
+  Cache-Control: public, max-age=31536000, immutable
+/component---src-pages-index-js-d96190f710a047bc070b.js
+  Cache-Control: public, max-age=31536000, immutable
+/webpack-runtime-58d6a4346669dbec7552.js
+  Cache-Control: public, max-age=31536000, immutable
+/app-abef60f32f63fefe98ce.js
+  Cache-Control: public, max-age=31536000, immutable
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
+/sw.js
+  Cache-Control: no-cache
+/a-beginner-s-guide-on-creating-a-portfolio-website-with-github-and-gatsby-lmc/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/what-dev-thing-haven-t-you-done-that-you-feel-like-you-should-have-by-now-356g/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/developers-meet-designers-designers-meet-developers-1p6a/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/creating-your-blog-using-gatsbyjs-and-dev-to-api-3jb3/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/what-are-your-favorite-programming-language-syntax-features-1emm/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/a-static-site-generator-doesnt-have-to-be-static-41i/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/getting-started-with-gatsbyjs-and-wordpress-1k2k/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/challenges-in-headless-wordpress-with-gatsbyjs-4a0b/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </7-a92ac6b34e95d4cf5003.js>; rel=preload; as=script
+  Link: </component---src-templates-post-js-ba69408c5ec2b78df3a7.js>; rel=preload; as=script
+/404/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </component---src-pages-404-js-951d64b21088e9a26cae.js>; rel=preload; as=script
+/
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </component---src-pages-index-js-d96190f710a047bc070b.js>; rel=preload; as=script
+/404.html
+  Link: </webpack-runtime-58d6a4346669dbec7552.js>; rel=preload; as=script
+  Link: </app-abef60f32f63fefe98ce.js>; rel=preload; as=script
+  Link: </styles-5c09a003251716973150.js>; rel=preload; as=script
+  Link: </1-bf680c00178b19760409.js>; rel=preload; as=script
+  Link: </component---src-pages-404-js-951d64b21088e9a26cae.js>; rel=preload; as=script
