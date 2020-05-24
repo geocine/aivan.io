@@ -1,0 +1,76 @@
+---
+title: 'Creating your Blog using GatsbyJS and Dev.to API'
+date: '2019-03-31'
+cover: '/gatsby-wordpress-1.png'
+category: web
+tags:
+  - gatsby
+  - wordpress
+  - jamstack
+  - netlify
+meta_description: 'Use the Dev.to API as a CMS for your GatsbyJS Blog'
+author: aivan
+published: true
+---
+
+You can go to [the demo](https://gatsby-starter-devto.netlify.com/) on what this is all about. Nonetheless, this is really very easy even if you don't know about GatsbyJS.
+
+I have seen a couple of Dev.to API articles here and decided to make something useful with it.
+
+If you already have a blog, this article is also for you. I have been struggling to create some content on my own domain because I feel no one would even bother visiting my site.
+
+At [Dev.to](https://dev.to) though, I just keep coming back to write articles because I know someone would be reading it somehow.
+
+Instead of cross-posting from my own blog to Dev.to, I thought I could do the other way around. I am introducing this very basic Dev.to Gatsby source that you could use with your Gatsby website.
+
+{% github https://github.com/geocine/gatsby-source-dev %}
+
+If you do not know what a gatsby source or have never really touched Gatsby, you don't need to worry since I created a starter.
+
+{% github https://github.com/geocine/gatsby-starter-devto %}
+
+Here are the steps how to create your own blog using this starter:
+
+1 - Clone the github repository
+
+```sh
+  git clone git@github.com:geocine/gatsby-starter-devto.git
+```
+
+2 - Open `gatsby-config.js` and change line 13 with your Dev.to username
+
+```js
+module.exports = {
+  siteMetadata: {
+    title: 'Gatsby + Dev.to Starter',
+  },
+  plugins: [
+    ...
+    {
+      resolve: 'gatsby-source-dev',
+      options: {
+        // your Dev.to username
+        username: 'geocine'
+      },
+    },
+    ...
+  ],
+}
+```
+
+3 - Install and start
+
+```sh
+yarn
+yarn start
+```
+
+4 - Navigate to http://localhost:8000
+
+> [This](https://gatsby-starter-devto.netlify.com/) is how it should look like using my username `geocine`.
+
+This is still a work in progress, I will be adding more features, feel free to create a pull request. I hope you like it.
+
+If you want to learn more about gatsby, checkout this article below:
+
+{% link https://dev.to/geocine/a-static-site-generator-doesnt-have-to-be-static-41i %}
