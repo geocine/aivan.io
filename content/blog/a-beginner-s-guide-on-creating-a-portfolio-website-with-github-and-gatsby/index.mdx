@@ -68,11 +68,18 @@ To be able to upload the files from our computer to GitHub, we need to create an
 
 1. Open your Terminal/Git Bash
 2. Enter the text below, substitute the email with your email
-   {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=generate-key.md %}
+   ```sh
+   ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+   ```
 3. When you're prompted to "Enter a file in which to save the key," press Enter. This accepts the default file location.
-   {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=enter-name.md %}
+   ```sh
+   Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+   ```
 4. At the prompt, type a secure passphrase. Note that nothing will show while you are typing.
-   {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=enter-passphrase.md %}
+   ```sh
+   Enter passphrase (empty for no passphrase): [Type a passphrase]
+   Enter same passphrase again: [Type passphrase again]
+   ````
 
 #### Adding a new SSH key to your GitHub account
 
@@ -115,7 +122,12 @@ We will be using our GitHub account to create a website, we shall be hosting it 
 6. We will rename **gatsby-starter-portfolio** to **gatsby**. Now your directory structure should look like this
    ![FolderStructure2](https://thepracticaldev.s3.amazonaws.com/i/93gajknvyqg3jf90xocp.png)
 7. Create a **.gitignore** file on your root directory and paste the following:
-   {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=gitignore.md %}
+   ```sh
+   node_modules
+   public
+   .DS_Store
+   .cache
+   ```
    ![FolderStructure13](https://thepracticaldev.s3.amazonaws.com/i/h3y8fdw22qvco9807zcq.png)
 8. While you are root folder, let us initialize git
    ```sh
@@ -126,25 +138,38 @@ We will be using our GitHub account to create a website, we shall be hosting it 
       rm -rf .git
    ```
 10. While you are inside the **gatsby** folder, let us install the dependencies.
-    {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=install-dependencies.md %}
+   ```sh
+   npm i --save-dev del-cli
+   npm i
+   ```
 11. Open the package.json file and edit the **scripts** portion. Add a **clean** property and edit the **build** property:
-    {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=package-scripts.md %}
+   ```json
+   {
+      ...
+      "scripts": {
+      "clean": "del -f \"../!(gatsby)*\" ",
+      "build": "gatsby build && npm run clean && cp -a public/* ../ && rm -rf public"
+      ...
+      }
+   ...
+   }
+   ```
 12. Go back to the root folder. Open the GitHub repository you have created a while ago from **Creating the Repository** and copy the command highlighted.
     ![Github7](https://thepracticaldev.s3.amazonaws.com/i/pl3yl82x9mg3utp0fflg.png)
 13. While on the root folder, execute the command from **Step 12**
-
-```sh
-git remote add origin git@github.com:geocine/geocine.github.io.git
-```
-
+   ```sh
+   git remote add origin git@github.com:geocine/geocine.github.io.git
+   ```
 14. Go back to the **gatsby** folder. Let us build the project
-
-```sh
+   ```sh
    npm run build
-```
-
+   ```
 15. Go back to the root folder. Now let us commit our code and push it.
-    {% gist https://gist.github.com/geocine/6f2b2461c08e9ea6a472c06a0ccacc7e file=git-commit.md %}
+   ```sh
+   git add .
+   git commit -m "initial commit"
+   git push -u origin master
+   ```
 16. Now you should be able to see your site at **username.github.io**. Mine should be at **geocine.github.io**
 
 > Note that we pushed the build files on the **master** branch and saved **gatsby** on a subdirectory because **username.github.io** only serves from the **master** branch. [See more details here](https://github.community/t5/GitHub-Pages/Is-there-a-way-to-publish-from-a-different-branch-on-a-username/m-p/29731/)
