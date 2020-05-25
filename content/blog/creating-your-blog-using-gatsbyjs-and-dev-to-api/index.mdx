@@ -31,43 +31,37 @@ If you do not know what a gatsby source or have never really touched Gatsby, you
 
 Here are the steps how to create your own blog using this starter:
 
-1 - Clone the github repository
-
-```sh
+1. Clone the github repository
+  ```sh
   git clone git@github.com:geocine/gatsby-starter-devto.git
-```
-
-2 - Open `gatsby-config.js` and change line 13 with your Dev.to username
-
-```js
-module.exports = {
-  siteMetadata: {
-    title: 'Gatsby + Dev.to Starter',
-  },
-  plugins: [
-    ...
-    {
-      resolve: 'gatsby-source-dev',
-      options: {
-        // your Dev.to username
-        username: 'geocine'
-      },
+  ```
+2. Open `gatsby-config.js` and change line 13 with your Dev.to username
+  ```js
+  module.exports = {
+    siteMetadata: {
+      title: 'Gatsby + Dev.to Starter',
     },
-    ...
-  ],
-}
-```
+    plugins: [
+      ...
+      {
+        resolve: 'gatsby-source-dev',
+        options: {
+          // your Dev.to username
+          username: 'geocine'
+        },
+      },
+      ...
+    ],
+  }
+  ```
+3. Install and start
+  ```sh
+  yarn
+  yarn start
+  ```
+4. Navigate to http://localhost:8000
 
-3 - Install and start
-
-```sh
-yarn
-yarn start
-```
-
-4 - Navigate to http://localhost:8000
-
-> [This](https://gatsby-starter-devto.netlify.com/) is how it should look like using my username `geocine`.
+[This](https://gatsby-starter-devto.netlify.com/) is how it should look like using my username `geocine`.
 
 This is still a work in progress, I will be adding more features, feel free to create a pull request. I hope you like it.
 
