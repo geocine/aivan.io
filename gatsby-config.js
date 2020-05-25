@@ -159,7 +159,7 @@ module.exports = {
         short_name: `Aivan`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#ee3121`,
+        theme_color: `#0161ab`,
         display: `minimal-ui`,
         icon: `content/assets/aivan-icon.png`,
       },

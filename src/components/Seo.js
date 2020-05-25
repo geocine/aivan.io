@@ -7,6 +7,7 @@ import { StaticQuery, graphql } from 'gatsby'
 const imageHost = 'https://aivan.imfast.io'
 
 function SEO({
+  index = false,
   description,
   lang,
   meta,
@@ -26,8 +27,14 @@ function SEO({
             htmlAttributes={{
               lang,
             }}
-            title={title}
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+            title={
+              index
+                ? `${data.site.siteMetadata.title} | ${metaDescription}`
+                : title
+            }
+            titleTemplate={
+              index ? `%s` : `%s | ${data.site.siteMetadata.title}`
+            }
             meta={[
               {
                 name: `description`,
