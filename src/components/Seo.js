@@ -22,16 +22,15 @@ function SEO({
       render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description
+        const metaTitle = index
+          ? `${data.site.siteMetadata.title} | ${metaDescription}`
+          : title
         return (
           <Helmet
             htmlAttributes={{
               lang,
             }}
-            title={
-              index
-                ? `${data.site.siteMetadata.title} | ${metaDescription}`
-                : title
-            }
+            title={metaTitle}
             titleTemplate={
               index ? `%s` : `%s | ${data.site.siteMetadata.title}`
             }
@@ -42,7 +41,7 @@ function SEO({
               },
               {
                 property: `og:title`,
-                content: title,
+                content: metaTitle,
               },
               {
                 property: `og:description`,
@@ -66,7 +65,7 @@ function SEO({
               },
               {
                 name: `twitter:title`,
-                content: title,
+                content: metaTitle,
               },
               {
                 name: `twitter:image`,
