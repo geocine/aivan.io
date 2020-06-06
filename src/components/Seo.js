@@ -114,6 +114,7 @@ const detailsQuery = graphql`
     site {
       siteMetadata {
         title
+        shortDescription
         description
         author
       }
