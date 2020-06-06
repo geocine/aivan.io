@@ -2,7 +2,8 @@ module.exports = {
   siteMetadata: {
     title: `Aivan Monceller`,
     author: ``,
-    description: `Fullstack JavaScript Engineer`,
+    shortDescription: `Fullstack JavaScript Engineer`,
+    description: `Building front-end applications, web APIs, system utilities and development tools using JavaScript, TypeScript, C# and Go.`,
     siteUrl: `https://aivan.io/`,
   },
   plugins: [

@@ -23,7 +23,7 @@ function SEO({
         const metaDescription =
           description || data.site.siteMetadata.description
         const metaTitle = index
-          ? `${data.site.siteMetadata.title} | ${metaDescription}`
+          ? `${data.site.siteMetadata.title} | ${data.site.siteMetadata.shortDescription}`
           : title
         return (
           <Helmet

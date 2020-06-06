@@ -9,7 +9,6 @@ import Container from '../components/Container'
 class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
-    const description = data.site.siteMetadata.description
     const posts = data.allMdx.edges
 
     function getCover(node) {
@@ -23,7 +22,6 @@ class BlogIndex extends React.Component {
         <SEO
           index
           keywords={[`aivan monceller`, `programming`]}
-          description={description}
           image="cover.jpg"
         />
         <Container>
