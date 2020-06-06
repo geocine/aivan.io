@@ -136,7 +136,7 @@ class BlogPostTemplate extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO
           title={post.frontmatter.title}
-          description={post.excerpt}
+          description={post.frontmatter.meta_description}
           image={getCover()}
         />
         <article>
@@ -202,6 +202,7 @@ export const pageQuery = graphql`
         cover
         date(formatString: "MMMM DD, YYYY")
         category
+        meta_description
       }
       body
     }
