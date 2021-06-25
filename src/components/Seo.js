@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 
 // const imageHost = 'https://img.imageboss.me/aivan'
-const imageHost = 'https://aivan.imfast.io'
+const imageHost = 'https://cdn.aivan.io'
 
 function SEO({
   index = false,
