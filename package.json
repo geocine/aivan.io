@@ -29,7 +29,7 @@
     "gatsby-remark-smartypants": "^2.1.21",
     "gatsby-source-filesystem": "^2.1.48",
     "gatsby-transformer-json": "^2.2.26",
-    "gatsby-transformer-remark": "^2.6.52",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^2.3.14",
     "moment": "^2.24.0",
     "prism-react-renderer": "^1.0.2",
