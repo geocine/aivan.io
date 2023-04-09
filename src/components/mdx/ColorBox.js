@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, Flex } from '@chakra-ui/core'
+import { Box, Text, Flex } from '@chakra-ui/react'
 
 const ColorBox = ({ color, ...rest }) => {
   return (

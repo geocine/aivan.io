@@ -1,15 +1,15 @@
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+import { resolve } from 'path'
+import { createFilePath } from 'gatsby-source-filesystem'
 
-exports.createPages = ({ graphql, actions }) => {
+const createPages = ({ graphql, actions }: any) => {
   const { createPage } = actions
-  const blogPost = path.resolve(`./src/templates/blog-post.js`)
+  const blogPost = resolve(`./src/templates/blog-post.js`)
   return graphql(
     process.env.NODE_ENV === 'development'
       ? `
       {
         allMdx(
-          sort: { fields: [frontmatter___date], order: DESC }
+          sort: {frontmatter: {date: DESC}}
           limit: 1000
         ) {
           edges {
@@ -22,7 +22,9 @@ exports.createPages = ({ graphql, actions }) => {
                 title
                 author
               }
-              body
+              internal {
+                contentFilePath
+              }
             }
           }
         }
@@ -31,7 +33,7 @@ exports.createPages = ({ graphql, actions }) => {
       : `
       {
         allMdx(
-          sort: { fields: [frontmatter___date], order: DESC }
+          sort: {frontmatter: {date: DESC}}
           limit: 1000
           filter: { frontmatter: { published: { ne: false } } }
         ) {
@@ -45,26 +47,28 @@ exports.createPages = ({ graphql, actions }) => {
                 title
                 author
               }
-              body
+              internal {
+                contentFilePath
+              }
             }
           }
         }
       }
     `
-  ).then(result => {
+  ).then((result: any) => {
     if (result.errors) {
       throw result.errors
     }
 
     // Create blog posts pages.
     const posts = result.data.allMdx.edges
-    posts.forEach((post, index) => {
+    posts.forEach((post: any, index: any) => {
       const previous = index === posts.length - 1 ? null : posts[index + 1].node
       const next = index === 0 ? null : posts[index - 1].node
 
       createPage({
         path: post.node.fields.slug,
-        component: blogPost,
+        component: `${blogPost}?__contentFilePath=${post.node.internal.contentFilePath}`,
         context: {
           slug: post.node.fields.slug,
           author: post.node.frontmatter.author,
@@ -76,7 +80,7 @@ exports.createPages = ({ graphql, actions }) => {
   })
 }
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
+const onCreateNode = ({ node, actions, getNode }: any) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `Mdx`) {
@@ -96,3 +100,5 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     })
   }
 }
+
+export { onCreateNode , createPages}

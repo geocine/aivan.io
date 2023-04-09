@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, Stack, Avatar } from '@chakra-ui/core'
+import { Box, Text, Stack, Avatar } from '@chakra-ui/react'
 import { Link } from 'gatsby'
 import styled from '@emotion/styled'
 import { bpDesktopOnly } from '../lib/breakpoints'

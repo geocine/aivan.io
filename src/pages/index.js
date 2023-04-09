@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import SEO from '../components/Seo'
 import Card from '../components/Card'
 import Container from '../components/Container'
+// import type { HeadFC, PageProps } from "gatsby"
 
 class BlogIndex extends React.Component {
   render() {
@@ -19,11 +20,6 @@ class BlogIndex extends React.Component {
 
     return (
       <Layout location={this.props.location}>
-        <SEO
-          index
-          keywords={[`aivan monceller`, `programming`]}
-          image="cover.jpg"
-        />
         <Container>
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug
@@ -57,7 +53,7 @@ export const pageQuery = graphql`
       }
     }
     allMdx(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: {frontmatter: {date: DESC}}
       filter: { fields: { list: { ne: false } } }
     ) {
       edges {
@@ -79,3 +75,7 @@ export const pageQuery = graphql`
     }
   }
 `
+//Head: HeadFC 
+export const Head = () => (
+  <SEO title="Aivan Monceller" index keywords={[`aivan monceller`, `programming`]} image="cover.jpg" />
+)

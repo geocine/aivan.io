@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'gatsby'
-import { Box, Text, Button } from '@chakra-ui/core'
+import { Box, Text, Button } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import Image from './Image'
 import Title from './Title'
