@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import theme from '../../lib/codeTheme'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 

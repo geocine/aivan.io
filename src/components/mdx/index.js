@@ -11,7 +11,7 @@ import NumberedList from './NumberedList'
 import Code from './Code'
 import Message from './Message'
 import ColorBox from './ColorBox'
-import { Grid } from '@chakra-ui/core'
+import { Grid } from '@chakra-ui/react'
 
 export default {
   wrapper: ({ children }) => children,
@@ -38,34 +38,27 @@ export default {
   ColorBox,
 }
 
-// lifted this from mdx-utils
-// it doesn't compile it's code and this busted IE, so I'm just vendoring it.
-function preToCodeBlock(preProps) {
-  if (
-    // children is code element
-    preProps.children &&
-    // code props
-    preProps.children.props &&
-    // if children is actually a <code>
-    preProps.children.props.mdxType === 'code'
-  ) {
-    // we have a <pre><code> situation
-    const {
-      children: codeString,
-      className = '',
-      ...props
-    } = preProps.children.props
+// lifted this from https://github.com/nutstick/nutstick.dev/blob/master/apps/blog/utils/preToCodeBlock.ts
+const isHTMLCodeElement = (element) => {
+  // @ts-expect-error cast type
+  return element.props && element.type;
+};
 
-    const matches = className.match(/language-(?<lang>.*)/)
+export const preToCodeBlock = (preProps) => {
+  const child = preProps.children;
+  if (isHTMLCodeElement(child)) {
+    const { children: codeString, className = '', ...props } = child.props;
 
-    return {
-      codeString: codeString.trim(),
-      className,
-      language:
-        matches && matches.groups && matches.groups.lang
-          ? matches.groups.lang
-          : '',
-      ...props,
-    }
+    const match = className.match(/language-([\0-\uFFFF]*)/);
+
+    return match != null && typeof codeString === 'string'
+      ? {
+          codeString: codeString.trim(),
+          className,
+          language: match[1],
+          // @ts-expect-error custom properties
+          meta: props.meta,
+        }
+      : null;
   }
-}
+};

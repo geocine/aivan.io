@@ -10,9 +10,10 @@ import Image from '../components/Image'
 import Title from '../components/Title'
 import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io'
 import { bpDesktopOnly } from '../lib/breakpoints'
+// import type { HeadFC, PageProps } from "gatsby"
 
 const PostBody = styled.div`
-  code {
+  p > code {
     background-color: #d1ebfd;
     line-height: inherit;
     padding: 5px 7px 0;
@@ -23,10 +24,14 @@ const PostBody = styled.div`
     color: #1a202c;
     font-size: 15px;
   }
-  a {
-    code {
-      color: #ffffff;
-    }
+  code {
+    color: rgb(217, 239, 255);
+  }
+  a > code {
+    color: #ffffff;
+  }
+  li > code {
+    color: #1a202c;
   }
   pre {
     background-color: #2d3033 !important;
@@ -134,11 +139,6 @@ class BlogPostTemplate extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          title={post.frontmatter.title}
-          description={post.frontmatter.meta_description}
-          image={getCover()}
-        />
         <article>
           <PostHeader>
             <Title link="/#" date={post.frontmatter.date} author={author}>
@@ -153,9 +153,7 @@ class BlogPostTemplate extends React.Component {
             />
           </PostHeader>
           <BlogContainer>
-            <PostBody>
-              <MDXRenderer>{post.body}</MDXRenderer>
-            </PostBody>
+            <PostBody>{this.props.children}</PostBody>
             <PostFooter>
               <ul>
                 <li>
@@ -184,7 +182,7 @@ class BlogPostTemplate extends React.Component {
 export default BlogPostTemplate
 
 export const pageQuery = graphql`
-  query($slug: String!, $author: String!) {
+  query ($slug: String!, $author: String!) {
     site {
       siteMetadata {
         title
@@ -206,7 +204,7 @@ export const pageQuery = graphql`
       }
       body
     }
-    author: authorsJson(id: { eq: $author }) {
+    author: authorsJson(jsonId: { eq: $author }) {
       id
       name
       avatar
@@ -214,3 +212,20 @@ export const pageQuery = graphql`
     }
   }
 `
+export const Head = (props) => {
+  const post = props.data.mdx
+
+  function getCover() {
+    const slug = post.fields.slug.replace(/^\/|\/$/g, '')
+    const cover = post.frontmatter.cover.replace(/^\/|\/$/g, '')
+    return `${slug}/${cover}`
+  }
+
+  return (
+    <SEO
+      title={post.frontmatter.title}
+      description={post.frontmatter.meta_description}
+      image={getCover()}
+    />
+  )
+}
