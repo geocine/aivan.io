@@ -41,11 +41,127 @@ const pageDescription = post.data.meta_description || '';
 ---
 
 <Layout title={pageTitle} description={pageDescription} image={getCover()}>
+  <style>
+    .post-content {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #1a202c;
+    }
+
+    .post-content p {
+      margin: 15px 0;
+      line-height: 1.6;
+    }
+
+    .post-content h2 {
+      font-size: 32px;
+      margin-top: 50px;
+      margin-bottom: 25px;
+      color: #1a202c;
+    }
+
+    .post-content h3 {
+      font-size: 24px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #1a202c;
+    }
+
+    .post-content h4 {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #1a202c;
+    }
+
+    .post-content a {
+      color: #006cb7;
+      text-decoration: none;
+      transition: color 0.33s ease-out;
+    }
+
+    .post-content a:hover {
+      color: #ff8e01;
+    }
+
+    .post-content code {
+      background-color: #d1ebfd;
+      color: #1a202c;
+      padding: 5px 7px 0;
+      white-space: pre-wrap;
+      border-bottom: 2px solid #006cb7;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: inherit;
+    }
+
+    .post-content pre {
+      background-color: #2d3033 !important;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .post-content pre code {
+      background: transparent;
+      color: rgb(217, 239, 255);
+      border: none;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .post-content pre::-webkit-scrollbar {
+      width: 100%;
+      height: 5px;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .post-content pre::-webkit-scrollbar-track {
+      background: #061526;
+      border-radius: 0 0 4px 4px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .post-content pre::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 5px;
+    }
+
+    .post-content ul,
+    .post-content ol {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+
+    .post-content li {
+      margin: 10px 0;
+    }
+
+    .post-content li code {
+      color: #1a202c;
+    }
+
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-content blockquote {
+      border-left: 4px solid #006cb7;
+      padding-left: 20px;
+      margin: 20px 0;
+      color: #4a5568;
+    }
+  </style>
   <article>
-    <!-- Post Header -->
-    <div class="overflow-hidden max-w-[calc(100%+40px)] -mt-10 mb-10 pt-10 px-5 bg-major">
+    <!-- Post Header with Blue Background -->
+    <div class="overflow-hidden w-full -mt-10 mb-10 pt-10 pb-0 px-5 bg-major" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;">
       <div class="text-center max-w-[850px] mx-auto mb-5">
-        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white">
+        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white mb-2">
           {post.data.title}
         </h1>
         <div class="inline-flex items-center mt-2 mb-4 text-sm leading-[30px] text-white">
@@ -54,17 +170,17 @@ const pageDescription = post.data.meta_description || '';
             alt={authorData?.name}
             class="w-8 h-8 rounded-full mr-2"
           />
-          <a href="#" class="hover:text-minor">{authorData?.name}</a>
+          <a href="#" class="hover:text-minor text-white">{authorData?.name}</a>
           <span class="ml-2">{formattedDate}</span>
         </div>
       </div>
 
       <!-- Cover Image -->
-      <div class="relative max-w-[600px] mx-auto mb-5">
+      <div class="relative max-w-[600px] mx-auto pb-5">
         <img
           src={coverUrl}
           alt={post.data.title}
-          class="rounded shadow-md w-full"
+          class="rounded w-full shadow-[0_0_5px_2px_rgba(0,0,0,0.1)]"
           loading="eager"
         />
       </div>
@@ -72,14 +188,7 @@ const pageDescription = post.data.meta_description || '';
 
     <!-- Post Body -->
     <Container>
-      <div class="prose prose-lg max-w-none
-        prose-p:text-lg prose-p:leading-relaxed
-        prose-headings:text-major
-        prose-a:text-major prose-a:no-underline hover:prose-a:text-minor
-        prose-code:bg-[#d1ebfd] prose-code:text-[#1a202c] prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:border-b-2 prose-code:border-major
-        prose-pre:bg-[#2d3033] prose-pre:rounded prose-pre:p-3
-        prose-img:rounded prose-img:shadow-md
-      ">
+      <div class="post-content">
         <Content />
       </div>
 

@@ -16,14 +16,14 @@ const imageHost = 'https://cdn.aivan.io';
 const coverUrl = `${imageHost}/${cover}`;
 ---
 
-<article class="mb-10">
+<article class="mb-[2.5rem]">
   <div class="max-w-full overflow-hidden">
     <!-- Title Section -->
     <div class="text-center">
-      <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight">
+      <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-[1.2]">
         <a
           href={link}
-          class="text-major transition-colors duration-300 ease-out hover:text-minor hover:opacity-100"
+          class="text-major no-underline transition-all duration-[330ms] ease-out hover:text-minor"
         >
           {title}
         </a>
@@ -34,7 +34,7 @@ const coverUrl = `${imageHost}/${cover}`;
           alt={authorData?.name}
           class="w-8 h-8 rounded-full mr-2"
         />
-        <a href="#" class="hover:text-minor">{authorData?.name}</a>
+        <a href="#" class="text-current no-underline hover:text-minor transition-colors">{authorData?.name}</a>
         <span class="ml-2">{date}</span>
       </div>
     </div>
@@ -43,19 +43,20 @@ const coverUrl = `${imageHost}/${cover}`;
     <img
       src={coverUrl}
       alt={title}
-      class="rounded w-full aspect-[2.93]"
+      class="rounded w-full mb-2"
+      style="aspect-ratio: 2.93;"
       loading="lazy"
     />
 
     <!-- Excerpt -->
     <div class="p-2">
-      <p class="mt-2 leading-[1.8] text-lg">
+      <p class="mt-2 leading-[1.8] text-lg mb-0">
         {excerpt}
       </p>
       <div class="mt-4">
         <a
           href={link}
-          class="block bg-sharp text-white h-[60px] w-full text-center leading-[60px] text-lg font-medium rounded hover:bg-[#a0cc68] transition-colors focus:outline-none"
+          class="block bg-sharp text-white h-[60px] w-full text-center leading-[60px] text-base font-medium rounded no-underline hover:bg-[#a0cc68] transition-colors focus:shadow-none"
         >
           Continue Reading
         </a>
