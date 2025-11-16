@@ -2,7 +2,7 @@ import React from 'react';
 
 interface MessageProps {
   type?: 'warning' | 'success' | 'info';
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Message = ({ type, children }: MessageProps): React.ReactElement => {
@@ -14,8 +14,6 @@ const Message = ({ type, children }: MessageProps): React.ReactElement => {
       textAlign: 'center',
       position: 'relative',
       clear: 'both',
-      margin: '20px 0',
-      borderRadius: '4px',
     },
     info: {
       background: '#fff1df',

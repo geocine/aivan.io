@@ -3,7 +3,7 @@ import React from 'react';
 interface GridProps {
   templateColumns?: string | string[];
   gap?: number | number[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Grid = ({ templateColumns = 'repeat(4, 1fr)', gap = 6, children }: GridProps): React.ReactElement => {

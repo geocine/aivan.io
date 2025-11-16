@@ -29,7 +29,7 @@ function getCover(slug: string, cover: string) {
       return (
         <Card
           title={post.data.title}
-          link={`/blog/${post.slug}/`}
+          link={`/${post.slug}/`}
           date={formattedDate}
           cover={cover}
           excerpt={post.data.meta_description || ''}

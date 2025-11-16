@@ -1,13 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Container from '../../components/Container.astro';
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
 import moment from 'moment';
-import authors from '../../data/authors.json';
+import authors from '../data/authors.json';
 import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
-import ColorBox from '../../components/mdx-components/ColorBox';
-import Message from '../../components/mdx-components/Message';
-import Grid from '../../components/mdx-components/Grid';
+import ColorBox from '../components/mdx-components/ColorBox';
+import Message from '../components/mdx-components/Message';
+import Grid from '../components/mdx-components/Grid';
+import Subtitle from '../components/mdx-components/Subtitle';
+import SmallTitle from '../components/mdx-components/SmallTitle';
+import Title from '../components/mdx-components/Title';
+import Paragraph from '../components/mdx-components/Paragraph';
+import Separator from '../components/mdx-components/Separator';
+import List from '../components/mdx-components/List';
+import NumberedList from '../components/mdx-components/NumberedList';
+import Anchor from '../components/mdx-components/Anchor';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -44,18 +52,22 @@ const pageDescription = post.data.meta_description || '';
 ---
 
 <Layout title={pageTitle} description={pageDescription} image={getCover()}>
-  <style>
+  <style is:global>
     .post-header {
       overflow: hidden;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      margin-right: calc(-50vw + 50%);
-      margin-top: -40px;
+      max-width: calc(100% + 40px);
+      margin-top: calc(-65px - 1.45rem);
       margin-bottom: 40px;
       padding-top: 40px;
       padding-left: 20px;
       padding-right: 20px;
       background: #006cb7;
+    }
+
+    @media (min-width: 768px) {
+      .post-header {
+        margin-top: calc(-80px - 1.45rem);
+      }
     }
 
     .post-header h1 {
@@ -78,7 +90,6 @@ const pageDescription = post.data.meta_description || '';
       bottom: 0;
       height: 50%;
       background-color: #fff;
-      z-index: -1;
     }
 
     .cover-image {
@@ -98,6 +109,16 @@ const pageDescription = post.data.meta_description || '';
     .post-content p {
       margin: 15px 0;
       line-height: 1.6;
+    }
+
+    /* First paragraph special styling */
+    .post-content .first-paragraph {
+      border-left: 4px solid #ff8e01;
+      padding-left: 20px;
+      margin-bottom: 25px;
+      font-size: 20px;
+      line-height: 1.6;
+      margin-top: 15px;
     }
 
     .post-content h2 {
@@ -122,7 +143,7 @@ const pageDescription = post.data.meta_description || '';
     }
 
     .post-content a {
-      color: #006cb7;
+      color: #0161ab;
       text-decoration: none;
       transition: color 0.33s ease-out;
     }
@@ -203,12 +224,85 @@ const pageDescription = post.data.meta_description || '';
       margin: 20px 0;
       color: #4a5568;
     }
+
+    /* Custom unordered list styling */
+    .post-content .mdx-list {
+      margin-left: 20px;
+      list-style-type: none;
+      position: relative;
+    }
+
+    .post-content .mdx-list li {
+      position: relative;
+      border-bottom: 2px solid #aedeff;
+      margin-bottom: 0.8em;
+      padding-bottom: 0.7em;
+      padding-left: 20px;
+    }
+
+    .post-content .mdx-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 0;
+      height: 0;
+      border-left: 6px solid #006cb7;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+
+    /* Custom numbered list styling */
+    .post-content .mdx-numbered-list {
+      padding: 0 0 0 30px;
+      list-style: none;
+      counter-reset: numList;
+      position: relative;
+    }
+
+    .post-content .mdx-numbered-list li {
+      position: relative;
+      margin-bottom: 1em;
+      padding-left: 10px;
+    }
+
+    .post-content .mdx-numbered-list li::before {
+      counter-increment: numList;
+      content: counter(numList);
+      position: absolute;
+      left: -30px;
+      top: 0;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #0161ab;
+      color: #fff;
+      font-size: 16px;
+      display: inline-block;
+      text-align: center;
+      line-height: 25px;
+    }
+
+    .post-content .mdx-numbered-list li img {
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+
+    .post-content li code {
+      color: #1a202c;
+    }
+
+    @media (min-width: 768px) {
+      .post-content pre {
+        border-radius: 4px;
+      }
+    }
   </style>
   <article>
     <!-- Post Header with Blue Background -->
     <div class="post-header">
       <div class="text-center">
-        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white">
+        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-[1.375] text-white">
           {post.data.title}
         </h1>
         <div class="inline-flex items-center mt-2 mb-4 text-sm leading-[30px] text-white">
@@ -236,7 +330,19 @@ const pageDescription = post.data.meta_description || '';
     <!-- Post Body -->
     <Container>
       <div class="post-content">
-        <Content components={{ ColorBox, Message, Grid }} />
+        <Content components={{
+          h2: Subtitle,
+          h3: SmallTitle,
+          h4: Title,
+          p: Paragraph,
+          hr: Separator,
+          ul: List,
+          ol: NumberedList,
+          a: Anchor,
+          ColorBox,
+          Message,
+          Grid
+        }} />
       </div>
 
       <!-- Post Footer Navigation -->
@@ -244,14 +350,14 @@ const pageDescription = post.data.meta_description || '';
         <ul class="flex flex-wrap justify-between list-none p-0">
           <li>
             {previous && (
-              <a href={`/blog/${previous.slug}/`} rel="prev" class="text-major hover:text-minor inline-flex items-center">
+              <a href={`/${previous.slug}/`} rel="prev" class="text-major hover:text-minor inline-flex items-center">
                 <IoMdArrowBack className="inline-block mr-1" /> Previous
               </a>
             )}
           </li>
           <li>
             {next && (
-              <a href={`/blog/${next.slug}/`} rel="next" class="text-major hover:text-minor inline-flex items-center">
+              <a href={`/${next.slug}/`} rel="next" class="text-major hover:text-minor inline-flex items-center">
                 Next <IoMdArrowForward className="inline-block ml-1" />
               </a>
             )}
@@ -260,4 +366,15 @@ const pageDescription = post.data.meta_description || '';
       </div>
     </Container>
   </article>
+  <script is:inline>
+    // Add first-paragraph class to the actual first paragraph
+    const postContent = document.querySelector('.post-content');
+    if (postContent) {
+      // Find all paragraph elements (both p and .mdx-paragraph)
+      const paragraphs = postContent.querySelectorAll('p');
+      if (paragraphs.length > 0) {
+        paragraphs[0].classList.add('first-paragraph');
+      }
+    }
+  </script>
 </Layout>
