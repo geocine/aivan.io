@@ -1,0 +1,65 @@
+---
+import authors from '../data/authors.json';
+
+interface Props {
+  title: string;
+  link: string;
+  date: string;
+  cover: string;
+  excerpt: string;
+  author: string;
+}
+
+const { title, link, date, cover, excerpt, author } = Astro.props;
+const authorData = authors.find(auth => auth.id === author);
+const imageHost = 'https://cdn.aivan.io';
+const coverUrl = `${imageHost}/${cover}`;
+---
+
+<article class="mb-10">
+  <div class="max-w-full overflow-hidden">
+    <!-- Title Section -->
+    <div class="text-center">
+      <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight">
+        <a
+          href={link}
+          class="text-major transition-colors duration-300 ease-out hover:text-minor hover:opacity-100"
+        >
+          {title}
+        </a>
+      </h1>
+      <div class="inline-flex items-center mt-2 mb-4 text-sm leading-[30px]">
+        <img
+          src={authorData?.avatar}
+          alt={authorData?.name}
+          class="w-8 h-8 rounded-full mr-2"
+        />
+        <a href="#" class="hover:text-minor">{authorData?.name}</a>
+        <span class="ml-2">{date}</span>
+      </div>
+    </div>
+
+    <!-- Cover Image -->
+    <img
+      src={coverUrl}
+      alt={title}
+      class="rounded w-full aspect-[2.93]"
+      loading="lazy"
+    />
+
+    <!-- Excerpt -->
+    <div class="p-2">
+      <p class="mt-2 leading-[1.8] text-lg">
+        {excerpt}
+      </p>
+      <div class="mt-4">
+        <a
+          href={link}
+          class="block bg-sharp text-white h-[60px] w-full text-center leading-[60px] text-lg font-medium rounded hover:bg-[#a0cc68] transition-colors focus:outline-none"
+        >
+          Continue Reading
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

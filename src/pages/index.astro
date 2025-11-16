@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Container from '../components/Container.astro';
+import moment from 'moment';
+
+// Get all blog posts
+const allPosts = await getCollection('blog');
+
+// Filter published posts and sort by date
+const posts = allPosts
+  .filter(post => import.meta.env.PROD ? post.data.published : true)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+function getCover(slug: string, cover: string) {
+  const cleanSlug = slug.replace(/^\/|\/$/g, '');
+  const cleanCover = cover.replace(/^\/|\/$/g, '');
+  return `${cleanSlug}/${cleanCover}`;
+}
+---
+
+<Layout>
+  <Container>
+    {posts.map((post) => {
+      const cover = getCover(post.slug, post.data.cover || '');
+      const formattedDate = moment(post.data.date).format('MMMM DD, YYYY');
+
+      return (
+        <Card
+          title={post.data.title}
+          link={`/blog/${post.slug}/`}
+          date={formattedDate}
+          cover={cover}
+          excerpt={post.data.meta_description || ''}
+          author={post.data.author || 'aivan'}
+        />
+      );
+    })}
+  </Container>
+</Layout>

@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import moment from 'moment';
+import authors from '../../data/authors.json';
+import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const posts = allPosts
+    .filter(post => import.meta.env.PROD ? post.data.published : true)
+    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      previous: index < posts.length - 1 ? posts[index + 1] : null,
+      next: index > 0 ? posts[index - 1] : null,
+    },
+  }));
+}
+
+const { post, previous, next } = Astro.props;
+const { Content } = await post.render();
+
+const authorData = authors.find(auth => auth.id === post.data.author);
+const formattedDate = moment(post.data.date).format('MMMM DD, YYYY');
+
+function getCover() {
+  const slug = post.slug.replace(/^\/|\/$/g, '');
+  const cover = (post.data.cover || '').replace(/^\/|\/$/g, '');
+  return `${slug}/${cover}`;
+}
+
+const imageHost = 'https://cdn.aivan.io';
+const coverUrl = `${imageHost}/${getCover()}`;
+const pageTitle = post.data.title;
+const pageDescription = post.data.meta_description || '';
+---
+
+<Layout title={pageTitle} description={pageDescription} image={getCover()}>
+  <article>
+    <!-- Post Header -->
+    <div class="overflow-hidden max-w-[calc(100%+40px)] -mt-10 mb-10 pt-10 px-5 bg-major">
+      <div class="text-center max-w-[850px] mx-auto mb-5">
+        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white">
+          {post.data.title}
+        </h1>
+        <div class="inline-flex items-center mt-2 mb-4 text-sm leading-[30px] text-white">
+          <img
+            src={authorData?.avatar}
+            alt={authorData?.name}
+            class="w-8 h-8 rounded-full mr-2"
+          />
+          <a href="#" class="hover:text-minor">{authorData?.name}</a>
+          <span class="ml-2">{formattedDate}</span>
+        </div>
+      </div>
+
+      <!-- Cover Image -->
+      <div class="relative max-w-[600px] mx-auto mb-5">
+        <img
+          src={coverUrl}
+          alt={post.data.title}
+          class="rounded shadow-md w-full"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    <!-- Post Body -->
+    <Container>
+      <div class="prose prose-lg max-w-none
+        prose-p:text-lg prose-p:leading-relaxed
+        prose-headings:text-major
+        prose-a:text-major prose-a:no-underline hover:prose-a:text-minor
+        prose-code:bg-[#d1ebfd] prose-code:text-[#1a202c] prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:border-b-2 prose-code:border-major
+        prose-pre:bg-[#2d3033] prose-pre:rounded prose-pre:p-3
+        prose-img:rounded prose-img:shadow-md
+      ">
+        <Content />
+      </div>
+
+      <!-- Post Footer Navigation -->
+      <div class="my-6">
+        <ul class="flex flex-wrap justify-between list-none p-0">
+          <li>
+            {previous && (
+              <a href={`/blog/${previous.slug}/`} rel="prev" class="text-major hover:text-minor inline-flex items-center">
+                <IoMdArrowBack className="inline-block mr-1" /> Previous
+              </a>
+            )}
+          </li>
+          <li>
+            {next && (
+              <a href={`/blog/${next.slug}/`} rel="next" class="text-major hover:text-minor inline-flex items-center">
+                Next <IoMdArrowForward className="inline-block ml-1" />
+              </a>
+            )}
+          </li>
+        </ul>
+      </div>
+    </Container>
+  </article>
+</Layout>
