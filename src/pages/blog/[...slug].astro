@@ -45,6 +45,50 @@ const pageDescription = post.data.meta_description || '';
 
 <Layout title={pageTitle} description={pageDescription} image={getCover()}>
   <style>
+    .post-header {
+      overflow: hidden;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      margin-top: -40px;
+      margin-bottom: 40px;
+      padding-top: 40px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background: #006cb7;
+    }
+
+    .post-header h1 {
+      max-width: 850px;
+      margin: 0 auto 20px auto;
+    }
+
+    .cover-image-wrapper {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: visible !important;
+    }
+
+    .cover-image-wrapper::before {
+      content: '';
+      position: absolute;
+      left: -100vw;
+      right: -100vw;
+      bottom: 0;
+      height: 50%;
+      background-color: #fff;
+      z-index: -1;
+    }
+
+    .cover-image {
+      position: relative;
+      border-radius: 4px;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+      border: 0;
+      border-color: transparent;
+    }
+
     .post-content {
       font-size: 18px;
       line-height: 1.6;
@@ -162,9 +206,9 @@ const pageDescription = post.data.meta_description || '';
   </style>
   <article>
     <!-- Post Header with Blue Background -->
-    <div class="overflow-hidden w-full -mt-10 mb-10 pt-10 pb-0 px-5 bg-major" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;">
-      <div class="text-center max-w-[850px] mx-auto mb-5">
-        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white mb-2">
+    <div class="post-header">
+      <div class="text-center">
+        <h1 class="mt-2 font-semibold text-[28px] md:text-4xl leading-tight text-white">
           {post.data.title}
         </h1>
         <div class="inline-flex items-center mt-2 mb-4 text-sm leading-[30px] text-white">
@@ -178,12 +222,12 @@ const pageDescription = post.data.meta_description || '';
         </div>
       </div>
 
-      <!-- Cover Image -->
-      <div class="relative max-w-[600px] mx-auto pb-5">
+      <!-- Cover Image with white background on bottom half -->
+      <div class="cover-image-wrapper">
         <img
           src={coverUrl}
           alt={post.data.title}
-          class="rounded w-full shadow-[0_0_5px_2px_rgba(0,0,0,0.1)]"
+          class="cover-image w-full"
           loading="eager"
         />
       </div>
