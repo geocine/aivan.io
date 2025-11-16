@@ -5,6 +5,9 @@ import Container from '../../components/Container.astro';
 import moment from 'moment';
 import authors from '../../data/authors.json';
 import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
+import ColorBox from '../../components/mdx-components/ColorBox';
+import Message from '../../components/mdx-components/Message';
+import Grid from '../../components/mdx-components/Grid';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -189,7 +192,7 @@ const pageDescription = post.data.meta_description || '';
     <!-- Post Body -->
     <Container>
       <div class="post-content">
-        <Content />
+        <Content components={{ ColorBox, Message, Grid }} />
       </div>
 
       <!-- Post Footer Navigation -->
