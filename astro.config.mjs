@@ -24,6 +24,11 @@ export default defineConfig({
       themeCssSelector: () => false,
       defaultProps: {
         showLineNumbers: true,
+        overridesByLang: {
+          'bash,sh,shell,zsh,fish,terminal': {
+            showLineNumbers: false,
+          },
+        },
       },
     }),
     mdx(),
