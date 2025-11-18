@@ -206,10 +206,21 @@ const pageDescription = post.data.meta_description || '';
     .post-content .expressive-code pre {
       background-color: #2d3033 !important;
       padding: 10px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Remove left padding when line numbers are present */
+    .post-content .expressive-code:has(.gutter) pre {
+      padding-left: 0;
     }
 
     .post-content .expressive-code .line {
       padding-left: 0;
+    }
+
+    .post-content .expressive-code .code {
+      white-space: pre;
     }
 
     /* Line numbers gutter */
