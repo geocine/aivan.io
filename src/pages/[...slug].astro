@@ -219,15 +219,21 @@ const pageDescription = post.data.meta_description || '';
       padding-left: 0;
     }
 
+    .post-content .expressive-code .ec-line {
+      display: flex;
+    }
+
     .post-content .expressive-code .code {
       white-space: pre;
+      flex: 1;
+      min-width: 0;
     }
 
     /* Line numbers gutter */
     .post-content .expressive-code .gutter {
       position: sticky;
       left: 0;
-      display: inline-block;
+      flex-shrink: 0;
       min-width: 2em;
       text-align: right;
       padding-right: 0.75em;
