@@ -225,6 +225,8 @@ const pageDescription = post.data.meta_description || '';
 
     /* Line numbers gutter */
     .post-content .expressive-code .gutter {
+      position: sticky;
+      left: 0;
       display: inline-block;
       min-width: 2em;
       text-align: right;
@@ -232,6 +234,8 @@ const pageDescription = post.data.meta_description || '';
       padding-left: 0.5em;
       user-select: none;
       opacity: 0.5;
+      background-color: #2d3033;
+      z-index: 1;
     }
 
     .post-content .expressive-code .ln {
