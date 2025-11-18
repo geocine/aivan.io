@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import expressiveCode from 'astro-expressive-code';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,15 +13,17 @@ export default defineConfig({
   integrations: [
     expressiveCode({
       themes: ['dracula'],
+      plugins: [pluginLineNumbers()],
       styleOverrides: {
         borderRadius: '4px',
         frames: {
           shadowColor: 'transparent',
         },
       },
+      useDarkModeMediaQuery: false,
+      themeCssSelector: () => false,
       defaultProps: {
         showLineNumbers: true,
-        wrap: true,
       },
     }),
     mdx(),

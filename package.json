@@ -29,6 +29,7 @@
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
+    "@expressive-code/plugin-line-numbers": "^0.41.3",
     "astro": "^4.16.18",
     "astro-expressive-code": "^0.41.3",
     "moment": "^2.29.4",

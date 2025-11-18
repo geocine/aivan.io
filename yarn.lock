@@ -415,6 +415,13 @@
   dependencies:
     "@expressive-code/core" "^0.41.3"
 
+"@expressive-code/plugin-line-numbers@^0.41.3":
+  version "0.41.3"
+  resolved "https://registry.npmjs.org/@expressive-code/plugin-line-numbers/-/plugin-line-numbers-0.41.3.tgz"
+  integrity sha512-eig82a4CRC3XgVPQ2S/TMDcLiHJokOCD/mAdNVImpD3segVewxfjGgtj5DXQRo0E0q6f0R0EH34YzTFl5CEPqg==
+  dependencies:
+    "@expressive-code/core" "^0.41.3"
+
 "@expressive-code/plugin-shiki@^0.41.3":
   version "0.41.3"
   resolved "https://registry.npmjs.org/@expressive-code/plugin-shiki/-/plugin-shiki-0.41.3.tgz"

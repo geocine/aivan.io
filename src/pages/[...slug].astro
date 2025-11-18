@@ -212,6 +212,20 @@ const pageDescription = post.data.meta_description || '';
       padding-left: 0;
     }
 
+    /* Line numbers gutter */
+    .post-content .expressive-code .gutter {
+      display: inline-block;
+      min-width: 2.5em;
+      text-align: right;
+      padding-right: 1em;
+      user-select: none;
+      opacity: 0.5;
+    }
+
+    .post-content .expressive-code .ln {
+      color: #999;
+    }
+
     /* Line highlighting */
     .post-content .expressive-code .ec-line.mark {
       background-color: rgba(85, 66, 42, 0.61);
