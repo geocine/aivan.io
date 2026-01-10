@@ -1,19 +1,23 @@
 import React from 'react'
 import GatsbyImage from 'gatsby-image'
 
-const imageTransform = 'https://cdn.statically.io/img/cdn.aivan.io'
+// Cloudflare Image Transformations
+// Format: https://<CF-ZONE>/cdn-cgi/image/<OPTIONS>/<SOURCE-IMAGE>
+// Using cdn.aivan.io as the Cloudflare zone for transformations
+const cfImageBase = 'https://cdn.aivan.io/cdn-cgi/image'
+const imageOrigin = 'https://cdn.aivan.io'
 
 const Image = ({ src, sizes, aspectRatio, ...rest }) => {
   return (
     <GatsbyImage
       fluid={{
         aspectRatio,
-        src: `${imageTransform}/${src}`,
-        base64: `${imageTransform}/w=30,q=4/${src}`,
+        src: `${cfImageBase}/format=auto/${imageOrigin}/${src}`,
+        base64: `${cfImageBase}/width=30,quality=4,format=auto/${imageOrigin}/${src}`,
         sizes: '(max-width: 850px) 100vw, 850px',
         srcSet: sizes
           .map(size => {
-            return `${imageTransform}/w=${size},q=100/${src} ${size}w`
+            return `${cfImageBase}/width=${size},quality=85,format=auto/${imageOrigin}/${src} ${size}w`
           })
           .join(),
       }}
