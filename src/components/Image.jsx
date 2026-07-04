@@ -2,8 +2,9 @@
 // Format: https://<CF-ZONE>/cdn-cgi/image/<OPTIONS>/<SOURCE-IMAGE>
 // Using relative paths since images are on the same domain
 const cfImageBase = 'https://cdn.aivan.io/cdn-cgi/image'
+const emptySizes = []
 
-const Image = ({ src, sizes = [], aspectRatio, alt = '', ...rest }) => {
+const Image = ({ src, sizes = emptySizes, aspectRatio, alt = '', ...rest }) => {
   const isRemote = /^https?:\/\//.test(src)
   const isLocal = src.startsWith('/assets/') || src.startsWith('assets/')
   const localSrc = src.startsWith('/') ? src : `/${src}`

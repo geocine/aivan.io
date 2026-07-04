@@ -3,6 +3,12 @@ import authors from '../../content/data/authors.json'
 
 export type BlogPost = CollectionEntry<'blog'>
 
+const postDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: '2-digit',
+  year: 'numeric',
+})
+
 export function getPostSlug(post: BlogPost) {
   return post.id.replace(/\/index$/, '')
 }
@@ -28,11 +34,7 @@ export function getPostCover(post: BlogPost) {
 }
 
 export function formatPostDate(date: Date) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: '2-digit',
-    year: 'numeric',
-  }).format(date)
+  return postDateFormatter.format(date)
 }
 
 export async function getSortedPosts() {

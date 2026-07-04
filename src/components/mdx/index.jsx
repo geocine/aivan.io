@@ -52,17 +52,17 @@ export default {
 }
 
 // lifted this from https://github.com/nutstick/nutstick.dev/blob/master/apps/blog/utils/preToCodeBlock.ts
-const isHTMLCodeElement = (element) => {
+const isHTMLCodeElement = element => {
   // @ts-expect-error cast type
-  return element.props && element.type;
+  return element.props && element.type
 }
 
-export const preToCodeBlock = (preProps) => {
-  const child = preProps.children;
+const preToCodeBlock = preProps => {
+  const child = preProps.children
   if (isHTMLCodeElement(child)) {
-    const { children: codeString, className = '', ...props } = child.props;
+    const { children: codeString, className = '', ...props } = child.props
 
-    const match = className.match(/language-([\0-\uFFFF]*)/);
+    const match = className.match(/language-([\0-\uFFFF]*)/)
 
     return match != null && typeof codeString === 'string'
       ? {
@@ -72,6 +72,6 @@ export const preToCodeBlock = (preProps) => {
           // @ts-expect-error custom properties
           meta: props.meta,
         }
-      : null;
+      : null
   }
 }

@@ -1,5 +1,7 @@
 import Logo from '../images/aivan-logo-reverse.svg?url'
 
+const COPYRIGHT_YEAR = 2026
+
 const Footer = () => (
   <footer className="mt-auto min-h-[200px] bg-[#006cb7] p-[15px] text-center text-[14px] leading-[21px] text-white">
     <a href="/">
@@ -10,7 +12,7 @@ const Footer = () => (
       development tools using JavaScript, TypeScript, C# and Go.
     </p>
     <p className="my-[5px]">
-      {new Date().getFullYear()}
+      {COPYRIGHT_YEAR}
       {` `}
       <a href="https://aivan.io">Aivan Monceller</a>. All Rights Reserved
     </p>

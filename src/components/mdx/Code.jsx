@@ -44,30 +44,45 @@ function Code({ codeString, language, meta = '' }) {
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div style={wrapperStyle}>
           <pre className={className} style={{ ...style, ...preStyle }}>
-            {tokens.map((line, i) => (
-              <div
-                key={i}
-                {...getLineProps({
-                  line,
-                  key: i,
-                  className: shouldHighlightLine(i) ? 'highlight-line' : '',
-                })}
-              >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: '2em',
-                    userSelect: 'none',
-                    opacity: 0.3,
-                  }}
-                >
-                  {i + 1}
-                </span>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token, key })} />
-                ))}
-              </div>
-            ))}
+            {tokens.map((line, i) => {
+              const { key: linePropsKey, ...lineProps } = getLineProps({
+                line,
+                key: i,
+                className: shouldHighlightLine(i) ? 'highlight-line' : '',
+              })
+              const tokenCounts = new Map()
+
+              return (
+                <div {...lineProps} key={linePropsKey}>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      width: '2em',
+                      userSelect: 'none',
+                      opacity: 0.3,
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  {line.map((token, tokenIndex) => {
+                    const { key: tokenPropsKey, ...tokenProps } = getTokenProps({
+                      token,
+                      key: tokenIndex,
+                    })
+                    const tokenSignature = `${token.types.join('.')}:${token.content}`
+                    const seenCount = tokenCounts.get(tokenSignature) ?? 0
+                    tokenCounts.set(tokenSignature, seenCount + 1)
+
+                    return (
+                      <span
+                        {...tokenProps}
+                        key={`${tokenSignature}:${seenCount}`}
+                      />
+                    )
+                  })}
+                </div>
+              )
+            })}
           </pre>
         </div>
       )}
