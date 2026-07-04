@@ -62,7 +62,7 @@ The tricky part is that "simple" still needs to match the old behavior. Small th
 
 Gatsby image plugins hide a lot of decisions. In Astro I made the image component more explicit.
 
-Remote or legacy post images can still go through Cloudflare transformations, but generated covers should live in the separate assets repository and load through `https://cdn.aivan.io`.
+Images still go through Cloudflare transformations when the site asks for them. The important change for generated covers is storage: the final files live in the separate assets repository, then the site references the stable `https://cdn.aivan.io/<slug>/cover.webp` source URL.
 
 That small distinction avoided broken URLs and made it easier to add new cover images later.
 
