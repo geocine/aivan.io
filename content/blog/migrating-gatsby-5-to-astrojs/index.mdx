@@ -1,0 +1,95 @@
+---
+title: 'Migrating Gatsby 5 to AstroJS'
+date: '2026-07-04'
+cover: 'https://cdn.aivan.io/migrating-gatsby-5-to-astrojs/cover.webp'
+category: web
+tags:
+  - astro
+  - gatsby
+  - migration
+  - react
+meta_description: 'A short practical note on migrating a Gatsby 5 site to AstroJS while keeping content, routes, and small UI details intact.'
+author: aivan
+published: true
+---
+
+I recently migrated this site from Gatsby 5 to AstroJS. This is not a very big website, but it had enough moving parts to make the migration interesting: MDX posts, custom components, Cloudflare image transformations, RSS, sitemap, a 404 page, and old design details that I still wanted to keep.
+
+This is not a full step by step tutorial. It is more of a short list of things I learned while doing it.
+
+## Start with the same routes
+
+The safest part to migrate first is the URL structure.
+
+I created one Astro route for blog posts:
+
+```txt
+src/pages/[...slug].astro
+```
+
+Then I made sure the generated paths still matched the old Gatsby URLs.
+
+For a small blog, this matters more than the framework. If the route changes, your migration already feels broken even if the page renders.
+
+## Move content before redesigning
+
+The posts were already in MDX, so I kept the content shape as close as possible and used Astro content collections.
+
+```ts
+const blog = defineCollection({
+  loader: glob({ pattern: '**/index.mdx', base: './content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    cover: z.string(),
+    meta_description: z.string(),
+    author: z.string(),
+  }),
+})
+```
+
+This made the migration easier to verify because every page had the same frontmatter fields as before. I could fix rendering issues without also debugging content changes.
+
+## Replace framework code with boring components
+
+The old site used Chakra and Gatsby specific plugins. During the migration I removed those and rebuilt the UI using Tailwind plus small React and Astro components.
+
+That made the code easier to reason about. A blog card is just a blog card. A layout is just a layout. There is less framework magic between the content and the final HTML.
+
+The tricky part is that "simple" still needs to match the old behavior. Small things like footer height, code block spacing, image radius, and 404 styling were easy to miss until I compared the pages side by side.
+
+## Images need their own plan
+
+Gatsby image plugins hide a lot of decisions. In Astro I made the image component more explicit.
+
+Remote or legacy post images can still go through Cloudflare transformations, but generated covers should live in the separate assets repository and load through `https://cdn.aivan.io`.
+
+That small distinction avoided broken URLs and made it easier to add new cover images later.
+
+## Use tools after the page looks right
+
+After the visual migration looked close, I ran [React Doctor](https://www.react.doctor/) and fixed the issues it reported.
+
+Most of the fixes were small:
+
+- avoid `new Date()` in JSX
+- avoid new default arrays on every render
+- use stable keys in rendered code tokens
+- hoist `Intl.DateTimeFormat`
+- update lint tooling so Astro and TypeScript files are parsed correctly
+
+These are not exciting changes, but they are the kind that make a migration feel finished.
+
+## What I would do again
+
+I would still migrate in this order:
+
+1. Keep the routes.
+2. Move the content.
+3. Rebuild the layout.
+4. Compare every page against production.
+5. Fix the tooling after the site renders.
+
+Astro made sense for this site because most pages are content-first and static. I still get to use React where it is useful, but the site no longer needs a React app around every page.
+
+That is probably the main lesson for me: do not migrate frameworks just to use a new framework. Migrate when the new shape of the code is easier to maintain than the old one.
