@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://aivan.io/sitemap-index.xml

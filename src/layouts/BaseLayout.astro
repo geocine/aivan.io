@@ -1,0 +1,91 @@
+---
+import Header from '../components/Header.jsx'
+import Footer from '../components/Footer.jsx'
+import '../styles/global.css'
+import { site } from '../site'
+
+type Props = {
+  title: string
+  description?: string
+  image?: string
+  keywords?: string[]
+  index?: boolean
+}
+
+const {
+  title,
+  description = site.description,
+  image = 'cover.jpg',
+  keywords = [],
+  index = false,
+} = Astro.props
+
+const metaTitle = index ? `${site.title} | ${site.shortDescription}` : title
+const metaImage = /^https?:\/\//.test(image)
+  ? image
+  : image.startsWith('/assets/')
+    ? `${site.siteUrl}${image}`
+    : `${site.imageHost}/${image}`
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{metaTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={metaImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={site.author} />
+    <meta name="twitter:title" content={metaTitle} />
+    <meta name="twitter:image" content={metaImage} />
+    <meta name="twitter:description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="aivan.io RSS Feed" href="/rss.xml" />
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(registration => registration.unregister())
+        })
+      }
+    </script>
+    <script is:inline>
+      const dnt =
+        navigator.doNotTrack === '1' ||
+        window.doNotTrack === '1' ||
+        navigator.msDoNotTrack === '1'
+
+      if (!dnt) {
+        const gtagScript = document.createElement('script')
+        gtagScript.async = true
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2S179EH3RR'
+        document.head.appendChild(gtagScript)
+
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+          dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+        gtag('config', 'G-2S179EH3RR', {
+          anonymize_ip: true,
+          cookie_expires: 0,
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div class="site-layout">
+      <Header />
+      <main>
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

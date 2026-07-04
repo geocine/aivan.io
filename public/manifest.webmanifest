@@ -1,0 +1,15 @@
+{
+  "name": "Aivan",
+  "short_name": "Aivan",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#0161ab",
+  "display": "minimal-ui",
+  "icons": [
+    {
+      "src": "/assets/aivan-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

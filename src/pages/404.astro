@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import {
+  formatPostDate,
+  getPostPath,
+  getSortedPosts,
+} from '../lib/posts'
+
+const posts = (await getSortedPosts()).slice(0, 3)
+---
+
+<BaseLayout
+  title="404: Page not found"
+  description="The page you requested could not be found on aivan.io."
+>
+  <section class="not-found-shell" aria-labelledby="not-found-title">
+    <div class="not-found-inner">
+      <div class="not-found-copy">
+        <p class="eyebrow">404</p>
+        <h1 id="not-found-title">Page not found</h1>
+        <p class="lede">
+          That URL does not map to anything here. The archive is still intact,
+          and the front page is usually the fastest way back.
+        </p>
+        <div class="actions" aria-label="Recovery links">
+          <a class="primary-action" href="/">Home</a>
+          <a class="secondary-action" href="/rss.xml">RSS</a>
+        </div>
+      </div>
+
+      <div class="route-mark" aria-hidden="true">
+        <svg viewBox="0 0 420 260" role="img">
+          <path class="track track-blue" d="M42 184 C112 82 174 75 238 132 S330 201 378 82" />
+          <path class="track track-orange" d="M54 64 C106 125 161 160 230 142 S329 86 374 176" />
+          <circle class="node node-a" cx="42" cy="184" r="10" />
+          <circle class="node node-b" cx="238" cy="132" r="10" />
+          <circle class="node node-c" cx="378" cy="82" r="10" />
+          <circle class="node node-d" cx="54" cy="64" r="8" />
+          <circle class="node node-e" cx="374" cy="176" r="8" />
+          <text x="132" y="188">404</text>
+        </svg>
+      </div>
+    </div>
+
+    <nav class="recent-posts" aria-label="Recent posts">
+      <h2>Recent posts</h2>
+      <div class="post-links">
+        {
+          posts.map(post => (
+            <a href={getPostPath(post)}>
+              <span>{post.data.title}</span>
+              <time datetime={post.data.date.toISOString()}>
+                {formatPostDate(post.data.date)}
+              </time>
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found-shell {
+    background: #ffffff;
+    padding: 56px 20px 72px;
+  }
+
+  .not-found-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+    max-width: 980px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .not-found-copy {
+    max-width: 620px;
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: #ff8e01;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  h1 {
+    margin: 0;
+    color: #006cb7;
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.05;
+  }
+
+  .lede {
+    max-width: 560px;
+    margin: 18px 0 0;
+    color: #1a202c;
+    font-size: 19px;
+    line-height: 1.65;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .actions a {
+    display: inline-flex;
+    min-width: 124px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .primary-action {
+    background: #8ac73d;
+    color: #ffffff;
+  }
+
+  .secondary-action {
+    border: 2px solid #006cb7;
+    color: #006cb7;
+  }
+
+  .route-mark {
+    width: min(100%, 420px);
+    justify-self: center;
+  }
+
+  .route-mark svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .track {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 16;
+  }
+
+  .track-blue {
+    stroke: rgba(0, 108, 183, 0.24);
+  }
+
+  .track-orange {
+    stroke: rgba(255, 142, 1, 0.32);
+  }
+
+  .node {
+    fill: #ffffff;
+    stroke-width: 8;
+  }
+
+  .node-a,
+  .node-b,
+  .node-c {
+    stroke: #006cb7;
+  }
+
+  .node-d,
+  .node-e {
+    stroke: #ff8e01;
+  }
+
+  .route-mark text {
+    fill: #006cb7;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    font-size: 76px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  .recent-posts {
+    max-width: 980px;
+    margin: 44px auto 0;
+  }
+
+  .recent-posts h2 {
+    margin: 0 0 14px;
+    color: #1a202c;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .post-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .post-links a {
+    display: grid;
+    gap: 7px;
+    border-left: 4px solid #006cb7;
+    border-radius: 4px;
+    background: #f7fbfe;
+    padding: 16px 18px;
+    color: #1a202c;
+    text-decoration: none;
+  }
+
+  .post-links span {
+    color: #006cb7;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .post-links time {
+    color: #4a5568;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  @media (min-width: 760px) {
+    .not-found-shell {
+      padding-top: 78px;
+      padding-bottom: 88px;
+    }
+
+    .not-found-inner {
+      grid-template-columns: minmax(0, 1fr) 420px;
+      gap: 46px;
+    }
+
+    h1 {
+      font-size: 68px;
+    }
+
+    .post-links {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

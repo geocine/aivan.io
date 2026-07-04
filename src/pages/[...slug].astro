@@ -1,0 +1,236 @@
+---
+import { render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import BlogContainer from '../components/BlogContainer.astro'
+import Image from '../components/Image.jsx'
+import Title from '../components/Title.jsx'
+import mdxComponents from '../components/mdx/index.jsx'
+import {
+  formatPostDate,
+  getAuthor,
+  getPostCover,
+  getPostPath,
+  getPostSlug,
+  getSortedPosts,
+  type BlogPost,
+} from '../lib/posts'
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts()
+
+  return posts.map((post, index) => ({
+    params: { slug: getPostSlug(post) },
+    props: {
+      post,
+      previous: index === posts.length - 1 ? null : posts[index + 1],
+      next: index === 0 ? null : posts[index - 1],
+    },
+  }))
+}
+
+type Props = {
+  post: BlogPost
+  previous: BlogPost | null
+  next: BlogPost | null
+}
+
+const { post, previous, next } = Astro.props
+const { Content } = await render(post)
+const author = getAuthor(post.data.author)
+const cover = getPostCover(post)
+---
+
+<BaseLayout title={post.data.title} description={post.data.meta_description} image={cover}>
+  <article>
+    <header class="post-header">
+      <Title link="/" date={formatPostDate(post.data.date)} author={author}>
+        {post.data.title}
+      </Title>
+      <Image
+        aspectRatio={2.93}
+        src={cover}
+        sizes={[370, 530, 690, 850]}
+        className="cover-image"
+        alt={post.data.title}
+      />
+    </header>
+    <BlogContainer>
+      <div class="post-body">
+        <Content components={mdxComponents} />
+      </div>
+      <footer class="post-footer">
+        <ul>
+          <li>
+            {
+              previous && (
+                <a href={getPostPath(previous)} rel="prev">
+                  <span aria-hidden="true">&larr;</span> Previous
+                </a>
+              )
+            }
+          </li>
+          <li>
+            {
+              next && (
+                <a href={getPostPath(next)} rel="next">
+                  Next <span aria-hidden="true">&rarr;</span>
+                </a>
+              )
+            }
+          </li>
+        </ul>
+      </footer>
+    </BlogContainer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    overflow: hidden;
+    max-width: calc(100% + 40px);
+    margin-top: -40px;
+    margin-bottom: 40px;
+    padding: 40px 20px 0;
+    background: #006cb7;
+  }
+
+  .post-header :global(h1 a) {
+    color: #fff !important;
+  }
+
+  .post-header :global(h1) {
+    max-width: 850px;
+    margin: 0 auto 20px;
+  }
+
+  .post-header :global(.author) {
+    color: #fff;
+  }
+
+  .cover-image {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: unset !important;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    border: 0;
+    border-color: transparent;
+  }
+
+  .cover-image::before {
+    content: '';
+    position: absolute;
+    left: -100vw;
+    right: -100vw;
+    bottom: 0;
+    height: 50%;
+    background-color: #fff;
+  }
+
+  .cover-image :global(img) {
+    position: relative;
+    border-radius: 4px;
+    border-color: transparent;
+  }
+
+  .post-body :global(p > code) {
+    background-color: #d1ebfd;
+    line-height: inherit;
+    padding: 5px 7px 0;
+    white-space: pre-wrap;
+    border-bottom: 2px solid #006cb7;
+    font-style: normal;
+    border-radius: 4px;
+    color: #1a202c;
+    font-size: 15px;
+  }
+
+  .post-body :global(code) {
+    color: rgb(217, 239, 255);
+  }
+
+  .post-body :global(a > code) {
+    color: #ffffff;
+  }
+
+  .post-body :global(li > code) {
+    color: #1a202c;
+  }
+
+  .post-body :global(img) {
+    display: block;
+    max-width: 100%;
+  }
+
+  .post-body :global(pre) {
+    background-color: #2d3033 !important;
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .post-body :global(pre code) {
+    display: grid;
+    counter-reset: code-line;
+    font-size: 0;
+    line-height: 0;
+  }
+
+  .post-body :global(pre .line) {
+    display: block;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .post-body :global(pre .line::before) {
+    counter-increment: code-line;
+    content: counter(code-line);
+    display: inline-block;
+    width: 2em;
+    user-select: none;
+    opacity: 0.3;
+  }
+
+  @media (min-width: 768px) {
+    .post-body :global(pre) {
+      border-radius: 4px;
+    }
+  }
+
+  .post-body :global(pre::-webkit-scrollbar) {
+    width: 100%;
+    height: 5px;
+    border-radius: 0 0 5px 5px;
+  }
+
+  .post-body :global(pre::-webkit-scrollbar-track) {
+    background: #061526;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .post-body :global(pre::-webkit-scrollbar-thumb) {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  .post-body :global(.highlight-line) {
+    background-color: rgba(85, 66, 42, 0.61);
+    margin: 0 -10px;
+    padding: 0 5px;
+    border-left: 5px solid #ff8e01;
+  }
+
+  .post-footer {
+    margin: 25px 0;
+  }
+
+  .post-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+  }
+</style>

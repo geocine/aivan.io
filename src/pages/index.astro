@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Card from '../components/Card.jsx'
+import Container from '../components/Container.astro'
+import {
+  formatPostDate,
+  getPostCover,
+  getPostPath,
+  getSortedPosts,
+} from '../lib/posts'
+
+const posts = await getSortedPosts()
+---
+
+<BaseLayout title="Aivan Monceller" index keywords={['aivan monceller', 'programming']} image="cover.jpg">
+  <Container>
+    {
+      posts.map(post => (
+        <Card
+          key={post.id}
+          link={getPostPath(post)}
+          date={formatPostDate(post.data.date)}
+          title={post.data.title}
+          cover={getPostCover(post)}
+          excerpt={post.data.meta_description}
+          category={post.data.category}
+          author={post.data.author}
+          mb={10}
+        />
+      ))
+    }
+  </Container>
+</BaseLayout>
