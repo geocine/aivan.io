@@ -107,17 +107,18 @@ const cover = getPostCover(post)
     color: #fff;
   }
 
-  .cover-image {
+  :global(.cover-image) {
     position: relative;
     max-width: 600px;
     margin: 0 auto;
     overflow: unset !important;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
     border: 0;
     border-color: transparent;
   }
 
-  .cover-image::before {
+  :global(.cover-image)::before {
     content: '';
     position: absolute;
     left: -100vw;
@@ -127,7 +128,7 @@ const cover = getPostCover(post)
     background-color: #fff;
   }
 
-  .cover-image :global(img) {
+  :global(.cover-image img) {
     position: relative;
     border-radius: 4px;
     border-color: transparent;

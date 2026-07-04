@@ -2,4 +2,5 @@ node_modules/
 .cache/
 dist/
 .astro/
+tmp/
 src/gatsby-types.d.ts
