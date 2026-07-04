@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aivan Blog Cover Illustrations"
+  short_description: "Generate matching hand-drawn blog covers"
+  default_prompt: "Use $aivan-blog-cover-illustrations to generate a matching hand-drawn cover image for this blog post."
