@@ -10,6 +10,7 @@ Use refined hand-drawn technical illustrations: ink outlines, watercolor fills, 
 - Keep the main subject centered and readable at index-card size.
 - Use one continuous scene or diagrammatic flow across the banner.
 - Leave white breathing room around the edges.
+- Add subtle depth: the upper half should carry a soft blue-gray shadow/texture wash, with faint corner falloff like the older aivan.io covers.
 - Avoid visible text inside the illustration because generated text degrades quickly.
 
 ## Palette
@@ -18,6 +19,7 @@ Use refined hand-drawn technical illustrations: ink outlines, watercolor fills, 
 - Main accent: Aivan blue watercolor wash.
 - Secondary accents: small orange connectors, badges, or key objects.
 - Tertiary accents: restrained green flow lines or success states.
+- Texture: very light cool shadow on the upper half plus faint paper grain; do not darken the full image.
 - Avoid dark full-bleed backgrounds, purple gradients, beige themes, and heavy one-color palettes.
 
 ## Subject Mapping

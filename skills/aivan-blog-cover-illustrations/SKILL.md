@@ -10,10 +10,11 @@ description: Generate consistent hand-drawn illustrative cover images for aivan.
 1. Read the full target blog post before prompting for an image. Extract the actual subject, audience, tools, workflow, pain points, and outcome.
 2. Read [references/style-guide.md](references/style-guide.md) before generating or judging cover art.
 3. Generate a wide hand-drawn illustration that communicates the post topic without literal brand-heavy UI screenshots.
-4. Reject generic covers. The image must include 3-5 visual cues that only make sense for that post.
-5. Save the selected cover as `public/assets/covers/<post-slug>.webp`.
-6. Update the post frontmatter `cover` to `/assets/covers/<post-slug>.webp`.
-7. Verify locally that the image renders on the index card and the post page.
+4. Include subtle upper-half shadow/texture so the cover has depth when it sits across the blue header and white body boundary.
+5. Reject generic covers. The image must include 3-5 visual cues that only make sense for that post.
+6. Save the selected cover as `public/assets/covers/<post-slug>.webp`.
+7. Update the post frontmatter `cover` to `/assets/covers/<post-slug>.webp`.
+8. Verify locally that the image renders on the index card and the post page.
 
 ## Prompt Shape
 
@@ -22,6 +23,7 @@ Build prompts from the post summary, not only the title:
 ```text
 Create a wide blog cover illustration for an engineering article about <specific post topic>.
 Style: refined hand-drawn ink and watercolor illustration, clean white background, blue watercolor washes with small orange and green accents, crisp sketch lines, friendly but professional technical blog aesthetic.
+Texture: subtle blue-gray shadow over roughly the upper half of the banner, faint edge/corner falloff, and light paper grain; keep the illustration bright and readable.
 Composition: 1700:580 wide banner, centered readable scene, enough white margin, no text labels, no logos, no photorealism.
 Include visual cues: <cue 1>, <cue 2>, <cue 3>, <cue 4>.
 Avoid: cringe mascot art, stock illustration look, fake UI text, clutter, gradients, dark backgrounds, oversized logos, random abstract shapes unrelated to the article.
@@ -37,6 +39,13 @@ Use the current cover set as the style target:
 ## Image Processing
 
 Use a high-resolution source when possible. Crop or resize to exactly `1700x580` for consistent card and post rendering. Prefer WebP around quality 88-92.
+
+After resizing, add a subtle texture pass if the generated image is too flat:
+
+- A blue-gray shadow wash over the upper 45-55% of the canvas, fading toward the center.
+- Very soft side/corner falloff near the upper left and upper right edges.
+- Faint paper grain in the shadowed half only.
+- No heavy vignette, dark full overlay, or loss of the hand-drawn linework.
 
 If using Pillow:
 
