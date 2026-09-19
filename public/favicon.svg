@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    rect { fill: #edeee6; }
+    text { fill: #2e5c2b; }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: #121212; }
+      text { fill: #55c768; }
+    }
+  </style>
+  <rect width="64" height="64"/>
+  <text x="32" y="45" font-family="ui-monospace, 'Cascadia Mono', Consolas, Menlo, monospace" font-size="52" font-weight="700" text-anchor="middle">a</text>
+</svg>

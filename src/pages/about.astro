@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const experience = [
+  {
+    dates: '2020.07 — present',
+    role: 'software engineer',
+    meta: 'full-time · singapore',
+    org: 'Razer Inc.',
+    points: [
+      'Design cross-platform solutions for flagship gaming peripheral software, integrating low-level device protocols with high-level user interfaces.',
+      'Spearheaded third-party integration initiatives, managing both technical implementation and stakeholder relationships.',
+      'Established development workflows and mentored team members in best practices for cross-platform development.',
+    ],
+  },
+  {
+    dates: '2019.09 — 2020.07',
+    role: 'software engineer',
+    meta: 'full-time · singapore',
+    org: 'Janio Asia',
+    points: [
+      'Initiated and led the design of the internal B2B Platform architecture, resulting in improved operational efficiency across multiple countries.',
+      'Drove on-site research initiatives to identify operational bottlenecks and design practical solutions for warehouse management.',
+    ],
+  },
+  {
+    dates: '2018.12 — 2019.09',
+    role: 'software engineer',
+    meta: 'contract · singapore',
+    org: 'DBS Bank',
+    points: [
+      'Built interactive dashboards reducing data science experiment configuration time by 40%.',
+      'Developed reusable visualization components for complex datasets.',
+    ],
+  },
+  {
+    dates: '2017.05 — 2018.11',
+    role: 'software engineer',
+    meta: 'contract · singapore',
+    org: 'Standard Chartered Bank',
+    points: [
+      'Core contributor to a UI component library adopted by 3+ internal development teams.',
+      'Implemented migration strategies and conducted framework adoption workshops.',
+    ],
+  },
+  {
+    dates: '2016.06 — 2017.05',
+    role: 'software engineer',
+    meta: 'contract · singapore',
+    org: 'Singapore Institute of Manufacturing Technology',
+    points: [
+      'Architected a multi-tenant framework reducing development time by 60%.',
+      'Established technical training programs for 3+ development teams.',
+    ],
+  },
+  {
+    dates: '2011.05 — 2016.05',
+    role: 'software engineer',
+    meta: 'freelance · philippines',
+    org: 'Freelance',
+    points: [
+      'Delivered custom web and mobile solutions across retail, education, and service sectors.',
+      'Implemented scalable architectures handling varied client requirements.',
+    ],
+  },
+  {
+    dates: '2012.09 — 2015.10',
+    role: 'software engineer',
+    meta: 'full-time · philippines',
+    org: 'SHORE Solutions Inc.',
+    points: [
+      'Engineered e-commerce solutions for Australian fashion retailers with multilingual support.',
+      'Developed native mobile applications integrating with e-commerce platforms.',
+    ],
+  },
+  {
+    dates: '2010.05 — 2011.04',
+    role: 'software engineer',
+    meta: 'full-time · philippines',
+    org: 'Optimum Source Inc.',
+    points: [
+      'Built an educational platform enabling course management, enrollment, and scheduling.',
+      'Enhanced search functionality and platform performance through technical upgrades.',
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title="About — aivan.io"
+  description="Aivan Monceller: frontend engineer and open source contributor, working in Singapore."
+  keywords={['aivan monceller', 'about']}
+>
+  <aside class="railpin">
+    <div class="railpin-box">
+      <span class="term">about</span>
+      <span class="rl">aivan monceller</span>
+      <span class="rl">singapore ⇄ philippines</span>
+      <span class="slab railpin-sec" id="railpin-sec">&nbsp;</span>
+    </div>
+  </aside>
+
+  <div class="row rowt">
+    <div class="gl hd hdm">
+      <h1 class="term">about</h1>
+      <span class="rl">aivan monceller</span>
+      <span class="rl">singapore ⇄ philippines</span>
+    </div>
+    <div class="gr hd">
+      <p class="def">
+        Sixteen years building scalable software across consumer electronics,
+        logistics, e-commerce, and fintech, from the ground up, in startups and
+        established companies alike, mentoring the people who have to live with
+        the results. Lately I have been bringing AI-assisted workflows to my
+        team at Razer, where I serve as one of the AI champions driving adoption
+        company-wide.
+      </p>
+      <p class="sum">
+        Frontend engineer and open source contributor. I publish as{' '}
+        <a href="https://github.com/geocine" rel="noopener noreferrer">geocine</a>.
+        The work here is JavaScript, TypeScript, C#, Go, and Python, spanning
+        frontend applications, web APIs, system utilities, and development tools.
+      </p>
+      <p class="sum">
+        <a href="https://www.linkedin.com/in/aivan/" rel="noopener noreferrer">linkedin</a>
+        {' · '}
+        <a href="https://x.com/aivandroid" rel="noopener noreferrer">x</a>
+        {' · '}
+        <a href="https://github.com/geocine" rel="noopener noreferrer">github</a>
+        {' · '}
+        <a href="https://dev.to/geocine" rel="noopener noreferrer">dev.to</a>
+        {' · '}
+        <a href="/">posts</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row rowt">
+    <div class="gl sp"><h2 class="slab">open source</h2></div>
+    <div class="gr sp"></div>
+  </div>
+
+  <div class="row">
+    <div class="gl ent">
+      <span class="rl">featured</span>
+      <span class="rl">typescript</span>
+    </div>
+    <div class="gr ent">
+      <h3 class="h2s">
+        <a href="https://geocine.github.io/custom-elements-ts/" rel="noopener noreferrer">
+          custom-elements-ts
+        </a>
+      </h3>
+      <p class="sum">
+        A TypeScript library with no dependencies for authoring native Web
+        Components with decorators and a tiny html / render() runtime. Drop them
+        into React, Vue, Svelte, or plain HTML.
+      </p>
+    </div>
+  </div>
+
+  <div class="row rowt">
+    <div class="gl sp"><h2 class="slab">experience</h2></div>
+    <div class="gr sp">
+      <span class="all">{experience.length} roles, newest first</span>
+    </div>
+  </div>
+
+  {
+    experience.map(job => (
+      <div class="row">
+        <div class="gl ent">
+          <span class="rlr">{job.dates}</span>
+          <span class="rl">{job.role}</span>
+          <span class="rl">{job.meta}</span>
+        </div>
+        <div class="gr ent">
+          <h3 class="h2s">{job.org}</h3>
+          <ul class="bl">
+            {job.points.map(point => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    ))
+  }
+
+  <div class="row rowt">
+    <div class="gl sp"><h2 class="slab">education</h2></div>
+    <div class="gr sp"></div>
+  </div>
+
+  <div class="row">
+    <div class="gl ent">
+      <span class="rlr">2006 — 2010</span>
+      <span class="rl">computer science</span>
+    </div>
+    <div class="gr ent">
+      <h3 class="h2s">Far Eastern University</h3>
+      <p class="sum">Bachelor of Science, Computer Science. Graduated with honors.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  /* the pinned rail carries a live "you are here": when a section slab
+     scrolls under the paper-backed identity box, its name docks below the
+     identity — same replacement behaviour as the post pages' section mark */
+  const dock = document.getElementById('railpin-sec')
+  const box = dock?.closest('.railpin-box')
+  const slabs = [...document.querySelectorAll('.g .gl.sp .slab')] as HTMLElement[]
+  if (dock && box && slabs.length > 0) {
+    let ticking = false
+    const update = () => {
+      ticking = false
+      /* the dock line always occupies space (nbsp when empty), so the box
+         height — and with it this threshold — never depends on the dock's
+         own content; a growing box would otherwise stale the check */
+      const limit = box.getBoundingClientRect().bottom
+      let current = ''
+      for (const slab of slabs) {
+        if (slab.getBoundingClientRect().top < limit) current = slab.textContent ?? ''
+      }
+      dock.textContent = current === '' ? '\u00A0' : current
+    }
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true
+          requestAnimationFrame(update)
+        }
+      },
+      { passive: true }
+    )
+    update()
+  }
+</script>

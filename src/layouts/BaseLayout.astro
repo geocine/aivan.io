@@ -28,6 +28,7 @@ const metaImage = /^https?:\/\//.test(image)
 const path = Astro.url.pathname
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
+  { href: '/about/', label: 'about', current: path.startsWith('/about') },
   { href: '/rss.xml', label: 'rss', current: false },
 ]
 ---
@@ -49,7 +50,9 @@ const navItems = [
     <meta name="twitter:image" content={metaImage} />
     <meta name="twitter:description" content={description} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/icon-512.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="aivan.io RSS Feed" href="/rss.xml" />
     <script is:inline>
@@ -171,7 +174,7 @@ const navItems = [
     <footer class="foot">
       <div class="wrap">
         <div class="footbar">
-          2026 Aivan Monceller{' · '}<a href="/rss.xml">rss</a>{' · '}<a
+          2026 Aivan Monceller{' · '}<a href="/about/">about</a>{' · '}<a href="/rss.xml">rss</a>{' · '}<a
             href="https://github.com/geocine"
             rel="noopener noreferrer">github</a>
         </div>

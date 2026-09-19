@@ -351,6 +351,55 @@ main {
     display: none;
   }
 }
+/* about rail: same steadiness as the post pages, but this rail column is
+   full of scrolling content (slabs, dates), so the pinned identity rides in
+   a toc-style overlay column instead of a grid cell. The paper-backed box
+   sits exactly over the (hidden) .hdm copy at load, and rail content slides
+   away beneath it. The current section slab docks under the identity,
+   replaced as the reader scrolls past sections. */
+.railpin {
+  display: none;
+}
+@media (min-width: 721px) {
+  .railpin {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1.25rem;
+    width: var(--rail);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .railpin-box {
+    position: sticky;
+    /* the identity block's natural offset at load — pinned from the first
+       scrolled pixel, no visible movement */
+    top: 4.5rem;
+    pointer-events: auto;
+    background: var(--paper);
+    text-align: right;
+    padding: 0 1.5rem 0.9rem 0;
+    font: 400 0.76rem/1.8 var(--mono);
+    color: var(--dim);
+    letter-spacing: 0.02em;
+  }
+  /* paper cap above the box: passing rail content would otherwise re-emerge
+     in the strip between the header and the pinned block — this keeps it
+     hidden until it has fully left the viewport */
+  .railpin-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 4.5rem;
+    background: var(--paper);
+  }
+  .railpin-sec {
+    margin-top: 0.9rem;
+  }
+}
 .rl {
   display: block;
 }
@@ -412,6 +461,13 @@ main {
 .h2s {
   margin: 0 0 0.4rem;
   font: 700 1.05rem/1.4 var(--sans);
+}
+.h2s a {
+  color: var(--ink);
+}
+.h2s a:hover {
+  color: var(--red);
+  text-decoration: none;
 }
 .crumb {
   font: 400 0.74rem/1.8 var(--mono);
@@ -773,7 +829,9 @@ code {
     left: calc(1.25rem + var(--rail) + 64ch + 1.8rem + 2.4rem);
     right: calc(100% - 1.25rem - var(--rail) - 88ch - 1.8rem);
   }
-  #page-content:has(.toc) .gr {
+  /* every post narrows to 64ch, not just posts with a contents rail, so
+     body width reads the same across articles (.poststick marks post pages) */
+  #page-content:has(.poststick) .gr {
     max-width: calc(64ch + 1.8rem);
   }
 }
