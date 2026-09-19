@@ -515,11 +515,27 @@ code {
   color: var(--red);
 }
 
-/* code blocks: lifted tint, red left edge, copy action */
+/* code blocks: the One Half pair. Light pages keep the lifted paper tint
+   with One Light tokens; dark pages get the palette's own slate ground with
+   One Half Dark tokens. The panel chrome follows via these locals. */
 .code {
+  --cbg: var(--lift);
+  --cink: var(--ink);
+  --cdim: var(--dim);
+  --caccent: #50a14f;
+  --chl: var(--paper);
   margin: 0.95rem 0;
-  background: var(--lift);
-  border-left: 1px solid var(--red);
+  background: var(--cbg);
+  border-left: 1px solid var(--caccent);
+}
+:root[data-theme="dark"] .code {
+  /* the slate's depth, pulled toward the moss ground: a dark green shade
+     rather than One Dark's blue-grey, so the panel belongs to the page */
+  --cbg: #252c23;
+  --cink: #dcdfe4;
+  --cdim: #8d9784;
+  --caccent: #98c379;
+  --chl: #303a2d;
 }
 .codetop {
   display: flex;
@@ -532,7 +548,7 @@ code {
   font: 700 0.66rem/1.5 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--caccent);
 }
 .ccap {
   font: 400 0.74rem/1.5 var(--mono);
@@ -547,7 +563,7 @@ code {
   font: 400 0.82rem/1.6 var(--mono);
   background: none;
   padding: 0;
-  color: var(--ink);
+  color: var(--cink);
   white-space: pre;
   display: block;
 }
@@ -556,12 +572,12 @@ code {
   min-height: 1.6em;
 }
 .code .cline.hl {
-  background: var(--paper);
-  box-shadow: -0.9rem 0 0 var(--paper), 0.9rem 0 0 var(--paper);
+  background: var(--chl);
+  box-shadow: -0.9rem 0 0 var(--chl), 0.9rem 0 0 var(--chl);
 }
-/* syntax tokens: shiki bakes both everforest colours into each span as
-   custom properties; the active theme picks one. Where a variable is absent
-   the declaration is invalid and the span inherits the plain ink. */
+/* syntax tokens: shiki bakes both One Half colours into each span as custom
+   properties; the active theme picks one. Where a variable is absent the
+   declaration is invalid and the span inherits the panel ink. */
 .code .cline span {
   color: var(--shiki-light);
   font-style: var(--shiki-light-font-style);
@@ -573,6 +589,18 @@ code {
   font-style: var(--shiki-dark-font-style);
   font-weight: var(--shiki-dark-font-weight);
   text-decoration: var(--shiki-dark-text-decoration);
+}
+/* the copy action follows the panel, whatever the page theme */
+.code .act {
+  color: var(--cink);
+}
+.code .act:hover,
+.code .act[data-copied],
+.code .is-copied {
+  color: var(--caccent);
+}
+.code .ccap {
+  color: var(--cdim);
 }
 
 /* actions */

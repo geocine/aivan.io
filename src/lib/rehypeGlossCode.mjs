@@ -13,30 +13,31 @@
  *   <pre tabindex="0"><code><span class="cline">tokens…</span>…</code></pre>
  * </div>
  *
- * Tokens are painted by shiki with the everforest pair — a forest-green
- * palette on both sides, matching the site's forest/moss themes. Each token
- * carries both colours as CSS variables (--shiki-light / --shiki-dark);
- * global.css picks one per data-theme, so toggling recolours code instantly
- * without re-rendering. Unknown languages fall back to plain ink.
+ * Tokens are painted by shiki with the One Half pair: one-light on the paper
+ * lift for the light theme, one-dark-pro on a dark slate panel for the dark
+ * theme. Each token carries both colours as CSS variables (--shiki-light /
+ * --shiki-dark); global.css picks one per data-theme, so toggling recolours
+ * code instantly. Unknown languages fall back to the panel's plain ink.
  * A `{2,5-7}` meta on the fence marks those lines with the .hl class.
  */
 import { codeToHast } from 'shiki'
 
-const SHIKI_THEMES = { light: 'everforest-light', dark: 'everforest-dark' }
+const SHIKI_THEMES = { light: 'one-light', dark: 'one-dark-pro' }
 
-/* everforest-light is set for its own pale paper and reads washed-out on the
-   gloss lift tint — same hues, pulled darker until they hold ~4.5:1 there.
-   The dark side is left untouched; it is already crisp on the moss ground. */
+/* one-light, muted for the paper: every hue is pulled toward grey — chrome
+   tones that settle into the lift tint instead of popping off it — and the
+   pale comments are darkened enough to stay readable */
 const LIGHT_CONTRAST = {
-  '#5c6a72': '#3f4a44', // foreground, punctuation
-  '#939f91': '#6d7869', // comments
-  '#8da101': '#5e6e00', // strings, greens
-  '#dfa000': '#96700a', // yellows
-  '#f57d26': '#c25500', // keywords, oranges
-  '#3a94c5': '#2b7099', // blues
-  '#35a77c': '#25795a', // aquas
-  '#f85552': '#c93a37', // reds
-  '#df69ba': '#ab4188', // purples
+  '#a0a1a7': '#75767e', // comments
+  '#a1a1a1': '#75767e', // comments (alternate grey)
+  '#e45649': '#8f5f57', // reds → muted rust
+  '#ca1243': '#8f515c', // deep red → muted wine
+  '#50a14f': '#5b7659', // greens → sage
+  '#4078f2': '#5a7189', // blues → steel
+  '#a626a4': '#7a5a7d', // purples → mauve
+  '#986801': '#82704a', // numbers → dull brass
+  '#c18401': '#8a7442', // entities → dull brass
+  '#0184bc': '#4d7484', // cyans → grey teal
 }
 
 const el = (tagName, properties, children) => ({
@@ -67,7 +68,7 @@ async function tokenizeLines(raw, lang) {
       lang,
       themes: SHIKI_THEMES,
       defaultColor: false,
-      colorReplacements: { 'everforest-light': LIGHT_CONTRAST },
+      colorReplacements: { 'one-light': LIGHT_CONTRAST },
     })
     const pre = hast.children.find(n => n.type === 'element' && n.tagName === 'pre')
     const code = pre.children.find(n => n.type === 'element' && n.tagName === 'code')
