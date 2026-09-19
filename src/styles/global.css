@@ -559,6 +559,21 @@ code {
   background: var(--paper);
   box-shadow: -0.9rem 0 0 var(--paper), 0.9rem 0 0 var(--paper);
 }
+/* syntax tokens: shiki bakes both everforest colours into each span as
+   custom properties; the active theme picks one. Where a variable is absent
+   the declaration is invalid and the span inherits the plain ink. */
+.code .cline span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+:root[data-theme="dark"] .code .cline span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
 
 /* actions */
 .act {

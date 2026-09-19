@@ -10,8 +10,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [react(), mdx(), sitemap()],
   markdown: {
-    // the gloss code block is set plain — one ink colour, no token painting —
-    // and rehypeGlossCode wraps every fence in the template's chrome
+    // built-in highlighting is off: rehypeGlossCode wraps every fence in the
+    // gloss chrome and paints tokens itself (shiki, everforest light/dark)
     syntaxHighlight: false,
     processor: unified({ rehypePlugins: [rehypeGlossCode] }),
   },
