@@ -37,6 +37,19 @@ export function formatPostDate(date: Date) {
   return postDateFormatter.format(date)
 }
 
+/* the rail speaks mono: 2026.07.04, not "July 04, 2026" */
+export function formatRailDate(date: Date) {
+  const y = date.getUTCFullYear()
+  const m = String(date.getUTCMonth() + 1).padStart(2, '0')
+  const d = String(date.getUTCDate()).padStart(2, '0')
+  return `${y}.${m}.${d}`
+}
+
+export function getReadingTime(post: BlogPost) {
+  const words = (post.body ?? '').split(/\s+/).filter(Boolean).length
+  return `${Math.max(1, Math.round(words / 220))} min`
+}
+
 export async function getSortedPosts() {
   const posts = await getCollection('blog', ({ data }) => data.published !== false)
 

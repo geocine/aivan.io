@@ -1,6 +1,4 @@
 ---
-import Header from '../components/Header.jsx'
-import Footer from '../components/Footer.jsx'
 import '../styles/global.css'
 import { site } from '../site'
 
@@ -26,6 +24,13 @@ const metaImage = /^https?:\/\//.test(image)
   : image.startsWith('/assets/')
     ? `${site.siteUrl}${image}`
     : `${site.imageHost}/${image}`
+
+const path = Astro.url.pathname
+const navItems = [
+  { href: '/', label: 'posts', current: path === '/' },
+  { href: '/search/', label: 'search', current: path.startsWith('/search') },
+  { href: '/rss.xml', label: 'rss', current: false },
+]
 ---
 
 <!doctype html>
@@ -48,6 +53,50 @@ const metaImage = /^https?:\/\//.test(image)
     <link rel="icon" href="/favicon.ico" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="aivan.io RSS Feed" href="/rss.xml" />
+    <script is:inline>
+      /* theme init — runs before first paint so an OS-dark visitor never sees
+         a light flash. Saved choice wins; otherwise follow the OS. */
+      ;(function () {
+        var t = null
+        try {
+          t = localStorage.getItem('aivan:theme')
+        } catch (e) {
+          /* private mode */
+        }
+        if (t !== 'dark' && t !== 'light') {
+          t =
+            window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+        }
+        document.documentElement.setAttribute('data-theme', t)
+      })()
+    </script>
+    <script is:inline>
+      /* route entry — runs before first paint. Only a navigation the reader
+         initiated gets movement: a link click on this site leaves a marker,
+         and back/forward, reload and cold visits stay instant. */
+      ;(function () {
+        var t = 0
+        try {
+          t = +sessionStorage.getItem('aivan:nav') || 0
+          sessionStorage.removeItem('aivan:nav')
+        } catch (e) {
+          return
+        }
+        if (!t || Date.now() - t > 4000) return
+        var nav =
+          performance.getEntriesByType && performance.getEntriesByType('navigation')[0]
+        if (nav && nav.type !== 'navigate') return
+        document.documentElement.setAttribute('data-enter', 'set')
+        /* failsafe: never leave the page invisible if the play step is lost */
+        setTimeout(function () {
+          if (document.documentElement.getAttribute('data-enter') === 'set') {
+            document.documentElement.setAttribute('data-enter', 'play')
+          }
+        }, 700)
+      })()
+    </script>
     <script is:inline>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -80,12 +129,262 @@ const metaImage = /^https?:\/\//.test(image)
     </script>
   </head>
   <body>
-    <div class="site-layout">
-      <Header />
-      <main>
-        <slot />
-      </main>
-      <Footer />
-    </div>
+    <a class="skip" href="#main" id="skip">Skip to content</a>
+    <header class="top">
+      <div class="wrap">
+        <div class="topbar">
+          <a class="wm" href="/">aivan.io</a>
+        <nav class="nav" aria-label="Primary">
+          {
+            navItems.map(item => (
+              <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        <form class="seek" action="/search/" method="get" role="search" aria-label="Search posts">
+          <label class="vh" for="search-input">Search posts</label>
+          <input
+            id="search-input"
+            name="q"
+            type="search"
+            autocomplete="off"
+            placeholder="search — press /"
+          />
+        </form>
+          <button class="mode" id="mode-toggle" type="button" aria-label="Switch theme" data-craft-press="scale">
+            theme
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <div class="wrap" id="page-content">
+        <div class="g">
+          <slot />
+        </div>
+      </div>
+      <div class="wrap" id="search-live" hidden>
+        <div class="g" id="search-results-live"></div>
+      </div>
+    </main>
+    <footer class="foot">
+      <div class="wrap">
+        <div class="footbar">
+          2026 Aivan Monceller{' · '}<a href="/rss.xml">rss</a>{' · '}<a
+            href="https://github.com/geocine"
+            rel="noopener noreferrer">github</a>
+        </div>
+      </div>
+    </footer>
+    <div id="announcer" class="vh" role="status" aria-live="polite"></div>
+    <script>
+      import '../scripts/search'
+    </script>
+    <script is:inline>
+      ;(function () {
+        var announcer = document.getElementById('announcer')
+        function announce(m) {
+          if (announcer) announcer.textContent = m
+        }
+
+        /* ---- copy actions: both label states are baked into the markup and
+           share one grid cell, so confirming never reflows the row ---- */
+        var timers = new WeakMap()
+        function confirmCopy(btn, msg) {
+          btn.setAttribute('data-copied', '1')
+          announce(msg)
+          var prev = timers.get(btn)
+          if (prev) clearTimeout(prev)
+          timers.set(
+            btn,
+            setTimeout(function () {
+              btn.removeAttribute('data-copied')
+            }, 1600)
+          )
+        }
+        function fallbackCopy(text, btn, msg) {
+          var ta = document.createElement('textarea')
+          ta.value = text
+          ta.setAttribute('readonly', '')
+          ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0'
+          document.body.appendChild(ta)
+          ta.focus()
+          ta.select()
+          try {
+            document.execCommand('copy')
+          } catch (e) {
+            /* nothing left to try */
+          }
+          document.body.removeChild(ta)
+          confirmCopy(btn, msg)
+        }
+        function copyText(text, btn, msg) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(
+              function () {
+                confirmCopy(btn, msg)
+              },
+              function () {
+                fallbackCopy(text, btn, msg)
+              }
+            )
+          } else fallbackCopy(text, btn, msg)
+        }
+
+        document.addEventListener('click', function (e) {
+          var link = e.target.closest('[data-link]')
+          if (link) {
+            copyText(location.origin + link.getAttribute('data-link'), link, 'Link copied to clipboard.')
+            return
+          }
+          var codeBtn = e.target.closest('[data-code]')
+          if (codeBtn) {
+            var pre = codeBtn.closest('.code')
+            var el = pre && pre.querySelector('pre code')
+            if (el) copyText(el.textContent, codeBtn, 'Code copied to clipboard.')
+            return
+          }
+          var txt = e.target.closest('[data-copy-text]')
+          if (txt) {
+            copyText(txt.getAttribute('data-copy-text'), txt, 'Copied to clipboard.')
+          }
+        })
+
+        /* ---- route entry: mark reader intent, then play the rise the head
+           script prepared. Set both states in one task and the transition
+           would be skipped, hence the two animation frames. ---- */
+        document.addEventListener(
+          'click',
+          function (e) {
+            var a = e.target.closest && e.target.closest('a[href]')
+            if (!a || a.origin !== location.origin) return
+            try {
+              sessionStorage.setItem('aivan:nav', String(Date.now()))
+            } catch (err) {
+              /* private mode */
+            }
+          },
+          true
+        )
+        if (document.documentElement.getAttribute('data-enter') === 'set') {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              document.documentElement.setAttribute('data-enter', 'play')
+              setTimeout(function () {
+                document.documentElement.removeAttribute('data-enter')
+              }, 450)
+            })
+          })
+        }
+
+        /* ---- "/" focuses search from anywhere ---- */
+        var seekInput = document.getElementById('search-input')
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/i.test(document.activeElement.tagName)) {
+            e.preventDefault()
+            if (seekInput) {
+              seekInput.focus()
+              seekInput.select()
+            }
+          }
+        })
+
+        /* ---- skip link ---- */
+        var skipLink = document.getElementById('skip')
+        var main = document.getElementById('main')
+        if (skipLink && main) {
+          skipLink.addEventListener('click', function (e) {
+            e.preventDefault()
+            main.focus()
+            main.scrollIntoView()
+          })
+        }
+
+        /* ---- theme toggle: the head script chose the starting theme; this
+           button overrides it and remembers the choice ---- */
+        var modeBtn = document.getElementById('mode-toggle')
+        function remember(v) {
+          try {
+            localStorage.setItem('aivan:theme', v)
+          } catch (e) {
+            /* private mode */
+          }
+        }
+        function syncModeBtn() {
+          var dark = document.documentElement.getAttribute('data-theme') === 'dark'
+          if (modeBtn) {
+            modeBtn.textContent = dark ? 'light' : 'dark'
+            modeBtn.setAttribute('aria-label', 'Switch to ' + (dark ? 'light' : 'dark') + ' theme')
+          }
+        }
+        if (modeBtn) {
+          modeBtn.addEventListener('click', function () {
+            var next =
+              document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+            document.documentElement.setAttribute('data-notrans', '')
+            document.documentElement.setAttribute('data-theme', next)
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                document.documentElement.removeAttribute('data-notrans')
+              })
+            })
+            remember(next)
+            syncModeBtn()
+            announce((next === 'dark' ? 'Dark' : 'Light') + ' theme on.')
+          })
+          syncModeBtn()
+        }
+        /* follow live OS changes only while the visitor has not chosen */
+        if (window.matchMedia) {
+          matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (ev) {
+            var saved = null
+            try {
+              saved = localStorage.getItem('aivan:theme')
+            } catch (e) {
+              /* private mode */
+            }
+            if (saved) return
+            document.documentElement.setAttribute('data-theme', ev.matches ? 'dark' : 'light')
+            syncModeBtn()
+          })
+        }
+
+        /* ---- auto-hide top bar while reading (small screens; CSS scopes the
+           effect). Down-scroll tucks it away, the first upward nudge brings it
+           back, and it always returns at the top of the page or when focus
+           lands inside it ---- */
+        var topBar = document.querySelector('.top')
+        var lastY = 0
+        var downRun = 0
+        var tuckTick = false
+        function tuckOnScroll() {
+          var y = Math.max(0, window.scrollY)
+          var d = y - lastY
+          downRun = d > 0 ? downRun + d : 0
+          if (d < 0 || y <= 16) topBar.classList.remove('tuck')
+          else if (downRun > 24 && y > 48) topBar.classList.add('tuck')
+          lastY = y
+        }
+        if (topBar) {
+          window.addEventListener(
+            'scroll',
+            function () {
+              if (tuckTick) return
+              tuckTick = true
+              requestAnimationFrame(function () {
+                tuckTick = false
+                tuckOnScroll()
+              })
+            },
+            { passive: true }
+          )
+          topBar.addEventListener('focusin', function () {
+            topBar.classList.remove('tuck')
+          })
+        }
+      })()
+    </script>
   </body>
 </html>

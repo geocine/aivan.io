@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+/* The search itself is realtime and site-wide: src/scripts/search.ts fetches
+   /search.json, builds a FlexSearch index, and renders results live as the
+   visitor types in the header field. This page is the landing shell — and
+   /search/?q=term deep-links straight into rendered results. */
+---
+
+<BaseLayout title="Search — aivan.io" description="Search posts on aivan.io.">
+  <div class="row rowt">
+    <div class="gl hd"><h1 class="term">search</h1></div>
+    <div class="gr hd">
+      <p class="def">
+        Type a term in the field above — press <code>/</code> from anywhere.
+        Results appear as you type; the index covers the full body text of
+        every post.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

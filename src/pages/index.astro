@@ -1,11 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import Card from '../components/Card.jsx'
-import Container from '../components/Container.astro'
+import { site } from '../site'
 import {
-  formatPostDate,
-  getPostCover,
+  formatRailDate,
   getPostPath,
+  getReadingTime,
   getSortedPosts,
 } from '../lib/posts'
 
@@ -13,21 +12,43 @@ const posts = await getSortedPosts()
 ---
 
 <BaseLayout title="Aivan Monceller" index keywords={['aivan monceller', 'programming']} image="cover.jpg">
-  <Container>
-    {
-      posts.map(post => (
-        <Card
-          key={post.id}
-          link={getPostPath(post)}
-          date={formatPostDate(post.data.date)}
-          title={post.data.title}
-          cover={getPostCover(post)}
-          excerpt={post.data.meta_description}
-          category={post.data.category}
-          author={post.data.author}
-          mb={10}
-        />
-      ))
-    }
-  </Container>
+  <div class="row rowt">
+    <div class="gl hd">
+      <h1 class="term">aivan.io</h1>
+      <span class="rl">{site.shortDescription.toLowerCase()}</span>
+    </div>
+    <div class="gr hd">
+      <p class="def">{site.description}</p>
+      <p class="sum">
+        <a href="https://github.com/geocine" rel="noopener noreferrer">github</a>{' · '}
+        <a href="/rss.xml">rss</a>{' · '}search with <code>/</code>
+      </p>
+    </div>
+  </div>
+
+  <div class="row rowt">
+    <div class="gl sp"><h2 class="slab">posts</h2></div>
+    <div class="gr sp">
+      <span class="all">{posts.length} entries, newest first</span>
+    </div>
+  </div>
+
+  {
+    posts.map(post => (
+      <div class="row">
+        <div class="gl ent">
+          <span class="rl">{formatRailDate(post.data.date)}</span>
+          <span class="rl">
+            {post.data.category} · {getReadingTime(post)}
+          </span>
+        </div>
+        <div class="gr ent">
+          <p class="etitle">
+            <a href={getPostPath(post)}>{post.data.title}</a>
+          </p>
+          <p class="sum">{post.data.meta_description}</p>
+        </div>
+      </div>
+    ))
+  }
 </BaseLayout>
