@@ -29,7 +29,6 @@ const path = Astro.url.pathname
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
   { href: '/about/', label: 'about', current: path.startsWith('/about') },
-  { href: '/rss.xml', label: 'rss', current: false },
 ]
 ---
 
