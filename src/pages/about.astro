@@ -84,17 +84,51 @@ const experience = [
     ],
   },
 ]
+
+const aboutToc = [
+  { slug: 'open-source', text: 'open source', num: '01' },
+  { slug: 'experience', text: 'experience', num: '02' },
+  { slug: 'education', text: 'education', num: '03' },
+]
 ---
 
 <BaseLayout
-  title="About — aivan.io"
+  title="Hire Me — aivan.io"
   description="Aivan Monceller: frontend engineer and open source contributor, working in Singapore."
-  keywords={['aivan monceller', 'about']}
+  keywords={['aivan monceller', 'hire me']}
 >
+  <aside class="toc">
+    <div class="tocbox">
+      <gloss-toc
+        data-min-h="2"
+        data-max-h="2"
+        data-observe="#page-content .about-section"
+      >
+        <nav aria-labelledby="toc-title">
+          <h2 id="toc-title" class="toctitle">contents</h2>
+          <div class="toc-list">
+            {
+              aboutToc.map(item => (
+                <a
+                  class="toc-link"
+                  href={'#' + item.slug}
+                  data-depth="2"
+                  style="padding-inline-start: 20px;"
+                >
+                  <span class="tocnum">{item.num}</span>
+                  <span>{item.text}</span>
+                </a>
+              ))
+            }
+          </div>
+        </nav>
+      </gloss-toc>
+    </div>
+  </aside>
+
   <aside class="railpin">
     <div class="railpin-box">
-      <span class="term">about</span>
-      <span class="rl">aivan monceller</span>
+      <span class="term">Aivan Monceller</span>
       <span class="rl">singapore ⇄ philippines</span>
       <span class="slab railpin-sec" id="railpin-sec">&nbsp;</span>
     </div>
@@ -102,11 +136,10 @@ const experience = [
 
   <div class="row rowt">
     <div class="gl hd hdm">
-      <h1 class="term">about</h1>
-      <span class="rl">aivan monceller</span>
+      <h1 class="term">Aivan Monceller</h1>
       <span class="rl">singapore ⇄ philippines</span>
     </div>
-    <div class="gr hd">
+    <div class="gr hd about-body">
       <p class="def">
         Sixteen years building scalable software across consumer electronics,
         logistics, e-commerce, and fintech, from the ground up, in startups and
@@ -136,8 +169,10 @@ const experience = [
   </div>
 
   <div class="row rowt">
-    <div class="gl sp"><h2 class="slab">open source</h2></div>
-    <div class="gr sp"></div>
+    <div class="gl sp">
+      <h2 id="open-source" class="slab about-section">open source</h2>
+    </div>
+    <div class="gr sp about-body"></div>
   </div>
 
   <div class="row">
@@ -145,7 +180,7 @@ const experience = [
       <span class="rl">featured</span>
       <span class="rl">typescript</span>
     </div>
-    <div class="gr ent">
+    <div class="gr ent about-body">
       <h3 class="h2s">
         <a href="https://geocine.github.io/custom-elements-ts/" rel="noopener noreferrer">
           custom-elements-ts
@@ -160,8 +195,10 @@ const experience = [
   </div>
 
   <div class="row rowt">
-    <div class="gl sp"><h2 class="slab">experience</h2></div>
-    <div class="gr sp">
+    <div class="gl sp">
+      <h2 id="experience" class="slab about-section">experience</h2>
+    </div>
+    <div class="gr sp about-body">
       <span class="all">{experience.length} roles, newest first</span>
     </div>
   </div>
@@ -174,7 +211,7 @@ const experience = [
           <span class="rl">{job.role}</span>
           <span class="rl">{job.meta}</span>
         </div>
-        <div class="gr ent">
+        <div class="gr ent about-body">
           <h3 class="h2s">{job.org}</h3>
           <ul class="bl">
             {job.points.map(point => (
@@ -187,8 +224,10 @@ const experience = [
   }
 
   <div class="row rowt">
-    <div class="gl sp"><h2 class="slab">education</h2></div>
-    <div class="gr sp"></div>
+    <div class="gl sp">
+      <h2 id="education" class="slab about-section">education</h2>
+    </div>
+    <div class="gr sp about-body"></div>
   </div>
 
   <div class="row">
@@ -196,7 +235,7 @@ const experience = [
       <span class="rlr">2006 — 2010</span>
       <span class="rl">computer science</span>
     </div>
-    <div class="gr ent">
+    <div class="gr ent about-body">
       <h3 class="h2s">Far Eastern University</h3>
       <p class="sum">Bachelor of Science, Computer Science. Graduated with honors.</p>
     </div>
@@ -204,6 +243,8 @@ const experience = [
 </BaseLayout>
 
 <script>
+  import '../scripts/toc'
+
   /* the pinned rail carries a live "you are here": when a section slab
      scrolls under the paper-backed identity box, its name docks below the
      identity — same replacement behaviour as the post pages' section mark */

@@ -14,13 +14,13 @@ const posts = await getSortedPosts()
 <BaseLayout title="Aivan Monceller" index keywords={['aivan monceller', 'programming']} image="cover.jpg">
   <div class="row rowt">
     <div class="gl hd">
-      <h1 class="term">aivan.io</h1>
+      <h1 class="term">Aivan Monceller</h1>
       <span class="rl">{site.shortDescription.toLowerCase()}</span>
     </div>
-    <div class="gr hd">
+    <div class="gr hd home-body">
       <p class="def">{site.description}</p>
       <p class="sum">
-        <a href="/about/">about</a>{' · '}
+        <a href="/about/">hire me</a>{' · '}
         <a href="https://github.com/geocine" rel="noopener noreferrer">github</a>{' · '}
         <a href="/rss.xml">rss</a>{' · '}search with <code>/</code>
       </p>
@@ -29,7 +29,7 @@ const posts = await getSortedPosts()
 
   <div class="row rowt">
     <div class="gl sp"><h2 class="slab">posts</h2></div>
-    <div class="gr sp">
+    <div class="gr sp home-body">
       <span class="all">{posts.length} entries, newest first</span>
     </div>
   </div>
@@ -43,7 +43,7 @@ const posts = await getSortedPosts()
             {post.data.category} · {getReadingTime(post)}
           </span>
         </div>
-        <div class="gr ent">
+        <div class="gr ent home-body">
           <p class="etitle">
             <a href={getPostPath(post)}>{post.data.title}</a>
           </p>

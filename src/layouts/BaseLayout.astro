@@ -28,7 +28,7 @@ const metaImage = /^https?:\/\//.test(image)
 const path = Astro.url.pathname
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
-  { href: '/about/', label: 'about', current: path.startsWith('/about') },
+  { href: '/about/', label: 'hire me', current: path.startsWith('/about') },
 ]
 ---
 
@@ -110,13 +110,12 @@ const navItems = [
         navigator.doNotTrack === '1' ||
         window.doNotTrack === '1' ||
         navigator.msDoNotTrack === '1'
+      const localHost =
+        location.hostname === 'localhost' ||
+        location.hostname === '127.0.0.1' ||
+        location.hostname === '[::1]'
 
-      if (!dnt) {
-        const gtagScript = document.createElement('script')
-        gtagScript.async = true
-        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2S179EH3RR'
-        document.head.appendChild(gtagScript)
-
+      if (!dnt && !localHost) {
         window.dataLayer = window.dataLayer || []
         function gtag() {
           dataLayer.push(arguments)
@@ -126,6 +125,25 @@ const navItems = [
           anonymize_ip: true,
           cookie_expires: 0,
         })
+
+        function loadAnalytics() {
+          const gtagScript = document.createElement('script')
+          gtagScript.async = true
+          gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2S179EH3RR'
+          document.head.appendChild(gtagScript)
+        }
+
+        window.addEventListener(
+          'load',
+          function () {
+            if ('requestIdleCallback' in window) {
+              window.requestIdleCallback(loadAnalytics, { timeout: 3000 })
+            } else {
+              setTimeout(loadAnalytics, 0)
+            }
+          },
+          { once: true }
+        )
       }
     </script>
   </head>
@@ -134,7 +152,6 @@ const navItems = [
     <header class="top">
       <div class="wrap">
         <div class="topbar">
-          <a class="wm" href="/">aivan.io</a>
         <nav class="nav" aria-label="Primary">
           {
             navItems.map(item => (
@@ -173,7 +190,7 @@ const navItems = [
     <footer class="foot">
       <div class="wrap">
         <div class="footbar">
-          2026 Aivan Monceller{' · '}<a href="/about/">about</a>{' · '}<a href="/rss.xml">rss</a>{' · '}<a
+          2026 Aivan Monceller{' · '}<a href="/about/">hire me</a>{' · '}<a href="/rss.xml">rss</a>{' · '}<a
             href="https://github.com/geocine"
             rel="noopener noreferrer">github</a>
         </div>

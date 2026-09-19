@@ -61,7 +61,7 @@ html {
   /* reading size: 1rem = 19.2px, so body text lands at the size a 1.2rem
      would have had — and every rem-set style scales with it, instead of
      patching sizes one by one */
-  font-size: 120%;
+  font-size: 110%;
 }
 body {
   margin: 0;
@@ -150,17 +150,14 @@ button {
 }
 
 /* ---------- sticky one-line header ---------- */
-/* the header is a full-bleed tonal band. In dark mode it matches the page
-   so body and header read as one surface. Its contents are inset past the
-   rail so the wordmark lands on the same text line the body copy starts on
+/* the header matches the page so it reads as one continuous surface.
+   Its contents are inset past the rail so the navigation lands on the same
+   text line the body copy starts on
    (the extra 1px matches the body column's hairline before its padding). */
 .top {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--lift);
-}
-:root[data-theme="dark"] .top {
   background: var(--paper);
 }
 .topbar {
@@ -215,7 +212,7 @@ button {
 }
 .seek input {
   font: 400 0.78rem/1 var(--mono);
-  background: var(--paper);
+  background: var(--lift);
   border: 0;
   color: var(--ink);
   padding: 0.5rem 0.65rem;
@@ -226,7 +223,7 @@ button {
 }
 .mode {
   font: 400 0.78rem/1 var(--mono);
-  background: var(--paper);
+  background: var(--lift);
   border: 0;
   color: var(--dim);
   padding: 0.5rem 0.65rem;
@@ -270,6 +267,10 @@ main {
   padding: 0 0 0.3rem 1.8rem;
   max-width: calc(88ch + 1.8rem);
   overflow-wrap: break-word;
+}
+.gr.home-body,
+.gr.about-body {
+  max-width: calc(64ch + 1.8rem);
 }
 .gr > :first-child {
   margin-top: 0;
@@ -438,6 +439,18 @@ main {
 }
 .sum a {
   color: var(--red);
+}
+.sum a,
+.prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+.search-highlight {
+  color: var(--red);
+  background: transparent;
+  font-style: normal;
+  font-weight: 600;
 }
 .etitle {
   margin: 0;
@@ -807,7 +820,7 @@ code {
   color: var(--red);
 }
 
-/* ---------- table of contents (post pages, wide screens) ---------- */
+/* ---------- table of contents (long-form pages, wide screens) ---------- */
 /* the contents rail hangs in the free margin right of the definition column,
    sticky under the header. A thin rail runs beside the links; the accent
    track clips to the active reading range and a small thumb rides the rail. */
@@ -817,20 +830,34 @@ code {
 .toc {
   display: none;
 }
-@media (min-width: 1480px) {
+@media (min-width: 1024px) {
   .toc {
     display: block;
     position: absolute;
     top: 0;
     bottom: 0;
-    /* the contents rail lives inside the page's right boundary: the body
-       column narrows to 64ch and the toc takes the freed space, its right
-       edge on the same line the header and the full-width column end on */
-    left: calc(1.25rem + var(--rail) + 64ch + 1.8rem + 2.4rem);
-    right: calc(100% - 1.25rem - var(--rail) - 88ch - 1.8rem);
+    /* Reserve a real TOC rail instead of squeezing it into whatever sliver
+       remains beside the reading column. */
+    width: 10rem;
+    min-width: 10rem;
+    right: 1.25rem;
   }
-  /* every post narrows to 64ch, not just posts with a contents rail, so
-     body width reads the same across articles (.poststick marks post pages) */
+  .gr.about-body,
+  #page-content:has(.poststick) .gr {
+    max-width: min(
+      calc(64ch + 1.8rem),
+      calc(100vw - 2.5rem - var(--rail) - 1.4rem - 10rem)
+    );
+  }
+}
+@media (min-width: 1160px) {
+  .toc {
+    /* Once the full 88ch page measure fits, restore the roomier gap and
+       keep the TOC at its minimum readable width. */
+    left: calc(1.25rem + var(--rail) + 64ch + 1.8rem + 2.4rem);
+    right: auto;
+  }
+  .gr.about-body,
   #page-content:has(.poststick) .gr {
     max-width: calc(64ch + 1.8rem);
   }
@@ -929,7 +956,8 @@ code {
 }
 /* anchor jumps land clear of the sticky header */
 .prose h2,
-.prose h3 {
+.prose h3,
+.about-section {
   scroll-margin-top: 4.2rem;
 }
 

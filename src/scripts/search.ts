@@ -6,7 +6,7 @@
  * it was.
  */
 
-import { Index } from 'flexsearch'
+import type { Index as SearchIndex } from 'flexsearch'
 
 type SearchDoc = {
   title: string
@@ -20,7 +20,7 @@ type SearchDoc = {
 }
 
 let searchData: SearchDoc[] = []
-let searchIndex: Index | null = null
+let searchIndex: SearchIndex | null = null
 let searchDataLoaded = false
 let searchDataPromise: Promise<void> | null = null
 
@@ -28,7 +28,10 @@ async function loadSearchData() {
   if (searchDataLoaded) return
 
   try {
-    const response = await fetch('/search.json')
+    const [{ Index }, response] = await Promise.all([
+      import('flexsearch'),
+      fetch('/search.json'),
+    ])
     if (!response.ok) {
       console.error('Failed to load search data')
       return
@@ -81,7 +84,31 @@ function esc(s: unknown) {
   })
 }
 
-function resultRow(doc: SearchDoc) {
+function highlightText(value: unknown, query: string) {
+  const text = String(value == null ? '' : value)
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)
+    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+
+  if (!terms.length) return esc(text)
+
+  const splitPattern = new RegExp(`(${terms.join('|')})`, 'gi')
+  const matchPattern = new RegExp(`^(?:${terms.join('|')})$`, 'i')
+
+  return text
+    .split(splitPattern)
+    .map(part =>
+      matchPattern.test(part)
+        ? '<mark class="search-highlight">' + esc(part) + '</mark>'
+        : esc(part)
+    )
+    .join('')
+}
+
+function resultRow(doc: SearchDoc, query: string) {
   return (
     '<div class="row"><div class="gl ent"><span class="rl">' +
     esc(doc.date) +
@@ -92,9 +119,9 @@ function resultRow(doc: SearchDoc) {
     '</span></div><div class="gr ent"><p class="etitle"><a href="' +
     esc(doc.url) +
     '">' +
-    esc(doc.title) +
+    highlightText(doc.title, query) +
     '</a></p><p class="sum">' +
-    esc(doc.summary) +
+    highlightText(doc.summary, query) +
     '</p></div></div>'
   )
 }
@@ -108,7 +135,7 @@ function renderResults(query: string, docs: SearchDoc[]) {
     esc(query) +
     '\u201d across all posts.</p></div></div>'
   if (docs.length) {
-    h += docs.map(resultRow).join('')
+    h += docs.map(doc => resultRow(doc, query)).join('')
   } else {
     h +=
       '<div class="row rowt"><div class="gl sp"><h2 class="slab">no matches</h2></div>' +

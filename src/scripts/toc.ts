@@ -22,7 +22,6 @@ class GlossToc extends HTMLElement {
   private thumb: HTMLDivElement | null = null
   private computed: {
     positions: Array<[number, number, number]>
-    itemLineLengths: Array<[number, number]>
   } | null = null
   private links: HTMLAnchorElement[] = []
   private previousActive: { startIdx: number; endIdx: number; isUp: boolean } | null = null
@@ -72,6 +71,11 @@ class GlossToc extends HTMLElement {
       return getElementHeading(origin.parentElement)
     }
 
+    const activate = (link: HTMLAnchorElement) => {
+      this.current = link
+      this.syncActiveRange(link)
+    }
+
     const setCurrent: IntersectionObserverCallback = entries => {
       for (const { isIntersecting, target } of entries) {
         if (!isIntersecting) continue
@@ -81,16 +85,16 @@ class GlossToc extends HTMLElement {
           item => item.hash === '#' + encodeURIComponent(heading.id)
         )
         if (link) {
-          this.current = link
-          this.syncActiveRange(link)
+          activate(link)
           break
         }
       }
     }
 
-    const toObserve = document.querySelectorAll(
+    const observeSelector =
+      this.dataset.observe ||
       '#page-content .prose [id], #page-content .prose [id] ~ *, #page-content .prose > *'
-    )
+    const toObserve = document.querySelectorAll(observeSelector)
 
     let observer: IntersectionObserver | undefined
     const observe = () => {
@@ -119,8 +123,29 @@ class GlossToc extends HTMLElement {
       }).observe(top, { attributes: true, attributeFilter: ['class'] })
     }
 
-    if (this.links[0] && !this._current) this.current = this.links[0]
-    if (this._current) this.syncActiveRange(this._current)
+    this.links.forEach(link => {
+      link.addEventListener('click', () => activate(link))
+    })
+
+    const syncHash = () => {
+      const link = this.links.find(item => item.hash === location.hash)
+      if (!link) return false
+      activate(link)
+      return true
+    }
+    window.addEventListener('hashchange', syncHash)
+    window.addEventListener(
+      'scroll',
+      () => {
+        const last = this.links[this.links.length - 1]
+        const atBottom =
+          window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+        if (last && atBottom && this._current !== last) activate(last)
+      },
+      { passive: true }
+    )
+
+    if (!syncHash() && this.links[0] && !this._current) activate(this.links[0])
   }
 
   private mountTrack() {
@@ -191,23 +216,7 @@ class GlossToc extends HTMLElement {
       positions.push([top, bottom, x])
     }
 
-    const temporaryPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    temporaryPath.setAttribute('d', path)
-    this.trackSvg.appendChild(temporaryPath)
-    const totalLength = temporaryPath.getTotalLength()
-    const itemLineLengths: Array<[number, number]> = []
-    for (let index = 0; index < positions.length; index++) {
-      const [top, bottom] = positions[index]
-      let start =
-        index > 0 ? itemLineLengths[index - 1][1] + (top - positions[index - 1][1]) : top
-      while (start < totalLength && temporaryPath.getPointAtLength(start).y < top) {
-        start++
-      }
-      itemLineLengths.push([start, start + bottom - top])
-    }
-    temporaryPath.remove()
-
-    this.computed = { positions, itemLineLengths }
+    this.computed = { positions }
     this.track.style.width = `${width}px`
     this.track.style.height = `${height}px`
     this.railSvg.setAttribute('viewBox', `0 0 ${width} ${height}`)
@@ -280,7 +289,7 @@ class GlossToc extends HTMLElement {
 
   private updateTrackWindow(start: number, end: number) {
     if (!this.track || !this.computed || !this.thumb) return
-    const { positions, itemLineLengths } = this.computed
+    const { positions } = this.computed
     if (!positions[start] || !positions[end]) return
 
     let isUp = false
