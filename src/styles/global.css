@@ -36,12 +36,12 @@
    the header toggle can override the OS; the head script sets the attribute
    before first paint (saved choice first, OS preference as the default). */
 :root[data-theme="dark"] {
-  --paper: #171b16;
+  --paper: #121212;
   --ink: #e4eadf;
   --red: #55c768;
   --dim: #99a392;
-  --lift: #1f241d;
-  --line: #2f362c;
+  --lift: #1d1e1d;
+  --line: #2a2a2a;
   color-scheme: dark;
 }
 
@@ -150,15 +150,18 @@ button {
 }
 
 /* ---------- sticky one-line header ---------- */
-/* the header is a full-bleed tonal band — the same lifted tint the code
-   blocks sit on. Its contents are inset past the rail so the wordmark lands
-   on the same text line the body copy starts on (the extra 1px matches the
-   body column's hairline before its padding). */
+/* the header is a full-bleed tonal band. In dark mode it matches the page
+   so body and header read as one surface. Its contents are inset past the
+   rail so the wordmark lands on the same text line the body copy starts on
+   (the extra 1px matches the body column's hairline before its padding). */
 .top {
   position: sticky;
   top: 0;
   z-index: 30;
   background: var(--lift);
+}
+:root[data-theme="dark"] .top {
+  background: var(--paper);
 }
 .topbar {
   display: flex;
@@ -312,6 +315,41 @@ main {
   display: block;
   font: 700 0.8rem/1.8 var(--mono);
   color: var(--red);
+}
+/* post rail: the meta block starts beside the title (its usual spot) and
+   rides along while the article scrolls; the section mark docks under it —
+   a fixed "you are here" in the margin. The cell spans the title + article
+   rows so the sticky can travel the whole read. The duplicate meta in the
+   title row (.hdm) serves the mobile layout, where the rail collapses
+   inline and this sticky copy is hidden. */
+.gl.railcell {
+  grid-row: 2 / 4;
+}
+/* the "post" label holds its line the way the toc's "contents" does: its
+   cell spans down the article (sharing the rail column with the meta cell,
+   which is why both carry explicit grid rows) and the label pins at its
+   natural offset, so it never visibly moves */
+.gl.cb {
+  grid-row: 1 / 4;
+}
+.poststick {
+  position: sticky;
+  top: 4.5rem;
+}
+.railstick {
+  position: sticky;
+  /* equal to the block's natural offset at load (crumb row + spacing), so
+     it pins in place from the first scrolled pixel and never visibly moves
+     — same steadiness as the toc box on the right */
+  top: 6.167rem;
+}
+.railstick .mark {
+  margin-top: 0.9rem;
+}
+@media (min-width: 721px) {
+  .gl.hdm {
+    display: none;
+  }
 }
 .rl {
   display: block;
@@ -529,13 +567,11 @@ code {
   border-left: 1px solid var(--caccent);
 }
 :root[data-theme="dark"] .code {
-  /* the slate's depth, pulled toward the moss ground: a dark green shade
-     rather than One Dark's blue-grey, so the panel belongs to the page */
-  --cbg: #252c23;
+  --cbg: #1d1e1d;
   --cink: #dcdfe4;
   --cdim: #8d9784;
   --caccent: #98c379;
-  --chl: #303a2d;
+  --chl: #2a2b2a;
 }
 .codetop {
   display: flex;
@@ -697,11 +733,10 @@ code {
   background: var(--lift);
 }
 
-/* footer: a full-bleed band matching the header — its text sits on the same
-   boundary line as the body copy */
+/* footer: one dim mono line on the page itself — no band — with its text on
+   the same boundary line as the body copy */
 .foot {
   margin-top: 1rem;
-  background: var(--lift);
   font: 400 0.74rem/1.8 var(--mono);
   color: var(--dim);
   letter-spacing: 0.03em;
@@ -714,6 +749,130 @@ code {
 }
 .foot a:hover {
   color: var(--red);
+}
+
+/* ---------- table of contents (post pages, wide screens) ---------- */
+/* the contents rail hangs in the free margin right of the definition column,
+   sticky under the header. A thin rail runs beside the links; the accent
+   track clips to the active reading range and a small thumb rides the rail. */
+#page-content {
+  position: relative;
+}
+.toc {
+  display: none;
+}
+@media (min-width: 1480px) {
+  .toc {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* the contents rail lives inside the page's right boundary: the body
+       column narrows to 64ch and the toc takes the freed space, its right
+       edge on the same line the header and the full-width column end on */
+    left: calc(1.25rem + var(--rail) + 64ch + 1.8rem + 2.4rem);
+    right: calc(100% - 1.25rem - var(--rail) - 88ch - 1.8rem);
+  }
+  #page-content:has(.toc) .gr {
+    max-width: calc(64ch + 1.8rem);
+  }
+}
+.tocbox {
+  position: sticky;
+  top: 4.4rem;
+}
+.toctitle {
+  margin: 0 0 0.55rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  font: 700 0.66rem/1.5 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.toc-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.toc-link {
+  position: relative;
+  display: block;
+  padding-block: 0.3rem;
+  font: 400 0.72rem/1.55 var(--mono);
+  color: var(--dim);
+  overflow-wrap: anywhere;
+  transition: color var(--dur-hover) var(--ease-cross);
+}
+.toc-link:hover {
+  color: var(--ink);
+}
+.toc-link[aria-current="true"],
+.toc-link[data-active="true"] {
+  color: var(--ink);
+}
+.tocnum {
+  color: var(--red);
+  margin-right: 0.45em;
+}
+.toc .toc-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.toc .toc-rail-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  overflow: visible;
+}
+.toc .toc-track-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: visible;
+  transition: clip-path 0.2s;
+  clip-path: polygon(
+    0 var(--track-top, 0),
+    100% var(--track-top, 0),
+    100% var(--track-bottom, 0),
+    0 var(--track-bottom, 0)
+  );
+}
+.toc .toc-rail-path {
+  stroke: var(--line);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toc .toc-track-path {
+  stroke: var(--red);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toc .toc-thumb {
+  position: absolute;
+  top: var(--thumb-y, 0);
+  left: var(--thumb-x, 0);
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+  /* a paper halo breaks the rail on both sides of the square, so the line
+     never reads as passing through it */
+  box-shadow: 0 0 0 2px var(--paper);
+  opacity: var(--opacity, 0);
+  transition:
+    opacity 0.2s,
+    top 0.2s,
+    left 0.2s;
+}
+/* anchor jumps land clear of the sticky header */
+.prose h2,
+.prose h3 {
+  scroll-margin-top: 4.2rem;
 }
 
 /* =========================================================================
@@ -924,15 +1083,17 @@ html[data-enter="play"] #page-content .hd {
   .dtitle {
     font-size: 1.35rem;
   }
-  /* auto-hide top bar: slides away while reading down, returns on the first
-     upward nudge. transform-only so it composites, and a transition (not
-     keyframes) so a quick direction change retargets mid-slide */
-  .top {
-    transition: transform 0.24s var(--ease-out);
-  }
-  .top.tuck {
-    transform: translateY(-100%);
-  }
+}
+
+/* auto-hide top bar (all sizes): slides away while reading down, returns on
+   the first upward nudge — so headings are never stuck under the band while
+   you read. transform-only so it composites, and a transition (not
+   keyframes) so a quick direction change retargets mid-slide */
+.top {
+  transition: transform 0.24s var(--ease-out);
+}
+.top.tuck {
+  transform: translateY(-100%);
 }
 
 /* Reduced motion means fewer and gentler animations, not none: movement goes

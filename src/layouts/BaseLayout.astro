@@ -28,7 +28,6 @@ const metaImage = /^https?:\/\//.test(image)
 const path = Astro.url.pathname
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
-  { href: '/search/', label: 'search', current: path.startsWith('/search') },
   { href: '/rss.xml', label: 'rss', current: false },
 ]
 ---

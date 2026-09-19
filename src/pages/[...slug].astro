@@ -33,16 +33,54 @@ type Props = {
 }
 
 const { post, previous, next } = Astro.props
-const { Content } = await render(post)
+const { Content, headings } = await render(post)
 const author = getAuthor(post.data.author)
 const cover = getPostCover(post)
 const slug = getPostSlug(post)
 const tags = post.data.tags ?? []
+
+// contents rail: h2/h3 only, numbered to match the prose section counters
+let sectionNumber = 0
+const toc = headings
+  .filter(h => h.depth >= 2 && h.depth <= 3)
+  .map(h => ({
+    ...h,
+    num: h.depth === 2 ? String(++sectionNumber).padStart(2, '0') : null,
+  }))
 ---
 
 <BaseLayout title={post.data.title} description={post.data.meta_description} image={cover}>
+  {
+    toc.length > 1 && (
+      <aside class="toc">
+        <div class="tocbox">
+          <gloss-toc data-min-h="2" data-max-h="3">
+            <nav aria-labelledby="toc-title">
+              <h2 id="toc-title" class="toctitle">contents</h2>
+              <div class="toc-list">
+                {toc.map(item => (
+                  <a
+                    class="toc-link"
+                    href={'#' + item.slug}
+                    data-depth={item.depth}
+                    style={`padding-inline-start: ${20 + Math.max(0, item.depth - 2) * 12}px;`}
+                  >
+                    {item.num && <span class="tocnum">{item.num}</span>}
+                    <span>{item.text}</span>
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </gloss-toc>
+        </div>
+      </aside>
+    )
+  }
+
   <div class="row">
-    <div class="gl cb"><span class="rl">post</span></div>
+    <div class="gl cb">
+      <div class="poststick"><span class="rl">post</span></div>
+    </div>
     <div class="gr cb">
       <nav class="crumb" aria-label="Breadcrumb">
         <a href="/">aivan.io</a> / <span class="cur" aria-current="page">{slug}</span>
@@ -51,11 +89,20 @@ const tags = post.data.tags ?? []
   </div>
 
   <div class="row">
-    <div class="gl hd">
+    <div class="gl hd hdm">
       <span class="rlr">{formatRailDate(post.data.date)}</span>
       <span class="rl">{post.data.category} · {getReadingTime(post)}</span>
       {author && <span class="rl">{author.name}</span>}
       {tags.length > 0 && <span class="rl">{tags.join(' · ')}</span>}
+    </div>
+    <div class="gl hd mk railcell">
+      <div class="railstick">
+        <span class="rlr">{formatRailDate(post.data.date)}</span>
+        <span class="rl">{post.data.category} · {getReadingTime(post)}</span>
+        {author && <span class="rl">{author.name}</span>}
+        {tags.length > 0 && <span class="rl">{tags.join(' · ')}</span>}
+        <span class="mark railmark">¶</span>
+      </div>
     </div>
     <div class="gr hd">
       <h1 class="dtitle">{post.data.title}</h1>
@@ -70,7 +117,6 @@ const tags = post.data.tags ?? []
   </div>
 
   <div class="row">
-    <div class="gl sec mk"><span class="mark">¶</span></div>
     <div class="gr sec">
       <article class="prose">
         <Content components={mdxComponents} />
@@ -103,3 +149,7 @@ const tags = post.data.tags ?? []
     )
   }
 </BaseLayout>
+
+<script>
+  import '../scripts/toc'
+</script>
