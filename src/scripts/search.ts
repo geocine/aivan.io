@@ -154,22 +154,29 @@ function resultRow(doc: SearchDoc, query: string) {
   )
 }
 
-function renderResults(query: string, docs: SearchDoc[]) {
-  const count = docs.length + (docs.length === 1 ? ' result' : ' results')
-  let h =
-    '<div class="row rowt"><div class="gl hd"><h1 class="term">search</h1><span class="rl">' +
+function countLabel(n: number) {
+  return n + (n === 1 ? ' result' : ' results')
+}
+
+/* The header renders on every keystroke so the view answers instantly; the
+   rows stay debounced below it. While a search is pending the count reads
+   as an ellipsis. */
+function renderHead(query: string, count: string) {
+  return (
+    '<div class="row rowt"><div class="gl hd"><h1 class="term">search</h1><span class="rl" id="search-count">' +
     esc(count) +
     '</span></div><div class="gr hd"><p class="def">Results for \u201c' +
     esc(query) +
     '\u201d across all posts.</p></div></div>'
-  if (docs.length) {
-    h += docs.map(doc => resultRow(doc, query)).join('')
-  } else {
-    h +=
-      '<div class="row rowt"><div class="gl sp"><h2 class="slab">no matches</h2></div>' +
-      '<div class="gr sp"><p class="sum">Nothing matches that term. Every post is reachable from <a href="/">home</a>.</p></div></div>'
-  }
-  return { html: h, count }
+  )
+}
+
+function renderRows(query: string, docs: SearchDoc[]) {
+  if (docs.length) return docs.map(doc => resultRow(doc, query)).join('')
+  return (
+    '<div class="row rowt"><div class="gl sp"><h2 class="slab">no matches</h2></div>' +
+    '<div class="gr sp"><p class="sum">Nothing matches that term. Every post is reachable from <a href="/">home</a>.</p></div></div>'
+  )
 }
 
 export function initSearch() {
@@ -178,8 +185,9 @@ export function initSearch() {
   const page = document.getElementById('page-content')
   const live = document.getElementById('search-live')
   const results = document.getElementById('search-results-live')
+  const head = document.getElementById('search-results-head')
   const announcer = document.getElementById('announcer')
-  if (!input || !page || !live || !results) return
+  if (!input || !page || !live || !results || !head) return
 
   function announce(m: string) {
     if (announcer) announcer.textContent = m
@@ -189,12 +197,11 @@ export function initSearch() {
      scroll position comes back with the page when the query is cleared. */
   let resultsVisible = false
   let savedScroll = 0
-  let pendingEntry = false
 
   /* The craft entry rise: apply the start state, flush it, then transition
      from it — setting both states in one task would skip the transition.
-     Played when the results view first arrives and when the page returns,
-     not on every keystroke rerender. */
+     Played only when the page returns after search; results themselves
+     render instantly as you type, with no animation. */
   const entryTimers = new WeakMap<HTMLElement, number>()
   function playEntry(el: HTMLElement) {
     const prev = entryTimers.get(el)
@@ -214,7 +221,6 @@ export function initSearch() {
     page!.hidden = true
     live!.hidden = false
     resultsVisible = true
-    pendingEntry = true
     window.scrollTo(0, 0)
   }
 
@@ -223,6 +229,7 @@ export function initSearch() {
     live!.hidden = true
     live!.removeAttribute('data-enter')
     page!.hidden = false
+    head!.innerHTML = ''
     results!.innerHTML = ''
     resultsVisible = false
     window.scrollTo(0, savedScroll)
@@ -231,13 +238,17 @@ export function initSearch() {
 
   async function runSearch(query: string) {
     await ensureSearchDataLoaded()
-    const rendered = renderResults(query, performSearch(query))
-    results!.innerHTML = rendered.html
-    announce(rendered.count + ' for ' + query)
-    if (pendingEntry) {
-      pendingEntry = false
-      playEntry(live as HTMLElement)
-    }
+    const docs = performSearch(query)
+    const count = countLabel(docs.length)
+    head!.innerHTML = renderHead(query, count)
+    /* the count eases in so … → "N results" reads as a transition,
+       not a flicker — opacity only, which the reduced-motion policy keeps */
+    document.getElementById('search-count')?.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: 160,
+      easing: 'ease-out',
+    })
+    results!.innerHTML = renderRows(query, docs)
+    announce(count + ' for ' + query)
   }
 
   /* Warm the index the moment the field gets attention, so the first
@@ -260,6 +271,8 @@ export function initSearch() {
       resultsOff()
     } else {
       resultsOn()
+      /* header answers every keystroke; rows follow on debounce */
+      head!.innerHTML = renderHead(query, '…')
       // Debounce search by 200ms
       searchTimeout = setTimeout(() => {
         runSearch(query)
@@ -287,6 +300,7 @@ export function initSearch() {
     if (q) {
       input.value = q
       resultsOn()
+      head!.innerHTML = renderHead(q, '…')
       runSearch(q)
     }
   }
