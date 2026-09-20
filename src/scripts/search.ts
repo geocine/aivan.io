@@ -7,10 +7,14 @@
  */
 
 import type { Index as SearchIndex } from 'flexsearch'
+import { extractSnippet, isUsableSnippet, leadingSnippet } from '../lib/snippets'
 
 type SearchDoc = {
+  kind: 'page' | 'section'
   title: string
   url: string
+  post: string
+  postUrl: string
   category: string
   tags: string
   date: string
@@ -47,7 +51,7 @@ async function loadSearchData() {
     })
 
     searchData.forEach((item, index) => {
-      const searchableText = `${item.title} ${item.category} ${item.tags} ${item.content}`
+      const searchableText = `${item.title} ${item.post} ${item.category} ${item.tags} ${item.content}`
       searchIndex?.add(index, searchableText)
     })
 
@@ -108,6 +112,29 @@ function highlightText(value: unknown, query: string) {
     .join('')
 }
 
+/* Snippet preference: the match window first so the highlighted terms are
+   always visible, then the record summary, then the content lead. */
+function snippetFor(doc: SearchDoc, query: string) {
+  const window = extractSnippet(doc.content, query)
+  if (isUsableSnippet(window)) return highlightText(window, query)
+  if (isUsableSnippet(doc.summary)) return highlightText(doc.summary, query)
+  const lead = leadingSnippet(doc.content)
+  if (isUsableSnippet(lead)) return highlightText(lead, query)
+  return ''
+}
+
+function snippetLine(doc: SearchDoc, query: string) {
+  const snippet = snippetFor(doc, query)
+  return snippet ? '<p class="sum">' + snippet + '</p>' : ''
+}
+
+function sourceLine(doc: SearchDoc) {
+  if (doc.kind !== 'section') return ''
+  return (
+    '<p class="sum">in <a href="' + esc(doc.postUrl) + '">' + esc(doc.post) + '</a></p>'
+  )
+}
+
 function resultRow(doc: SearchDoc, query: string) {
   return (
     '<div class="row"><div class="gl ent"><span class="rl">' +
@@ -120,9 +147,10 @@ function resultRow(doc: SearchDoc, query: string) {
     esc(doc.url) +
     '">' +
     highlightText(doc.title, query) +
-    '</a></p><p class="sum">' +
-    highlightText(doc.summary, query) +
-    '</p></div></div>'
+    '</a></p>' +
+    snippetLine(doc, query) +
+    sourceLine(doc) +
+    '</div></div>'
   )
 }
 
