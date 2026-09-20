@@ -1,280 +1,68 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-
-const experience = [
-  {
-    dates: '2020.07 — present',
-    role: 'software engineer',
-    meta: 'full-time · singapore',
-    org: 'Razer Inc.',
-    points: [
-      'Design cross-platform solutions for flagship gaming peripheral software, integrating low-level device protocols with high-level user interfaces.',
-      'Spearheaded third-party integration initiatives, managing both technical implementation and stakeholder relationships.',
-      'Established development workflows and mentored team members in best practices for cross-platform development.',
-    ],
-  },
-  {
-    dates: '2019.09 — 2020.07',
-    role: 'software engineer',
-    meta: 'full-time · singapore',
-    org: 'Janio Asia',
-    points: [
-      'Initiated and led the design of the internal B2B Platform architecture, resulting in improved operational efficiency across multiple countries.',
-      'Drove on-site research initiatives to identify operational bottlenecks and design practical solutions for warehouse management.',
-    ],
-  },
-  {
-    dates: '2018.12 — 2019.09',
-    role: 'software engineer',
-    meta: 'contract · singapore',
-    org: 'DBS Bank',
-    points: [
-      'Built interactive dashboards reducing data science experiment configuration time by 40%.',
-      'Developed reusable visualization components for complex datasets.',
-    ],
-  },
-  {
-    dates: '2017.05 — 2018.11',
-    role: 'software engineer',
-    meta: 'contract · singapore',
-    org: 'Standard Chartered Bank',
-    points: [
-      'Core contributor to a UI component library adopted by 3+ internal development teams.',
-      'Implemented migration strategies and conducted framework adoption workshops.',
-    ],
-  },
-  {
-    dates: '2016.06 — 2017.05',
-    role: 'software engineer',
-    meta: 'contract · singapore',
-    org: 'Singapore Institute of Manufacturing Technology',
-    points: [
-      'Architected a multi-tenant framework reducing development time by 60%.',
-      'Established technical training programs for 3+ development teams.',
-    ],
-  },
-  {
-    dates: '2011.05 — 2016.05',
-    role: 'software engineer',
-    meta: 'freelance · philippines',
-    org: 'Freelance',
-    points: [
-      'Delivered custom web and mobile solutions across retail, education, and service sectors.',
-      'Implemented scalable architectures handling varied client requirements.',
-    ],
-  },
-  {
-    dates: '2012.09 — 2015.10',
-    role: 'software engineer',
-    meta: 'full-time · philippines',
-    org: 'SHORE Solutions Inc.',
-    points: [
-      'Engineered e-commerce solutions for Australian fashion retailers with multilingual support.',
-      'Developed native mobile applications integrating with e-commerce platforms.',
-    ],
-  },
-  {
-    dates: '2010.05 — 2011.04',
-    role: 'software engineer',
-    meta: 'full-time · philippines',
-    org: 'Optimum Source Inc.',
-    points: [
-      'Built an educational platform enabling course management, enrollment, and scheduling.',
-      'Enhanced search functionality and platform performance through technical upgrades.',
-    ],
-  },
-]
-
-const aboutToc = [
-  { slug: 'open-source', text: 'open source', num: '01' },
-  { slug: 'experience', text: 'experience', num: '02' },
-  { slug: 'education', text: 'education', num: '03' },
-]
 ---
 
 <BaseLayout
-  title="Hire Me — aivan.io"
-  description="Aivan Monceller: frontend engineer and open source contributor, working in Singapore."
-  keywords={['aivan monceller', 'hire me']}
+  title="About — aivan.io"
+  description="About Aivan Monceller: software engineer and tool builder based in Singapore."
+  keywords={['aivan monceller', 'about']}
 >
-  <aside class="toc">
-    <div class="tocbox">
-      <gloss-toc
-        data-min-h="2"
-        data-max-h="2"
-        data-observe="#page-content .about-section"
-      >
-        <nav aria-labelledby="toc-title">
-          <h2 id="toc-title" class="toctitle">contents</h2>
-          <div class="toc-list">
-            {
-              aboutToc.map(item => (
-                <a
-                  class="toc-link"
-                  href={'#' + item.slug}
-                  data-depth="2"
-                  style="padding-inline-start: 20px;"
-                >
-                  <span class="tocnum">{item.num}</span>
-                  <span>{item.text}</span>
-                </a>
-              ))
-            }
-          </div>
-        </nav>
-      </gloss-toc>
-    </div>
-  </aside>
-
-  <aside class="railpin">
-    <div class="railpin-box">
-      <span class="term">Aivan Monceller</span>
-      <span class="rl">singapore ⇄ philippines</span>
-      <span class="slab railpin-sec" id="railpin-sec">&nbsp;</span>
-    </div>
-  </aside>
-
   <div class="row rowt">
-    <div class="gl hd hdm">
+    <div class="gl hd">
       <h1 class="term">Aivan Monceller</h1>
-      <span class="rl">singapore ⇄ philippines</span>
+      <span class="rl">software builder</span>
     </div>
     <div class="gr hd about-body">
-      <p class="def">
-        Sixteen years building scalable software across consumer electronics,
-        logistics, e-commerce, and fintech, from the ground up, in startups and
-        established companies alike, mentoring the people who have to live with
-        the results. Lately I have been bringing AI-assisted workflows to my
-        team at Razer, where I serve as one of the AI champions driving adoption
-        company-wide.
-      </p>
-      <p class="sum">
-        Frontend engineer and open source contributor. I publish as{' '}
-        <a href="https://github.com/geocine" rel="noopener noreferrer">geocine</a>.
-        The work here is JavaScript, TypeScript, C#, Go, and Python, spanning
-        frontend applications, web APIs, system utilities, and development tools.
-      </p>
-      <p class="sum">
-        <a href="https://www.linkedin.com/in/aivan/" rel="noopener noreferrer">linkedin</a>
-        {' · '}
-        <a href="https://x.com/aivandroid" rel="noopener noreferrer">x</a>
-        {' · '}
-        <a href="https://github.com/geocine" rel="noopener noreferrer">github</a>
-        {' · '}
-        <a href="https://dev.to/geocine" rel="noopener noreferrer">dev.to</a>
-        {' · '}
-        <a href="/">posts</a>
-      </p>
-    </div>
-  </div>
-
-  <div class="row rowt">
-    <div class="gl sp">
-      <h2 id="open-source" class="slab about-section">open source</h2>
-    </div>
-    <div class="gr sp about-body"></div>
-  </div>
-
-  <div class="row">
-    <div class="gl ent">
-      <span class="rl">featured</span>
-      <span class="rl">typescript</span>
-    </div>
-    <div class="gr ent about-body">
-      <h3 class="h2s">
-        <a href="https://geocine.github.io/custom-elements-ts/" rel="noopener noreferrer">
-          custom-elements-ts
-        </a>
-      </h3>
-      <p class="sum">
-        A TypeScript library with no dependencies for authoring native Web
-        Components with decorators and a tiny html / render() runtime. Drop them
-        into React, Vue, Svelte, or plain HTML.
-      </p>
-    </div>
-  </div>
-
-  <div class="row rowt">
-    <div class="gl sp">
-      <h2 id="experience" class="slab about-section">experience</h2>
-    </div>
-    <div class="gr sp about-body">
-      <span class="all">{experience.length} roles, newest first</span>
-    </div>
-  </div>
-
-  {
-    experience.map(job => (
-      <div class="row">
-        <div class="gl ent">
-          <span class="rlr">{job.dates}</span>
-          <span class="rl">{job.role}</span>
-          <span class="rl">{job.meta}</span>
-        </div>
-        <div class="gr ent about-body">
-          <h3 class="h2s">{job.org}</h3>
-          <ul class="bl">
-            {job.points.map(point => (
-              <li>{point}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    ))
-  }
-
-  <div class="row rowt">
-    <div class="gl sp">
-      <h2 id="education" class="slab about-section">education</h2>
-    </div>
-    <div class="gr sp about-body"></div>
-  </div>
-
-  <div class="row">
-    <div class="gl ent">
-      <span class="rlr">2006 — 2010</span>
-      <span class="rl">computer science</span>
-    </div>
-    <div class="gr ent about-body">
-      <h3 class="h2s">Far Eastern University</h3>
-      <p class="sum">Bachelor of Science, Computer Science. Graduated with honors.</p>
+      <article class="prose">
+        <h1 class="dtitle">Hi, I’m Aivan.</h1>
+        <p>
+          I’m a software engineer, tool builder, and lifelong tinkerer based in
+          Singapore.
+        </p>
+        <p>
+          I’ve spent most of my career around interfaces and developer-facing
+          software, but I tend to wander wherever the interesting problems are.
+          That has taken me from frontend systems and device software to
+          developer tooling, infrastructure, local AI, model training, and
+          lately, a lot of thinking about how software changes when AI becomes
+          part of the development process itself.
+        </p>
+        <p>
+          These days I work as a frontend/UI engineer at Razer, building
+          software that sits between people and hardware. Outside of work, I’m
+          usually building something of my own: coding agents, developer tools,
+          AI infrastructure, terminal experiments, training pipelines, or
+          whatever idea I can’t stop thinking about that week.
+        </p>
+        <p>
+          I’m especially interested in tools that make complicated systems feel
+          simple. Not just making something technically work, but figuring out
+          the interface, abstractions, workflow, and little details that make
+          someone actually want to use it.
+        </p>
+        <p>
+          AI has changed how I work quite a bit. I write less code by hand than
+          I used to, and spend more time designing systems, directing agents,
+          reviewing decisions, building feedback loops, and figuring out where
+          human judgment still matters. After many years of programming, I find
+          that shift more interesting than threatening. It feels like learning
+          the craft again with different materials.
+        </p>
+        <p>
+          This site is where I keep track of that process.
+        </p>
+        <p>
+          I write about things I’m building, things I’m learning, experiments
+          that worked, experiments that didn’t, and ideas that are still
+          half-formed. It’s less of a portfolio and more of a public notebook
+          for the things I normally don’t get enough chances to talk about.
+        </p>
+        <p>
+          Away from building software, I’m usually playing games, messing with
+          hardware, listening to music, or going down another rabbit hole that
+          will probably turn into a project.
+        </p>
+      </article>
     </div>
   </div>
 </BaseLayout>
-
-<script>
-  import '../scripts/toc'
-
-  /* the pinned rail carries a live "you are here": when a section slab
-     scrolls under the paper-backed identity box, its name docks below the
-     identity — same replacement behaviour as the post pages' section mark */
-  const dock = document.getElementById('railpin-sec')
-  const box = dock?.closest('.railpin-box')
-  const slabs = [...document.querySelectorAll('.g .gl.sp .slab')] as HTMLElement[]
-  if (dock && box && slabs.length > 0) {
-    let ticking = false
-    const update = () => {
-      ticking = false
-      /* the dock line always occupies space (nbsp when empty), so the box
-         height — and with it this threshold — never depends on the dock's
-         own content; a growing box would otherwise stale the check */
-      const limit = box.getBoundingClientRect().bottom
-      let current = ''
-      for (const slab of slabs) {
-        if (slab.getBoundingClientRect().top < limit) current = slab.textContent ?? ''
-      }
-      dock.textContent = current === '' ? '\u00A0' : current
-    }
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!ticking) {
-          ticking = true
-          requestAnimationFrame(update)
-        }
-      },
-      { passive: true }
-    )
-    update()
-  }
-</script>

@@ -28,7 +28,7 @@ const metaImage = /^https?:\/\//.test(image)
 const path = Astro.url.pathname
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
-  { href: '/about/', label: 'hire me', current: path.startsWith('/about') },
+  { href: '/about/', label: 'about', current: path.startsWith('/about') },
 ]
 ---
 
@@ -190,9 +190,7 @@ const navItems = [
     <footer class="foot">
       <div class="wrap">
         <div class="footbar">
-          2026 Aivan Monceller{' · '}<a href="/about/">hire me</a>{' · '}<a href="/rss.xml">rss</a>{' · '}<a
-            href="https://github.com/geocine"
-            rel="noopener noreferrer">github</a>
+          2026 Aivan Monceller{' · '}<a href="/rss.xml">rss</a>
         </div>
       </div>
     </footer>
