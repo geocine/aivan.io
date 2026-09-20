@@ -1,0 +1,31 @@
+# Headers only — build settings stay in the Netlify dashboard.
+# HTML caching is handled by a Cloudflare Cache Rule (see below), because
+# Cloudflare sits in front and otherwise bypasses cache for HTML entirely
+# (cf-cache-status: DYNAMIC).
+
+# Vite/Astro hashed assets: the filename changes when the bytes change,
+# so these are safe to cache forever. Kills all asset revalidation on
+# repeat visits and makes prefetched navigations serve fully from cache.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Search index: small, fetched on demand. A short cache is fine — worst
+# case a brand-new post is unsearchable for 5 minutes.
+[[headers]]
+  for = "/search.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# Everything else (HTML, RSS, unhashed public files) keeps Netlify's
+# default revalidation. Pair with this Cloudflare Cache Rule so the edge
+# serves HTML without hitting origin on every click:
+#
+#   Cloudflare dashboard → Caching → Cache Rules → Create rule
+#   If: Hostname equals aivan.io
+#   Then: Eligible for cache,
+#         "Ignore cache-control header and use this TTL" = 1 hour
+#
+# New deploys then go live within an hour; for instant updates, purge
+# by URL in Caching → Purge Cache after deploying.

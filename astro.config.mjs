@@ -8,6 +8,12 @@ import rehypeGlossCode from './src/lib/rehypeGlossCode.mjs'
 export default defineConfig({
   site: 'https://aivan.io',
   trailingSlash: 'ignore',
+  /* post links preload when visible, so clicks serve from cache instead of
+     paying a cold origin round trip */
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   integrations: [react(), mdx(), sitemap()],
   markdown: {
     // built-in highlighting is off: rehypeGlossCode wraps every fence in the
