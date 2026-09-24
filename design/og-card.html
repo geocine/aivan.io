@@ -95,9 +95,26 @@
       }
       .foot {
         margin-top: auto;
-        font: 400 19px/1 var(--mono);
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font: 400 20px/1 var(--mono);
         color: var(--dim);
         letter-spacing: 0.03em;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 22px;
+        background: var(--red);
+        color: var(--paper);
+        font: 700 19px/1 var(--mono);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .cta .arrow {
+        font-size: 22px;
       }
       .foot b {
         color: var(--red);
@@ -110,16 +127,19 @@
       <img class="photo" src="../public/assets/profile.jpg" alt="" />
       <div class="fade"></div>
       <div class="content">
-        <nav class="nav"><span>posts</span><span class="on">hire me</span></nav>
+        <nav class="nav"><span class="on">posts</span><span>about</span></nav>
         <div class="id">
           <h1 class="name">Aivan Monceller</h1>
-          <p class="role">fullstack javascript engineer</p>
+          <p class="role">software builder · singapore</p>
           <p class="def">
-            Building front-end applications, web APIs, system utilities and
-            development tools using JavaScript, TypeScript, C# and Go.
+            Building software, developer tools, coding agents, and AI
+            experiments — notes from a public notebook.
           </p>
         </div>
-        <p class="foot"><b>aivan.io</b> · based in singapore</p>
+        <div class="foot">
+          <span class="cta">Read the notebook <span class="arrow">→</span></span>
+          <span><b>aivan.io</b></span>
+        </div>
       </div>
     </div>
   </body>

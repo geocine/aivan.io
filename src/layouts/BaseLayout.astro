@@ -12,7 +12,7 @@ type Props = {
 
 const {
   title,
-  description = site.description,
+  description = site.metaDescription,
   image = '/assets/og.png',
   keywords = [],
   index = false,
@@ -42,6 +42,7 @@ const navItems = [
     <meta property="og:title" content={metaTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.siteName} />
     <meta property="og:image" content={metaImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={site.author} />
