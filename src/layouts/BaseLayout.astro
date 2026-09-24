@@ -26,6 +26,7 @@ const metaImage = /^https?:\/\//.test(image)
     : `${site.imageHost}/${image}`
 
 const path = Astro.url.pathname
+const canonicalUrl = new URL(path.endsWith('/') ? path : `${path}/`, site.siteUrl).href
 const navItems = [
   { href: '/', label: 'posts', current: path === '/' },
   { href: '/about/', label: 'about', current: path.startsWith('/about') },
@@ -39,10 +40,13 @@ const navItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{metaTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={metaTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={site.siteName} />
+    {site.facebookAppId && <meta property="fb:app_id" content={site.facebookAppId} />}
     <meta property="og:image" content={metaImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={site.author} />
