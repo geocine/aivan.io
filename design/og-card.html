@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>OG card — aivan.io</title>
+    <style>
+      :root {
+        --paper: #121212;
+        --ink: #e4eadf;
+        --red: #55c768;
+        --dim: #99a392;
+        --line: #2a2a2a;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu,
+          Cantarell, "Helvetica Neue", sans-serif;
+        --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas,
+          "DejaVu Sans Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        background: var(--paper);
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .photo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 560px;
+        height: 630px;
+        object-fit: cover;
+        object-position: 50% 30%;
+      }
+      /* the photo's grey backdrop dissolves into the page paper */
+      .fade {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 560px;
+        height: 630px;
+        background:
+          linear-gradient(90deg, var(--paper) 0%, rgba(18, 18, 18, 0.85) 18%, rgba(18, 18, 18, 0) 52%),
+          linear-gradient(0deg, rgba(18, 18, 18, 0.55) 0%, rgba(18, 18, 18, 0) 30%);
+      }
+      .content {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 760px;
+        padding: 56px 0 52px 76px;
+        display: flex;
+        flex-direction: column;
+      }
+      .nav {
+        display: flex;
+        gap: 26px;
+        font: 500 17px/1 var(--mono);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .nav .on {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .id {
+        margin-top: auto;
+      }
+      .name {
+        font: 700 66px/1.1 var(--mono);
+        color: var(--red);
+        letter-spacing: 0.01em;
+      }
+      .role {
+        margin-top: 14px;
+        font: 400 24px/1.4 var(--mono);
+        color: var(--dim);
+        letter-spacing: 0.02em;
+      }
+      .def {
+        margin-top: 40px;
+        padding-left: 28px;
+        border-left: 1px solid var(--line);
+        max-width: 600px;
+        font: 400 29px/1.5 var(--sans);
+        color: var(--ink);
+      }
+      .foot {
+        margin-top: auto;
+        font: 400 19px/1 var(--mono);
+        color: var(--dim);
+        letter-spacing: 0.03em;
+      }
+      .foot b {
+        color: var(--red);
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" id="card">
+      <img class="photo" src="../public/assets/profile.jpg" alt="" />
+      <div class="fade"></div>
+      <div class="content">
+        <nav class="nav"><span>posts</span><span class="on">hire me</span></nav>
+        <div class="id">
+          <h1 class="name">Aivan Monceller</h1>
+          <p class="role">fullstack javascript engineer</p>
+          <p class="def">
+            Building front-end applications, web APIs, system utilities and
+            development tools using JavaScript, TypeScript, C# and Go.
+          </p>
+        </div>
+        <p class="foot"><b>aivan.io</b> · based in singapore</p>
+      </div>
+    </div>
+  </body>
+</html>
