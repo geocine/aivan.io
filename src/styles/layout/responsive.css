@@ -1,0 +1,168 @@
+/* ===========================================================================
+   RESPONSIVE ADAPTATION — Mobile & Small Tablet Stacking
+   =========================================================================== */
+
+@media (max-width: 720px) {
+  html {
+    font-size: 17px;
+  }
+
+  :root {
+    --rail: 0px;
+    --col-pad: 0px;
+  }
+
+  .wrap {
+    padding: 0 1.15rem;
+  }
+
+  .top-grid {
+    display: block;
+  }
+
+  .top-rail {
+    justify-content: space-between;
+    padding: 0.55rem 0 0.25rem;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.65rem;
+    padding: 0.45rem 0 0.55rem;
+    border-left: 0;
+  }
+
+  .seek {
+    order: 2;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .seek input {
+    width: 100%;
+    font-size: 0.92rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .seek input:focus {
+    width: 100%;
+  }
+
+  .seek-kbd {
+    display: none;
+  }
+
+  .top-tools {
+    order: 3;
+  }
+
+  .mode,
+  .tool-btn {
+    font-size: 0.76rem;
+    padding: 0.55rem 0.68rem;
+  }
+
+  .nav {
+    order: 4;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    overflow: visible;
+  }
+
+  .nav a {
+    font-size: 0.74rem;
+    padding: 0.45rem 0.5rem;
+  }
+
+  .g {
+    display: block;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .row.rowt {
+    flex-direction: column;
+  }
+
+  .row.rowt .gr.sp::before,
+  .row.rowt .gr.hd::before,
+  .gr.ent::before {
+    display: none;
+  }
+
+  .gl {
+    text-align: left;
+    padding: 0.35rem 0 1.15rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.85rem;
+    align-items: baseline;
+  }
+
+  .hero-rail-meta {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .row.rowt .gl {
+    padding: 0 0 0.4rem;
+  }
+
+  .gl .rl,
+  .gl .rlr,
+  .gl .dt,
+  .gl .slab,
+  .gl .term,
+  .gl .mark {
+    display: inline;
+  }
+
+  .gl.mk,
+  .gl.cb {
+    display: none;
+  }
+
+  .gr {
+    border-left: 0;
+    padding: 0;
+    max-width: none;
+  }
+
+  .gl.sp,
+  .gr.sp {
+    padding-top: 1.5rem;
+  }
+
+  .gl.hd {
+    padding-bottom: 0.85rem;
+  }
+
+  .foot-grid {
+    display: block;
+  }
+
+  .foot-rail {
+    text-align: left;
+    padding: 0.8rem 0 0.2rem;
+  }
+
+  .footbar {
+    padding: 0.3rem 0 1rem;
+    border-left: 0;
+  }
+
+  .foot-shortcuts {
+    display: none;
+  }
+
+  .dtitle {
+    font-size: 1.65rem;
+  }
+}

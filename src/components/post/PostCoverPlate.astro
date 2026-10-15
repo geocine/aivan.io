@@ -1,0 +1,65 @@
+---
+import { site } from '../../site'
+
+type Props = {
+  cover: string
+  title: string
+  category: string
+}
+
+const { cover, title, category } = Astro.props
+
+const coverUrl = /^https?:\/\//.test(cover)
+  ? cover
+  : cover.startsWith('/assets/')
+    ? cover
+    : `${site.imageHost}/${cover}`
+---
+
+<figure class="schematic-plate" id="article-plate">
+  <div class="plate-header">
+    <div>
+      <span class="plate-id">FIG. 00</span>
+      <span> · SYSTEM SCHEMATIC // {category.toUpperCase()}</span>
+    </div>
+    <div class="plate-controls">
+      <button
+        type="button"
+        class="plate-btn"
+        data-plate-blueprint
+        aria-pressed="false"
+        data-craft-press="scale"
+      >
+        ◐ blueprint tone
+      </button>
+      <button
+        type="button"
+        class="plate-btn"
+        data-plate-zoom={coverUrl}
+        data-plate-title={`FIG. 00 — ${title}`}
+        data-craft-press="scale"
+      >
+        ⤢ inspect
+      </button>
+    </div>
+  </div>
+  <div
+    class="plate-canvas"
+    data-plate-zoom={coverUrl}
+    data-plate-title={`FIG. 00 — ${title}`}
+    role="button"
+    tabindex="0"
+    aria-label={`Inspect full-resolution diagram for ${title}`}
+  >
+    <img
+      src={coverUrl}
+      alt={`Technical overview illustration for ${title}`}
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+  <figcaption class="plate-caption">
+    <span>Hand-drawn architectural flow &amp; notes for “{title}”</span>
+    <span>1700 × 580 · click to inspect</span>
+  </figcaption>
+</figure>

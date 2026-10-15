@@ -1,59 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { site } from '../site'
-import {
-  formatRailDate,
-  getPostPath,
-  getReadingTime,
-  getSortedPosts,
-} from '../lib/posts'
+import HeroDossier from '../components/home/HeroDossier.astro'
+import PostLedger from '../components/home/PostLedger.astro'
+import { getSortedPosts } from '../lib/posts'
 
 const posts = await getSortedPosts()
 ---
 
 <BaseLayout title="Aivan Monceller" index keywords={['aivan monceller', 'programming']}>
-  <div class="row rowt">
-    <div class="gl hd">
-      <h1 class="term">Aivan Monceller</h1>
-      <span class="rl">{site.shortDescription.toLowerCase()}</span>
-    </div>
-    <div class="gr hd home-body">
-      <p class="def">{site.description}</p>
-      <p class="lead">Always learning, usually building something I probably didn’t need to build.</p>
-      <p class="sum">
-        <a href="https://x.com/aivandroid" rel="noopener noreferrer">x</a>{' · '}
-        <a href="https://github.com/geocine" rel="noopener noreferrer">github</a>{' · '}
-        <a href="https://huggingface.co/geocine" rel="noopener noreferrer">hugging face</a>{' · '}
-        <a href="https://www.youtube.com/@aivandroid" rel="noopener noreferrer">youtube</a>{' · '}
-        <a href="https://stackoverflow.com/users/372935/aivan-monceller" rel="noopener noreferrer">stack overflow</a>{' · '}
-        <a href="https://www.linkedin.com/in/aivan/" rel="noopener noreferrer">linkedin</a>
-      </p>
-    </div>
-  </div>
-
-  <div class="row rowt">
-    <div class="gl sp"><h2 class="slab">posts</h2></div>
-    <div class="gr sp home-body">
-      <span class="all">{posts.length} entries, newest first</span>
-    </div>
-  </div>
-
-  {
-    posts.map(post => (
-      <div class="row">
-        <div class="gl ent">
-          <span class="rl">{formatRailDate(post.data.date)}</span>
-          <span class="rl">
-            {post.data.category} · {getReadingTime(post)}
-          </span>
-        </div>
-        <div class="gr ent home-body">
-          <p class="etitle">
-            <a href={getPostPath(post)}>{post.data.title}</a>
-          </p>
-          <p class="sum">{post.data.meta_description}</p>
-        </div>
-      </div>
-    ))
-  }
+  <HeroDossier />
+  <PostLedger posts={posts} />
 </BaseLayout>

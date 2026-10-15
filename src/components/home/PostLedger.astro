@@ -1,0 +1,155 @@
+---
+import {
+  formatRailDate,
+  getPostCover,
+  getPostPath,
+  getReadingTime,
+  type BlogPost,
+} from '../../lib/posts'
+import { site } from '../../site'
+
+type Props = {
+  posts: BlogPost[]
+}
+
+const { posts } = Astro.props
+
+// Collect unique top tags across posts for instant filtering
+const tagCounts = new Map<string, number>()
+for (const p of posts) {
+  for (const t of p.data.tags ?? []) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1)
+  }
+}
+const topTags = [...tagCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 5)
+  .map(([t]) => t)
+
+function resolveCoverUrl(post: BlogPost) {
+  const raw = getPostCover(post)
+  if (/^https?:\/\//.test(raw)) return raw
+  if (raw.startsWith('/assets/')) return raw
+  return `${site.imageHost}/${raw}`
+}
+
+function getReadBars(readingTime: string) {
+  const mins = parseInt(readingTime, 10) || 1
+  const lit = Math.min(3, Math.max(1, Math.ceil(mins / 2)))
+  return [1, 2, 3].map(i => i <= lit)
+}
+---
+
+<div class="row rowt">
+  <div class="gl sp">
+    <h2 class="slab">posts</h2>
+  </div>
+  <div class="gr sp home-body">
+    <div class="ledger-head">
+      <span class="all" id="ledger-count">{posts.length} entries, newest first</span>
+      <div class="ledger-controls" role="toolbar" aria-label="Filter and view options">
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter-tag="all"
+          aria-pressed="true"
+          data-craft-press="scale"
+        >
+          all
+        </button>
+        {
+          topTags.map(tag => (
+            <button
+              type="button"
+              class="filter-chip"
+              data-filter-tag={tag}
+              aria-pressed="false"
+              data-craft-press="scale"
+            >
+              {tag}
+            </button>
+          ))
+        }
+        <button
+          type="button"
+          class="view-toggle"
+          id="schematics-toggle"
+          aria-pressed="false"
+          title="Expand all technical cover schematics"
+          data-craft-press="scale"
+        >
+          ◫ schematics
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{
+  posts.map((post, idx) => {
+    const entryNum = String(posts.length - idx).padStart(2, '0')
+    const readTime = getReadingTime(post)
+    const bars = getReadBars(readTime)
+    const tags = post.data.tags ?? []
+    const coverUrl = resolveCoverUrl(post)
+    const plateId = `plate-${entryNum}`
+
+    return (
+      <div class="row entry-row" data-tags={tags.join(',')}>
+        <div class="gl ent">
+          <div class="entry-rail-top">
+            <span class="entry-idx">#{entryNum}</span>
+            <span class="rl">{formatRailDate(post.data.date)}</span>
+          </div>
+          <span class="rl">
+            {post.data.category} · {readTime}
+            <span class="read-meter" aria-hidden="true">
+              {bars.map(on => (
+                <span class={on ? 'read-bar on' : 'read-bar'} />
+              ))}
+            </span>
+          </span>
+        </div>
+        <div class="gr ent home-body">
+          <p class="etitle">
+            <a href={getPostPath(post)}>
+              <span>{post.data.title}</span>
+              <span class="etitle-arrow" aria-hidden="true">→</span>
+            </a>
+          </p>
+          <p class="sum">{post.data.meta_description}</p>
+          <div class="entry-foot">
+            <div class="entry-tags">
+              {tags.map(tag => (
+                <span class="tag-pill">#{tag}</span>
+              ))}
+            </div>
+            <button
+              type="button"
+              class="schematic-peek-btn"
+              data-peek-target={plateId}
+              aria-expanded="false"
+              aria-controls={plateId}
+              data-craft-press="scale"
+            >
+              <span>fig.{entryNum}</span>
+              <span aria-hidden="true">◫</span>
+            </button>
+          </div>
+          <div class="entry-schematic" id={plateId} hidden>
+            <div class="entry-schematic-bar">
+              <span>FIG. {entryNum} — TECHNICAL SCHEMATIC</span>
+              <a href={getPostPath(post)}>open entry →</a>
+            </div>
+            <img
+              src={coverUrl}
+              alt={`Technical diagram for ${post.data.title}`}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    )
+  })
+}

@@ -2,6 +2,8 @@
 import { render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import mdxComponents from '../components/mdx/index.jsx'
+import PostCoverPlate from '../components/post/PostCoverPlate.astro'
+import PostAdjacentNav from '../components/post/PostAdjacentNav.astro'
 import {
   formatRailDate,
   getAuthor,
@@ -39,7 +41,6 @@ const cover = getPostCover(post)
 const slug = getPostSlug(post)
 const tags = post.data.tags ?? []
 
-// contents rail: h2/h3 only, numbered to match the prose section counters
 let sectionNumber = 0
 const toc = headings
   .filter(h => h.depth >= 2 && h.depth <= 3)
@@ -79,7 +80,7 @@ const toc = headings
 
   <div class="row">
     <div class="gl cb">
-      <div class="poststick"><span class="rl">post</span></div>
+      <div class="poststick"><span class="rl">entry</span></div>
     </div>
     <div class="gr cb">
       <nav class="crumb" aria-label="Breadcrumb">
@@ -88,7 +89,7 @@ const toc = headings
     </div>
   </div>
 
-  <div class="row">
+  <div class="row rowt">
     <div class="gl hd hdm">
       <span class="rlr">{formatRailDate(post.data.date)}</span>
       <span class="rl">{post.data.category} · {getReadingTime(post)}</span>
@@ -100,19 +101,41 @@ const toc = headings
         <span class="rlr">{formatRailDate(post.data.date)}</span>
         <span class="rl">{post.data.category} · {getReadingTime(post)}</span>
         {author && <span class="rl">{author.name}</span>}
-        {tags.length > 0 && <span class="rl">{tags.join(' · ')}</span>}
+        {
+          tags.length > 0 && (
+            <div class="rail-tags">
+              {tags.map(t => (
+                <span class="rail-tag">#{t}</span>
+              ))}
+            </div>
+          )
+        }
         <span class="mark railmark">¶</span>
+        <div class="rail-progress" aria-hidden="true">
+          <div class="rail-progress-bar">
+            <div class="rail-progress-fill" id="rail-progress-fill"></div>
+          </div>
+          <span class="rail-progress-label" id="rail-progress-label">00% READ</span>
+        </div>
       </div>
     </div>
     <div class="gr hd">
       <h1 class="dtitle">{post.data.title}</h1>
       <p class="lead">{post.data.meta_description}</p>
       <p class="actrow">
-        <button type="button" class="act" data-link={getPostPath(post)} data-fb data-craft-press="scale">
+        <button
+          type="button"
+          class="act"
+          data-link={getPostPath(post)}
+          data-fb
+          data-craft-press="scale"
+        >
           <span class="fb-idle">Copy link</span>
           <span class="fb-done" aria-hidden="true">Copied</span>
         </button>
+        <a class="act" href="/" data-craft-press="scale">← All entries</a>
       </p>
+      {cover && <PostCoverPlate cover={cover} title={post.data.title} category={post.data.category} />}
     </div>
   </div>
 
@@ -124,30 +147,7 @@ const toc = headings
     </div>
   </div>
 
-  {
-    (previous || next) && (
-      <div class="row rowt">
-        <div class="gl sp">
-          <h2 class="slab">nearby</h2>
-        </div>
-        <div class="gr sp">
-          <p class="also">
-            {next && (
-              <>
-                newer: <a href={getPostPath(next)} rel="next">{next.data.title}</a>
-              </>
-            )}
-            {next && previous && <span class="dsep"> · </span>}
-            {previous && (
-              <>
-                older: <a href={getPostPath(previous)} rel="prev">{previous.data.title}</a>
-              </>
-            )}
-          </p>
-        </div>
-      </div>
-    )
-  }
+  <PostAdjacentNav previous={previous} next={next} />
 </BaseLayout>
 
 <script>

@@ -1,0 +1,75 @@
+/* ===========================================================================
+   TOKENS & THEME — GLOSS v2 (Archival Field Notebook & Precision Instrument)
+   Daylight: deep forest ink & botanical green on warm archival cotton paper.
+   Night: phosphor moss green on carbon-slate ground.
+   =========================================================================== */
+
+:root {
+  /* Daylight — Archival Forest Paper */
+  --paper: #edeee6;
+  --paper-rgb: 237, 238, 230;
+  --ink: #14170f;
+  --ink-soft: #282d21;
+  --red: #2e5c2b;
+  --red-rgb: 46, 92, 43;
+  --red-tint: rgba(46, 92, 43, 0.08);
+  --red-border: rgba(46, 92, 43, 0.28);
+  --amber: #b85d19;
+  --dim: #5c6253;
+  --muted: #7a8070;
+  --lift: #e3e5d9;
+  --lift-hover: #dadbcd;
+  --line: #d1d4c3;
+  --line-strong: #b8bca8;
+  --plate-bg: #f7f8f3;
+
+  /* Typography — Editorial Display + Precision Sans + Technical Mono */
+  --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "Cascadia Mono",
+    Consolas, monospace;
+
+  /* Spatial Architecture */
+  --rail: 14rem;
+  --prose-max: 65ch;
+  --col-pad: 2rem;
+  color-scheme: light;
+
+  /* Craft: Motion & Interaction Tokens */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-cross: cubic-bezier(0.2, 0, 0, 1);
+  --dur-press: 160ms;
+  --dur-hover: 160ms;
+  --dur-cross: 200ms;
+  --dur-enter: 240ms;
+  --press-scale: 0.96;
+  --enter-lift: 8px;
+}
+
+/* Night — Phosphor Moss on Carbon Slate */
+:root[data-theme="dark"] {
+  --paper: #111311;
+  --paper-rgb: 17, 19, 17;
+  --ink: #e4eadf;
+  --ink-soft: #c8d1c2;
+  --red: #55c768;
+  --red-rgb: 85, 199, 104;
+  --red-tint: rgba(85, 199, 104, 0.09);
+  --red-border: rgba(85, 199, 104, 0.32);
+  --amber: #e59849;
+  --dim: #929c8b;
+  --muted: #667060;
+  --lift: #1a1d1a;
+  --lift-hover: #222622;
+  --line: #262a26;
+  --line-strong: #363c36;
+  --plate-bg: #171a17;
+  color-scheme: dark;
+}
+
+/* One frame without transitions while theme flips so colors snap together */
+[data-notrans] * {
+  transition: none !important;
+}

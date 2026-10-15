@@ -1,0 +1,59 @@
+---
+import { site } from '../../site'
+
+const channels = [
+  { label: 'x', href: 'https://x.com/aivandroid' },
+  { label: 'github', href: 'https://github.com/geocine' },
+  { label: 'hugging face', href: 'https://huggingface.co/geocine' },
+  { label: 'youtube', href: 'https://www.youtube.com/@aivandroid' },
+  { label: 'stack overflow', href: 'https://stackoverflow.com/users/372935/aivan-monceller' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/aivan/' },
+]
+
+const focusAreas = [
+  'coding agents',
+  'developer tools',
+  'local AI',
+  'device interfaces',
+]
+---
+
+<div class="row rowt">
+  <div class="gl hd">
+    <h1 class="term">Aivan Monceller</h1>
+    <div class="hero-rail-meta">
+      <span class="rl">{site.shortDescription.toLowerCase()}</span>
+      <span class="rl">singapore · razer inc.</span>
+      <span class="status-pill">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>public notebook</span>
+      </span>
+    </div>
+  </div>
+  <div class="gr hd home-body">
+    <p class="hero-eyebrow">FIELD LOG &amp; WORKING NOTES</p>
+    <p class="def">{site.description}</p>
+    <p class="lead">
+      Always learning, usually building something I probably didn’t need to build — exploring interfaces, abstractions, and how software craft changes when AI enters the loop.
+    </p>
+    <div class="focus-strip" aria-label="Current areas of focus">
+      <span class="focus-label">tinkering //</span>
+      {focusAreas.map(area => <span class="focus-chip">{area}</span>)}
+    </div>
+    <div class="channel-bar" aria-label="External profiles">
+      {
+        channels.map(ch => (
+          <a
+            class="channel-link"
+            href={ch.href}
+            rel="noopener noreferrer"
+            data-craft-press="scale"
+          >
+            <span>{ch.label}</span>
+            <span class="channel-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>

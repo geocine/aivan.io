@@ -137,7 +137,7 @@ function sourceLine(doc: SearchDoc) {
 
 function resultRow(doc: SearchDoc, query: string) {
   return (
-    '<div class="row"><div class="gl ent"><span class="rl">' +
+    '<div class="row entry-row"><div class="gl ent"><span class="rl">' +
     esc(doc.date) +
     '</span><span class="rl">' +
     esc(doc.category) +
@@ -145,9 +145,9 @@ function resultRow(doc: SearchDoc, query: string) {
     esc(doc.time) +
     '</span></div><div class="gr ent"><p class="etitle"><a href="' +
     esc(doc.url) +
-    '">' +
+    '"><span>' +
     highlightText(doc.title, query) +
-    '</a></p>' +
+    '</span><span class="etitle-arrow" aria-hidden="true">→</span></a></p>' +
     snippetLine(doc, query) +
     sourceLine(doc) +
     '</div></div>'

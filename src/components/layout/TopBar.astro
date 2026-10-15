@@ -1,0 +1,74 @@
+---
+type Props = {
+  path: string
+}
+
+const { path } = Astro.props
+
+const navItems = [
+  { href: '/', label: 'posts', idx: '01', current: path === '/' },
+  { href: '/about/', label: 'about', idx: '02', current: path.startsWith('/about') },
+]
+---
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-grid">
+      <div class="top-rail">
+        <a class="brand-mark" href="/" aria-label="aivan.io home">
+          <span class="brand-glyph" aria-hidden="true">a</span>
+          <span>aivan.io</span>
+        </a>
+        <span class="brand-telemetry" id="sg-clock" title="Singapore Standard Time (UTC+8)">
+          SGP · UTC+8
+        </span>
+      </div>
+      <div class="topbar">
+        <nav class="nav" aria-label="Primary">
+          {
+            navItems.map(item => (
+              <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+                <span class="nav-idx">{item.idx}</span>
+                <span>{item.label}</span>
+              </a>
+            ))
+          }
+        </nav>
+        <form class="seek" action="/search/" method="get" role="search" aria-label="Search posts">
+          <label class="vh" for="search-input">Search posts</label>
+          <input
+            id="search-input"
+            name="q"
+            type="search"
+            autocomplete="off"
+            placeholder="search notebook…"
+          />
+          <kbd class="seek-kbd" aria-hidden="true">/</kbd>
+        </form>
+        <div class="top-tools">
+          <button
+            class="tool-btn"
+            id="grid-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Toggle architectural blueprint grid (shortcut: b)"
+            title="Toggle architectural grid (press b)"
+            data-craft-press="scale"
+          >
+            # grid
+          </button>
+          <button
+            class="mode"
+            id="mode-toggle"
+            type="button"
+            aria-label="Switch theme"
+            data-craft-press="scale"
+          >
+            <span class="mode-dot" aria-hidden="true"></span>
+            <span id="mode-label">theme</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

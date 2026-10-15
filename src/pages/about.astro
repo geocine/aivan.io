@@ -10,59 +10,120 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   <div class="row rowt">
     <div class="gl hd">
       <h1 class="term">Aivan Monceller</h1>
-      <span class="rl">software builder</span>
+      <div class="hero-rail-meta">
+        <span class="rl">software builder</span>
+        <span class="rl">singapore ⇄ philippines</span>
+        <span class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>razer inc. · UI/UX</span>
+        </span>
+      </div>
     </div>
     <div class="gr hd about-body">
-      <article class="prose">
-        <h1 class="dtitle">Hi, I’m Aivan.</h1>
-        <p>
-          I’m a software engineer, tool builder, and lifelong tinkerer based in
-          Singapore.
-        </p>
-        <p>
-          I’ve spent most of my career around interfaces and developer-facing
-          software, but I tend to wander wherever the interesting problems are.
-          That has taken me from frontend systems and device software to
-          developer tooling, infrastructure, local AI, model training, and
-          lately, a lot of thinking about how software changes when AI becomes
-          part of the development process itself.
-        </p>
-        <p>
-          These days I work as a frontend/UI engineer at Razer, building
-          software that sits between people and hardware. Outside of work, I’m
-          usually building something of my own: coding agents, developer tools,
-          AI infrastructure, terminal experiments, training pipelines, or
-          whatever idea I can’t stop thinking about that week.
-        </p>
-        <p>
-          I’m especially interested in tools that make complicated systems feel
-          simple. Not just making something technically work, but figuring out
-          the interface, abstractions, workflow, and little details that make
-          someone actually want to use it.
-        </p>
-        <p>
-          AI has changed how I work quite a bit. I write less code by hand than
-          I used to, and spend more time designing systems, directing agents,
-          reviewing decisions, building feedback loops, and figuring out where
-          human judgment still matters. After many years of programming, I find
-          that shift more interesting than threatening. It feels like learning
-          the craft again with different materials.
-        </p>
-        <p>
-          This site is where I keep track of that process.
-        </p>
-        <p>
-          I write about things I’m building, things I’m learning, experiments
-          that worked, experiments that didn’t, and ideas that are still
-          half-formed. It’s less of a portfolio and more of a public notebook
-          for the things I normally don’t get enough chances to talk about.
-        </p>
-        <p>
-          Away from building software, I’m usually playing games, messing with
-          hardware, listening to music, or going down another rabbit hole that
-          will probably turn into a project.
-        </p>
-      </article>
+      <p class="hero-eyebrow">DOSSIER // PERSONAL LOG</p>
+      <h1 class="dtitle">Hi, I’m Aivan.</h1>
+      <p class="lead">
+        I’m a software engineer, tool builder, and lifelong tinkerer based in
+        Singapore.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="gl about-note-rail">
+      <span class="marginalia-tag">01 / trajectory</span>
+      <span class="marginalia-sub">frontend systems → device protocols → local AI</span>
+    </div>
+    <div class="gr about-body about-block prose">
+      <p>
+        I’ve spent most of my career around interfaces and developer-facing
+        software, but I tend to wander wherever the interesting problems are.
+        That has taken me from frontend systems and device software to
+        developer tooling, infrastructure, local AI, model training, and
+        lately, a lot of thinking about how software changes when AI becomes
+        part of the development process itself.
+      </p>
+      <p>
+        These days I work as a frontend/UI engineer at Razer, building
+        software that sits between people and hardware. Outside of work, I’m
+        usually building something of my own: coding agents, developer tools,
+        AI infrastructure, terminal experiments, training pipelines, or
+        whatever idea I can’t stop thinking about that week.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="gl about-note-rail">
+      <span class="marginalia-tag">02 / philosophy</span>
+      <span class="marginalia-sub">abstractions, workflows &amp; tactile craft</span>
+    </div>
+    <div class="gr about-body about-block prose">
+      <p>
+        I’m especially interested in tools that make complicated systems feel
+        simple. Not just making something technically work, but figuring out
+        the interface, abstractions, workflow, and little details that make
+        someone actually want to use it.
+      </p>
+      <p>
+        AI has changed how I work quite a bit. I write less code by hand than
+        I used to, and spend more time designing systems, directing agents,
+        reviewing decisions, building feedback loops, and figuring out where
+        human judgment still matters. After many years of programming, I find
+        that shift more interesting than threatening. It feels like learning
+        the craft again with different materials.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="gl about-note-rail">
+      <span class="marginalia-tag">03 / this notebook</span>
+      <span class="marginalia-sub">working notes &amp; half-formed ideas</span>
+    </div>
+    <div class="gr about-body about-block prose">
+      <p>
+        This site is where I keep track of that process.
+      </p>
+      <p>
+        I write about things I’m building, things I’m learning, experiments
+        that worked, experiments that didn’t, and ideas that are still
+        half-formed. It’s less of a portfolio and more of a public notebook
+        for the things I normally don’t get enough chances to talk about.
+      </p>
+      <p>
+        Away from building software, I’m usually playing games, messing with
+        hardware, listening to music, or going down another rabbit hole that
+        will probably turn into a project.
+      </p>
+    </div>
+  </div>
+
+  <div class="row rowt">
+    <div class="gl sp">
+      <h2 class="slab">colophon</h2>
+    </div>
+    <div class="gr sp about-body">
+      <div class="field-matrix">
+        <div class="matrix-cell">
+          <span class="matrix-kicker">now // building</span>
+          <ul class="matrix-list">
+            <li><span>device interfaces</span><span class="m-dim">razer</span></li>
+            <li><span>coding agents</span><span class="m-dim">lab</span></li>
+            <li><span>local AI / candle</span><span class="m-dim">rust</span></li>
+            <li><span>cli &amp; dev tools</span><span class="m-dim">oss</span></li>
+          </ul>
+        </div>
+        <div class="matrix-cell">
+          <span class="matrix-kicker">materials // stack</span>
+          <ul class="matrix-list">
+            <li><span>typescript / react</span><span class="m-dim">ui</span></li>
+            <li><span>rust / python / go</span><span class="m-dim">sys</span></li>
+            <li><span>astro + shiki</span><span class="m-dim">site</span></li>
+            <li><span>gloss-v2 grid</span><span class="m-dim">spec</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout>

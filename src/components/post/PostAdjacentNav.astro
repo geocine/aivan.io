@@ -1,0 +1,47 @@
+---
+import {
+  formatRailDate,
+  getPostPath,
+  getReadingTime,
+  type BlogPost,
+} from '../../lib/posts'
+
+type Props = {
+  previous: BlogPost | null
+  next: BlogPost | null
+}
+
+const { previous, next } = Astro.props
+---
+
+{
+  (previous || next) && (
+    <div class="row rowt">
+      <div class="gl sp">
+        <h2 class="slab">nearby</h2>
+      </div>
+      <div class="gr sp">
+        <div class="nearby-grid">
+          {next && (
+            <a class="nearby-card" href={getPostPath(next)} rel="next" data-craft-press="scale">
+              <span class="nearby-dir">← newer entry</span>
+              <span class="nearby-title">{next.data.title}</span>
+              <span class="nearby-meta">
+                {formatRailDate(next.data.date)} · {next.data.category} · {getReadingTime(next)}
+              </span>
+            </a>
+          )}
+          {previous && (
+            <a class="nearby-card" href={getPostPath(previous)} rel="prev" data-craft-press="scale">
+              <span class="nearby-dir">older entry →</span>
+              <span class="nearby-title">{previous.data.title}</span>
+              <span class="nearby-meta">
+                {formatRailDate(previous.data.date)} · {previous.data.category} · {getReadingTime(previous)}
+              </span>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
