@@ -1,0 +1,86 @@
+---
+title: 'What Is This # in My Node.js Imports?'
+date: '2026-10-16'
+cover: 'https://cdn.aivan.io/what-is-this-hash-in-my-node-imports/cover.webp'
+category: web
+tags:
+  - nodejs
+  - typescript
+  - vite
+meta_description: 'I kept seeing #engine imports and assumed they were new. They are Node.js subpath imports from 2020. Here is how they differ from @/.'
+author: aivan
+published: true
+---
+
+I've written `@/...` imports for years. Then my coding agent handed me `#engine/cube.ts` in a little Rubik's cube player, and I had to ask it a question I'd never asked before: where did you get that `#`?
+
+Turns out it didn't invent anything. **The `#` is Node.js subpath imports, a built-in Node feature that's been stable since 2020.**
+
+I'd somehow missed it for six years. If you did too, here's the short version.
+
+## What does it look like?
+
+```json
+{
+  "imports": {
+    "#engine/*": "./src/engine/*",
+    "#crop/*": "./src/crop/*"
+  }
+}
+```
+
+```ts
+import { applyMoves } from '#engine/cube.ts'
+```
+
+You declare the aliases once, in an `imports` field in `package.json`. Every key has to start with `#`.
+
+That's the whole setup. Try it yourself in a scratch folder: one `package.json` with an `imports` field, one file importing `#engine/...`, run it with `node`. No bundler anywhere, and it resolves.
+
+Which raises a fair question: why force the `#` at all?
+
+## Why the # though?
+
+Because npm package names can't start with `#`. Node picked a prefix that can never collide with a real package.
+
+**A `#` import always means "inside this package" — it can never be confused with something from npm.**
+
+The timeline is older than I expected. Node added subpath imports in v12.19 and v14.6 back in 2020, TypeScript understands them from 4.7 with `node16` or `nodenext` (and from 5.0 with `bundler`), and Vite, esbuild, webpack, Rollup, and Bun all resolve them out of the box.
+
+At this point you might be thinking what I thought: fine, but `@/` already does this.
+
+## But @/ already works, right?
+
+You might think `@/` is also a Node feature. It isn't — it's two separate configs pretending to be one feature.
+
+```json
+{
+  "compilerOptions": {
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+TypeScript reads that `paths` entry. Then you repeat the same alias in your bundler config so the build agrees with the editor.
+
+Node reads neither of them.
+
+That gap stays invisible until plain Node touches your code. My cube project runs its self-test with `npm run selftest` directly under Node, with no bundler in between — and that script would die on the first `@/` import it met.
+
+**With `@/`, every tool needs its own setup. With `#`, you define it once and Node itself is already on the list.**
+
+So is `@/` dead? Not quite.
+
+## So should you switch?
+
+Honestly, for most apps, no. Here's how I'd decide:
+
+- `Bundler-only app`: Keep `@/`. If every file you ship passes through Vite or webpack, `@/` is enough — and that's exactly why `#` stayed uncommon.
+- `Plain Node in the loop`: Use `#`. Scripts, CLIs, tests, or a library that Node runs directly all get aliases with zero per-tool setup.
+- `Fresh project with Node scripts`: Start with `#`. One field in `package.json` beats keeping two configs in sync forever.
+
+One caveat worth knowing: `#` aliases are private. They work only inside your own package — nobody importing your code can use them — and every target path has to start with `./`.
+
+I'm not ripping `@/` out of my existing projects. But on the next one that runs Node directly, I know which prefix I'm reaching for.
+
+Ask your tools about the code they write for you. Sometimes you learn a six-year-old feature.
